@@ -1,3 +1,7 @@
+using HealthcareSystem.Controller;
+using HealthcareSystem.Model.DAL;
+using HealthcareSystem.View;
+
 namespace HealthcareSystem
 {
     internal static class Program
@@ -8,10 +12,30 @@ namespace HealthcareSystem
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+            
+            var userAccountDal = new UserAccountDal();
+
+            var loginController = new LoginController(userAccountDal);
+
+            while (true)
+            {
+                using var loginForm = new View.LoginForm(loginController);
+
+                if (loginForm.ShowDialog() != DialogResult.OK)
+                {
+                    break;
+                }
+
+                using var mainForm = new MainForm(loginController);
+                mainForm.ShowDialog();
+                loginController.Logout();
+
+                if (!mainForm.IsLoggingOut)
+                {
+                    break;
+                }
+            }
         }
     }
 }
