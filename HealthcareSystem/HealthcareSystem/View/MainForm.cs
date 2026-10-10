@@ -1,5 +1,6 @@
 ﻿using HealthcareSystem.Controller;
 using HealthcareSystem.Model;
+using HealthcareSystem.Model.DAL;
 
 namespace HealthcareSystem.View
 {
@@ -42,6 +43,8 @@ namespace HealthcareSystem.View
         private void initializeUserInterface()
         {
             this.manageUsersButton.Visible = SessionManager.IsAdmin;
+
+            this.findPatientButton.Visible = SessionManager.IsNurse;
         }
 
         private void logoutButton_Click(object sender, EventArgs e)
@@ -49,6 +52,12 @@ namespace HealthcareSystem.View
             this.IsLoggingOut = true;
             this.loginController.Logout();
             Close();
+        }
+
+        private void findPatientButton_Click(object sender, EventArgs e)
+        {
+            using var searchForm = new PatientSearchForm(new PatientController(new PatientDal()));
+            searchForm.ShowDialog();
         }
     }
 }
