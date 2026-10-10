@@ -1,4 +1,4 @@
-﻿namespace HealthcareSystem
+﻿namespace HealthcareSystem.View
 {
     partial class MainForm
     {
@@ -31,6 +31,7 @@
             logoutButton = new Button();
             label1 = new Label();
             manageUsersButton = new Button();
+            loggedInUserControl1 = new LoggedInUserControl();
             SuspendLayout();
             // 
             // logoutButton
@@ -63,11 +64,19 @@
             manageUsersButton.Text = "Manage Users";
             manageUsersButton.UseVisualStyleBackColor = true;
             // 
+            // loggedInUserControl1
+            // 
+            loggedInUserControl1.Location = new Point(-1, -2);
+            loggedInUserControl1.Name = "loggedInUserControl1";
+            loggedInUserControl1.Size = new Size(216, 90);
+            loggedInUserControl1.TabIndex = 3;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(681, 480);
+            Controls.Add(loggedInUserControl1);
             Controls.Add(manageUsersButton);
             Controls.Add(label1);
             Controls.Add(logoutButton);
@@ -82,5 +91,6 @@
         private Button logoutButton;
         private Label label1;
         private Button manageUsersButton;
+        private LoggedInUserControl loggedInUserControl1;
     }
 }

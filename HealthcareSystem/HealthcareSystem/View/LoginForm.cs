@@ -1,7 +1,7 @@
 ﻿using HealthcareSystem.Controller;
 using MySql.Data.MySqlClient;
 
-namespace HealthcareSystem
+namespace HealthcareSystem.View
 {
     public partial class LoginForm : Form
     {

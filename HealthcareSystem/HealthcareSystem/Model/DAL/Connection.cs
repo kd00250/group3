@@ -8,14 +8,12 @@ namespace HealthcareSystem.Model.DAL
         {
             var builder = new MySqlConnectionStringBuilder();
 
-            // Set the connection string properties
-            builder.Server = "localhost";    // MySQL server address
-            builder.Database = "cs3230f26_g3";        // Database name
-            builder.UserID = "kd00250";          // MySQL username
-            builder.Password = "917627803";        // MySQL password
-            builder.Port = 3307;                    // MySQL port (default: 3306)
+            builder.Server = "localhost";    
+            builder.Database = "cs3230f26_g3";       
+            builder.UserID = "cs3230f26_g3";          
+            builder.Password = "dO-@zEm1wAZ,-9sGfRLS";       
+            builder.Port = 3307;                    
 
-            // Get the constructed connection string
             return builder.ToString();
 
         }

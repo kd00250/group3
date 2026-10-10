@@ -1,7 +1,7 @@
 ﻿using HealthcareSystem.Controller;
 using HealthcareSystem.Model;
 
-namespace HealthcareSystem
+namespace HealthcareSystem.View
 {
     /// <summary>
     ///     The main form of the healthcare application.
@@ -10,6 +10,14 @@ namespace HealthcareSystem
     public partial class MainForm : Form
     {
         private readonly LoginController loginController;
+
+        /// <summary>
+        ///     Gets a value indicating whether this instance is logging out.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance is logging out; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsLoggingOut { get; private set; }
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="MainForm"/> class.
@@ -21,6 +29,7 @@ namespace HealthcareSystem
             this.InitializeComponent();
 
             this.loginController = loginController;
+            this.loggedInUserControl1.RefreshUser();
 
             if (!SessionManager.IsLoggedIn)
             {
@@ -37,6 +46,7 @@ namespace HealthcareSystem
 
         private void logoutButton_Click(object sender, EventArgs e)
         {
+            this.IsLoggingOut = true;
             this.loginController.Logout();
             Close();
         }

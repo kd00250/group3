@@ -1,4 +1,4 @@
-﻿using MySql.Data.MySqlClient;
+﻿using MySqlConnector;
 
 namespace HealthcareSystem.Model.DAL;
 
@@ -10,10 +10,12 @@ public class UserAccountDal
         connection.Open();
 
         const string query = """
-                             SELECT account_id, username, account_role, person_id
-                             FROM user_account
-                             WHERE username = @username
-                             AND password = @password;
+                             SELECT ua.account_id, ua.username, ua.account_role, ua.person_id, p.first_name, p.last_name
+                             FROM user_account ua
+                             INNER JOIN person p 
+                                ON ua.person_id = p.person_id
+                             WHERE ua.username = @username
+                             AND ua.password = @password;
                              """;
         using var command = new MySqlCommand(query, connection);
         command.Parameters.AddWithValue("@username", username);
@@ -38,7 +40,9 @@ public class UserAccountDal
             AccountId = reader.GetInt32(reader.GetOrdinal("account_id")),
             Username = reader.GetString(reader.GetOrdinal("username")),
             AccountRole = role,
-            PersonId = reader.GetInt32(reader.GetOrdinal("person_id"))
+            PersonId = reader.GetInt32(reader.GetOrdinal("person_id")),
+            FirstName = reader.GetString(reader.GetOrdinal("first_name")),
+            LastName = reader.GetString(reader.GetOrdinal("last_name"))
         };
     }
 

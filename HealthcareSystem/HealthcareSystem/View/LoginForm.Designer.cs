@@ -1,4 +1,4 @@
-﻿namespace HealthcareSystem
+﻿namespace HealthcareSystem.View
 {
     partial class LoginForm
     {
@@ -35,6 +35,7 @@
             loginButton = new Button();
             label3 = new Label();
             errorLabel = new Label();
+            loggedInUserControl1 = new LoggedInUserControl();
             SuspendLayout();
             // 
             // usernameTextBox
@@ -104,11 +105,19 @@
             errorLabel.TabIndex = 7;
             errorLabel.Text = "Invalid username or password";
             // 
+            // loggedInUserControl1
+            // 
+            loggedInUserControl1.Location = new Point(-1, -3);
+            loggedInUserControl1.Name = "loggedInUserControl1";
+            loggedInUserControl1.Size = new Size(98, 62);
+            loggedInUserControl1.TabIndex = 8;
+            // 
             // LoginForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(436, 420);
+            Controls.Add(loggedInUserControl1);
             Controls.Add(errorLabel);
             Controls.Add(label3);
             Controls.Add(loginButton);
@@ -131,5 +140,6 @@
         private Button loginButton;
         private Label label3;
         private Label errorLabel;
+        private LoggedInUserControl loggedInUserControl1;
     }
 }

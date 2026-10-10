@@ -36,4 +36,28 @@ public class UserAccount
     ///     The person identifier.
     /// </value>
     public int PersonId { get; init; }
+
+    /// <summary>
+    ///     Gets or sets the first name.
+    /// </summary>
+    /// <value>
+    ///     The first name.
+    /// </value>
+    public string FirstName { get; set; } = string.Empty;
+
+    /// <summary>
+    ///     Gets or sets the last name.
+    /// </summary>
+    /// <value>
+    ///     The last name.
+    /// </value>
+    public string LastName { get; set; } = string.Empty;
+
+    /// <summary>
+    ///     Gets the full name.
+    /// </summary>
+    /// <value>
+    ///     The full name.
+    /// </value>
+    public string FullName => $"{this.FirstName} {this.LastName}";
 }
