@@ -22,7 +22,7 @@ public class PatientDal
 
         const string query = """
                              SELECT pa.patient_id, pa.person_id, pa.is_active, pe.first_name, pe.last_name,
-                                pe.date_of_birth, pe.street_address, pe.city, pe.state, pe.zip_code, pe.phone_number
+                                pe.gender, pe.date_of_birth, pe.street_address, pe.city, pe.state, pe.zip_code, pe.phone_number
                              FROM patient pa
                              JOIN person pe ON pa.person_id = pe.person_id
                              WHERE (@firstName IS NULL OR pe.first_name = @firstName)
@@ -69,6 +69,7 @@ public class PatientDal
             IsActive = reader.GetBoolean(reader.GetOrdinal("is_active")),
             FirstName = reader.GetString(reader.GetOrdinal("first_name")),
             LastName = reader.GetString(reader.GetOrdinal("last_name")),
+            Gender = reader.GetString(reader.GetOrdinal("gender")),
             DateOfBirth = reader.GetDateTime(reader.GetOrdinal("date_of_birth")),
             StreetAddress = reader.GetFieldValueCheckNull<string?>(reader.GetOrdinal("street_address")),
             City = reader.GetFieldValueCheckNull<string?>(reader.GetOrdinal("city")),

@@ -26,6 +26,11 @@ public class Patient
     public string LastName { get; set; } = string.Empty;
 
     /// <summary>
+    /// Gets or sets the gender.
+    /// </summary>
+    public string Gender { get; set; } = string.Empty;
+
+    /// <summary>
     /// Gets or sets the date of birth.
     /// </summary>
     public DateTime DateOfBirth { get; set; }

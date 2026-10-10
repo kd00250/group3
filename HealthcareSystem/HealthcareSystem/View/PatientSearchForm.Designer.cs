@@ -42,6 +42,7 @@
             resultCountLabel = new Label();
             selectButton = new Button();
             label4 = new Label();
+            backButton = new Button();
             ((System.ComponentModel.ISupportInitialize)resultsGridView).BeginInit();
             SuspendLayout();
             // 
@@ -180,12 +181,24 @@
             label4.TabIndex = 13;
             label4.Text = "Select a patient to edit their information, manage appointments, or view visits.";
             // 
+            // backButton
+            // 
+            backButton.Location = new Point(-1, 426);
+            backButton.Name = "backButton";
+            backButton.Size = new Size(75, 23);
+            backButton.TabIndex = 14;
+            backButton.Text = "Back";
+            backButton.UseVisualStyleBackColor = true;
+            backButton.Click += backButton_Click;
+            // 
             // PatientSearchForm
             // 
             AcceptButton = searchButton;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            CancelButton = backButton;
             ClientSize = new Size(932, 450);
+            Controls.Add(backButton);
             Controls.Add(label4);
             Controls.Add(selectButton);
             Controls.Add(resultCountLabel);
@@ -223,5 +236,6 @@
         private Label resultCountLabel;
         private Button selectButton;
         private Label label4;
+        private Button backButton;
     }
 }

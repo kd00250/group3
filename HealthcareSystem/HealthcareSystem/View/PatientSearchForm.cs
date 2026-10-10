@@ -29,10 +29,6 @@ namespace HealthcareSystem.View
 
             this.patientController = patientController;
             this.loggedInUserControl1.RefreshUser();
-
-            /// this.errorLabel.Visible = false;
-            /// this.resultCountLabel.Text = string.Empty;
-
         }
 
         private void searchButton_Click(object sender, EventArgs e)
@@ -132,8 +128,15 @@ namespace HealthcareSystem.View
                 return;
             }
 
-            // TEMP UNTILPATIENT FORM IS IMPLEMENTED
-            MessageBox.Show($"Opening patient: {selectedPatient.FullName}");
+            using var patientActionsForm = new PatientActionsForm(selectedPatient);
+            patientActionsForm.ShowDialog();
+
+            this.searchButton.PerformClick();
+        }
+
+        private void backButton_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }
