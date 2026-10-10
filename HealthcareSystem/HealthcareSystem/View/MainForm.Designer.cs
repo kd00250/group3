@@ -32,13 +32,15 @@
             label1 = new Label();
             manageUsersButton = new Button();
             loggedInUserControl1 = new LoggedInUserControl();
+            findPatientButton = new Button();
             SuspendLayout();
             // 
             // logoutButton
             // 
-            logoutButton.Location = new Point(233, 402);
+            logoutButton.Location = new Point(204, 302);
+            logoutButton.Margin = new Padding(3, 2, 3, 2);
             logoutButton.Name = "logoutButton";
-            logoutButton.Size = new Size(174, 45);
+            logoutButton.Size = new Size(152, 34);
             logoutButton.TabIndex = 0;
             logoutButton.Text = "Logout";
             logoutButton.UseVisualStyleBackColor = true;
@@ -48,18 +50,19 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(221, 23);
+            label1.Location = new Point(193, 17);
             label1.Name = "label1";
-            label1.Size = new Size(215, 31);
+            label1.Size = new Size(178, 25);
             label1.TabIndex = 1;
             label1.Text = "HealthCare System";
             // 
             // manageUsersButton
             // 
             manageUsersButton.Font = new Font("Segoe UI Semibold", 9F);
-            manageUsersButton.Location = new Point(233, 105);
+            manageUsersButton.Location = new Point(204, 79);
+            manageUsersButton.Margin = new Padding(3, 2, 3, 2);
             manageUsersButton.Name = "manageUsersButton";
-            manageUsersButton.Size = new Size(174, 46);
+            manageUsersButton.Size = new Size(152, 34);
             manageUsersButton.TabIndex = 2;
             manageUsersButton.Text = "Manage Users";
             manageUsersButton.UseVisualStyleBackColor = true;
@@ -67,19 +70,34 @@
             // loggedInUserControl1
             // 
             loggedInUserControl1.Location = new Point(-1, -2);
+            loggedInUserControl1.Margin = new Padding(3, 2, 3, 2);
             loggedInUserControl1.Name = "loggedInUserControl1";
-            loggedInUserControl1.Size = new Size(216, 90);
+            loggedInUserControl1.Size = new Size(189, 68);
             loggedInUserControl1.TabIndex = 3;
+            // 
+            // findPatientButton
+            // 
+            findPatientButton.Font = new Font("Segoe UI Semibold", 9F);
+            findPatientButton.Location = new Point(204, 127);
+            findPatientButton.Margin = new Padding(3, 2, 3, 2);
+            findPatientButton.Name = "findPatientButton";
+            findPatientButton.Size = new Size(152, 34);
+            findPatientButton.TabIndex = 4;
+            findPatientButton.Text = "Find Existing Patient";
+            findPatientButton.UseVisualStyleBackColor = true;
+            findPatientButton.Click += findPatientButton_Click;
             // 
             // MainForm
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(681, 480);
+            ClientSize = new Size(596, 360);
+            Controls.Add(findPatientButton);
             Controls.Add(loggedInUserControl1);
             Controls.Add(manageUsersButton);
             Controls.Add(label1);
             Controls.Add(logoutButton);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "MainForm";
             Text = "MainForm";
             ResumeLayout(false);
@@ -92,5 +110,6 @@
         private Label label1;
         private Button manageUsersButton;
         private LoggedInUserControl loggedInUserControl1;
+        private Button findPatientButton;
     }
 }
