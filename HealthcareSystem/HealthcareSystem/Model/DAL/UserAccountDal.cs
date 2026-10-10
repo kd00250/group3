@@ -4,13 +4,6 @@ namespace HealthcareSystem.Model.DAL;
 
 public class UserAccountDal
 {
-    private readonly string connectionString;
-
-    public UserAccountDal(string connectionString)
-    {
-        this.connectionString = connectionString;
-    }
-
     public UserAccount? Authenticate(string username, string password)
     {
         using var connection = new MySqlConnection(Connection.ConnectionString());
@@ -32,12 +25,19 @@ public class UserAccountDal
         {
             return null;
         }
-        
+
+        var roleString = reader.GetString(reader.GetOrdinal("account_role"));
+
+        if (!Enum.TryParse<AccountRole>(roleString, true, out var role))
+        {
+            return null;
+        }
+
         return new UserAccount
         {
             AccountId = reader.GetInt32(reader.GetOrdinal("account_id")),
             Username = reader.GetString(reader.GetOrdinal("username")),
-            AccountRole = reader.GetString(reader.GetOrdinal("account_role")),
+            AccountRole = role,
             PersonId = reader.GetInt32(reader.GetOrdinal("person_id"))
         };
     }

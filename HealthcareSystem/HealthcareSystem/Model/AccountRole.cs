@@ -3,9 +3,9 @@
 public enum AccountRole
 {
     /// <summary>
-    ///     The admin` role.
+    ///     The administrator role.
     /// </summary>
-    Admin,
+    Administrator,
     /// <summary>
     ///     The nurse role.
     /// </summary>

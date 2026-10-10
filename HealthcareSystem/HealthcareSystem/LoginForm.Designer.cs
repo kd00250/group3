@@ -41,18 +41,17 @@
             // 
             usernameTextBox.Location = new Point(103, 119);
             usernameTextBox.Name = "usernameTextBox";
+            usernameTextBox.PlaceholderText = "Enter Username";
             usernameTextBox.Size = new Size(219, 27);
             usernameTextBox.TabIndex = 0;
-            usernameTextBox.Text = "Enter Username";
-            usernameTextBox.TextChanged += textBox1_TextChanged;
             // 
             // passwordTextBox
             // 
             passwordTextBox.Location = new Point(103, 230);
             passwordTextBox.Name = "passwordTextBox";
+            passwordTextBox.PlaceholderText = "Enter Password";
             passwordTextBox.Size = new Size(219, 27);
             passwordTextBox.TabIndex = 1;
-            passwordTextBox.Text = "Enter Password";
             // 
             // label1
             // 
@@ -63,7 +62,6 @@
             label1.Size = new Size(80, 20);
             label1.TabIndex = 2;
             label1.Text = "Username";
-            label1.Click += label1_Click;
             // 
             // label2
             // 

@@ -7,6 +7,10 @@ namespace HealthcareSystem
     {
         private readonly LoginController loginController;
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="LoginForm"/> class.
+        /// </summary>
+        /// <param name="loginController">The login controller.</param>
         public LoginForm(LoginController loginController)
         {
             this.InitializeComponent();
@@ -18,25 +22,29 @@ namespace HealthcareSystem
 
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void loginButton_Click(object sender, EventArgs e)
         {
             var username = this.usernameTextBox.Text.Trim();
             var password = this.passwordTextBox.Text;
             this.errorLabel.Visible = false;
 
+            if (string.IsNullOrWhiteSpace(username))
+            {
+                this.showError("Username cannot be empty.");
+                this.usernameTextBox.Focus();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                this.showError("Password cannot be empty.");
+                this.passwordTextBox.Focus();
+                return;
+            }
+
             try
             {
-                bool success = this.loginController.Login(username, password);
+                var success = this.loginController.Login(username, password);
 
                 if (success)
                 {
