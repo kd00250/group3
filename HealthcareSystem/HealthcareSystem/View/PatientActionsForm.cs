@@ -22,6 +22,7 @@ namespace HealthcareSystem.View
         /// <summary>
         /// Initializes a new instance of the <see cref="PatientActionsForm"/> class.
         /// </summary>
+        /// <param name="selectedPatient">The selected patient.</param>
         public PatientActionsForm(Patient selectedPatient)
         {
             this.InitializeComponent();
@@ -32,7 +33,8 @@ namespace HealthcareSystem.View
 
         private void editPatientButton_Click(object sender, EventArgs e)
         {
-
+            using var patientEditForm = new PatientEditForm(this.SelectedPatient);
+            patientEditForm.ShowDialog();
         }
 
         private void viewAppointmentsButton_Click(object sender, EventArgs e)
