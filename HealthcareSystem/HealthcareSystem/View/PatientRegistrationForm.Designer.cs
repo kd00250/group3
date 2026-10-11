@@ -42,6 +42,7 @@ namespace HealthcareSystem.View
             stateTextBox = new TextBox();
             zipTextBox = new TextBox();
             phoneTextBox = new TextBox();
+            isActiveCheckbox = new CheckBox();
             registerButton = new Button();
             clearButton = new Button();
             backButton = new Button();
@@ -63,7 +64,7 @@ namespace HealthcareSystem.View
             AddRow("State :", stateTextBox, 220, 7);
             AddRow("Zip Code :", zipTextBox, 250, 8);
             AddRow("Phone :", phoneTextBox, 280, 9);
-
+            AddRow("Active :", isActiveCheckbox, 310, 10);
             genderComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             genderComboBox.Items.AddRange(new object[] { "Female", "Male", "Other" });
             dateOfBirthPicker.Format = DateTimePickerFormat.Short;
@@ -75,15 +76,17 @@ namespace HealthcareSystem.View
             stateTextBox.MaxLength = 50;
             zipTextBox.MaxLength = 10;
             phoneTextBox.MaxLength = 20;
+            isActiveCheckbox.Enabled = true;
+            isActiveCheckbox.Checked = false;
 
-            registerButton.Location = new Point(175, 325);
+            registerButton.Location = new Point(175, 345);
             registerButton.Size = new Size(75, 23);
             registerButton.TabIndex = 10;
             registerButton.Text = "Register";
             registerButton.UseVisualStyleBackColor = true;
             registerButton.Click += registerButton_Click;
 
-            clearButton.Location = new Point(275, 325);
+            clearButton.Location = new Point(275, 345);
             clearButton.Size = new Size(75, 23);
             clearButton.TabIndex = 11;
             clearButton.Text = "Clear";
@@ -92,7 +95,7 @@ namespace HealthcareSystem.View
 
             errorLabel.AutoSize = true;
             errorLabel.ForeColor = Color.Red;
-            errorLabel.Location = new Point(175, 360);
+            errorLabel.Location = new Point(175, 380);
             errorLabel.Name = "errorLabel";
             errorLabel.Visible = false;
             errorLabel.TabIndex = 12;
@@ -140,5 +143,6 @@ namespace HealthcareSystem.View
         private DateTimePicker dateOfBirthPicker;
         private Button registerButton, clearButton, backButton;
         private Label errorLabel;
+        private CheckBox isActiveCheckbox;
     }
 }

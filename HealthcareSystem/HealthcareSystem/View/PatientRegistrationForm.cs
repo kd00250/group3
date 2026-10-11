@@ -38,7 +38,8 @@ namespace HealthcareSystem.View
                 City = this.cityTextBox.Text,
                 State = this.stateTextBox.Text,
                 ZipCode = this.zipTextBox.Text,
-                PhoneNumber = this.phoneTextBox.Text
+                PhoneNumber = this.phoneTextBox.Text,
+                IsActive = this.isActiveCheckbox.Checked
             };
 
             try
@@ -79,6 +80,7 @@ namespace HealthcareSystem.View
             this.stateTextBox.Clear();
             this.zipTextBox.Clear();
             this.phoneTextBox.Clear();
+            this.isActiveCheckbox.Checked = false;
             this.errorLabel.Visible = false;
             this.firstNameTextBox.Focus();
         }

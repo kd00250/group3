@@ -89,7 +89,7 @@ public class PatientDal
                                    INSERT INTO person (first_name, last_name, gender, date_of_birth, street_address, city, state, zip_code, phone_number)
                                    VALUES (@firstName, @lastName, @gender, @dateOfBirth, @street, @city, @state, @zip, @phone);
                                    """;
-        const string patientQuery = "INSERT INTO patient (person_id) VALUES (@personId);";
+        const string patientQuery = "INSERT INTO patient (person_id, is_active) VALUES (@personId, @isActive);";
 
         using var connection = new MySqlConnection(Connection.ConnectionString());
         connection.Open();
@@ -110,6 +110,7 @@ public class PatientDal
 
         using var patientCommand = new MySqlCommand(patientQuery, connection, transaction);
         patientCommand.Parameters.AddWithValue("@personId", personId);
+        patientCommand.Parameters.AddWithValue("@isActive", patient.IsActive);
         patientCommand.ExecuteNonQuery();
         var patientId = (int)patientCommand.LastInsertedId;
 
