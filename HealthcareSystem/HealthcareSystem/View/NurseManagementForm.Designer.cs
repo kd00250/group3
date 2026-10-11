@@ -54,6 +54,7 @@
             stateComboBox = new ComboBox();
             dateOfBirthDatePicker = new DateTimePicker();
             label12 = new Label();
+            loggedInUserControl1 = new LoggedInUserControl();
             ((System.ComponentModel.ISupportInitialize)nurseDataGridView).BeginInit();
             SuspendLayout();
             // 
@@ -196,6 +197,7 @@
             updateNurseButton.Text = "Update Nurse";
             updateNurseButton.UseVisualStyleBackColor = true;
             updateNurseButton.Click += updateNurseButton_Click;
+            nurseDataGridView.CellClick += nurseDataGridView_CellClick;
             // 
             // label11
             // 
@@ -212,7 +214,7 @@
             firstNameTextBox.Location = new Point(74, 616);
             firstNameTextBox.Name = "firstNameTextBox";
             firstNameTextBox.PlaceholderText = "Enter First Name";
-            firstNameTextBox.Size = new Size(125, 27);
+            firstNameTextBox.Size = new Size(200, 27);
             firstNameTextBox.TabIndex = 16;
             // 
             // lastNameTextBox
@@ -220,7 +222,7 @@
             lastNameTextBox.Location = new Point(741, 605);
             lastNameTextBox.Name = "lastNameTextBox";
             lastNameTextBox.PlaceholderText = "Enter Last Name";
-            lastNameTextBox.Size = new Size(125, 27);
+            lastNameTextBox.Size = new Size(200, 27);
             lastNameTextBox.TabIndex = 17;
             // 
             // streetAddressTextBox
@@ -228,7 +230,7 @@
             streetAddressTextBox.Location = new Point(74, 762);
             streetAddressTextBox.Name = "streetAddressTextBox";
             streetAddressTextBox.PlaceholderText = "ex: 14 Peach St";
-            streetAddressTextBox.Size = new Size(125, 27);
+            streetAddressTextBox.Size = new Size(200, 27);
             streetAddressTextBox.TabIndex = 18;
             // 
             // cityTextBox
@@ -236,7 +238,7 @@
             cityTextBox.Location = new Point(741, 762);
             cityTextBox.Name = "cityTextBox";
             cityTextBox.PlaceholderText = "ex: Atlanta";
-            cityTextBox.Size = new Size(125, 27);
+            cityTextBox.Size = new Size(200, 27);
             cityTextBox.TabIndex = 19;
             // 
             // phoneNumberTextBox
@@ -244,14 +246,14 @@
             phoneNumberTextBox.Location = new Point(73, 911);
             phoneNumberTextBox.Name = "phoneNumberTextBox";
             phoneNumberTextBox.PlaceholderText = "Enter Phone Number";
-            phoneNumberTextBox.Size = new Size(151, 27);
+            phoneNumberTextBox.Size = new Size(200, 27);
             phoneNumberTextBox.TabIndex = 20;
             // 
             // zipCodeTextBox
             // 
             zipCodeTextBox.Location = new Point(741, 831);
             zipCodeTextBox.Name = "zipCodeTextBox";
-            zipCodeTextBox.Size = new Size(125, 27);
+            zipCodeTextBox.Size = new Size(200, 27);
             zipCodeTextBox.TabIndex = 21;
             // 
             // genderComboBox
@@ -259,7 +261,7 @@
             genderComboBox.FormattingEnabled = true;
             genderComboBox.Location = new Point(741, 691);
             genderComboBox.Name = "genderComboBox";
-            genderComboBox.Size = new Size(151, 28);
+            genderComboBox.Size = new Size(200, 28);
             genderComboBox.TabIndex = 22;
             // 
             // stateComboBox
@@ -267,7 +269,7 @@
             stateComboBox.FormattingEnabled = true;
             stateComboBox.Location = new Point(73, 831);
             stateComboBox.Name = "stateComboBox";
-            stateComboBox.Size = new Size(151, 28);
+            stateComboBox.Size = new Size(200, 28);
             stateComboBox.TabIndex = 23;
             // 
             // dateOfBirthDatePicker
@@ -287,11 +289,19 @@
             label12.TabIndex = 25;
             label12.Text = "Nurse Information";
             // 
+            // loggedInUserControl1
+            // 
+            loggedInUserControl1.Location = new Point(0, 0);
+            loggedInUserControl1.Name = "loggedInUserControl1";
+            loggedInUserControl1.Size = new Size(329, 141);
+            loggedInUserControl1.TabIndex = 26;
+            // 
             // NurseManagementForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1365, 1107);
+            Controls.Add(loggedInUserControl1);
             Controls.Add(label12);
             Controls.Add(dateOfBirthDatePicker);
             Controls.Add(stateComboBox);
@@ -353,5 +363,6 @@
         private ComboBox stateComboBox;
         private DateTimePicker dateOfBirthDatePicker;
         private Label label12;
+        private LoggedInUserControl loggedInUserControl1;
     }
 }

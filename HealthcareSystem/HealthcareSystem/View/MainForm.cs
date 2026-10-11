@@ -42,7 +42,7 @@ namespace HealthcareSystem.View
 
         private void initializeUserInterface()
         {
-            this.manageUsersButton.Visible = SessionManager.IsAdmin;
+            this.manageNursesButton.Visible = SessionManager.IsAdmin;
 
             this.findPatientButton.Visible = SessionManager.IsNurse;
         }
@@ -58,6 +58,15 @@ namespace HealthcareSystem.View
         {
             using var searchForm = new PatientSearchForm(new PatientController(new PatientDal()));
             searchForm.ShowDialog();
+        }
+
+        private void manageNursesButton_Click(object sender, EventArgs e)
+        {
+            var nurseDal = new NurseDal();
+            var nurseController = new NurseController(nurseDal);
+            using var nurseForm = new NurseManagementForm(nurseController);
+
+            nurseForm.ShowDialog(this);
         }
     }
 }

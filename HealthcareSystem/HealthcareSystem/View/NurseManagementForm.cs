@@ -25,6 +25,7 @@ public partial class NurseManagementForm : Form
         this.configureGenderComboBox();
         this.configureStateComboBox();
         this.dateOfBirthDatePicker.MaxDate = DateTime.Today;
+        this.loggedInUserControl1.RefreshUser();
 
         this.clearFields();
     }
@@ -41,6 +42,9 @@ public partial class NurseManagementForm : Form
         this.nurseDataGridView.AutoGenerateColumns = true;
         this.nurseDataGridView.AllowUserToAddRows = false;
         this.nurseDataGridView.AllowUserToDeleteRows = false;
+        this.nurseDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        this.nurseDataGridView.AllowUserToResizeRows = false;
+        this.nurseDataGridView.RowHeadersVisible = false;
     }
 
     private void configureGenderComboBox()
