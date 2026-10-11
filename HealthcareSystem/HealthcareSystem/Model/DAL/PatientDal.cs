@@ -78,5 +78,43 @@ public class PatientDal
             PhoneNumber = reader.GetFieldValueCheckNull<string?>(reader.GetOrdinal("phone_number"))
         };
     }
+    /// <summary>
+    /// Adds a new patient to the database and returns the new patient id.
+    /// </summary>
+    /// <param name="patient">The patient to add.</param>
+    /// <returns>The id of the newly added patient.</returns>
+    public int Add(Patient patient)
+    {
+        const string personQuery = """
+                                   INSERT INTO person (first_name, last_name, gender, date_of_birth, street_address, city, state, zip_code, phone_number)
+                                   VALUES (@firstName, @lastName, @gender, @dateOfBirth, @street, @city, @state, @zip, @phone);
+                                   """;
+        const string patientQuery = "INSERT INTO patient (person_id) VALUES (@personId);";
+
+        using var connection = new MySqlConnection(Connection.ConnectionString());
+        connection.Open();
+        using var transaction = connection.BeginTransaction();
+
+        using var personCommand = new MySqlCommand(personQuery, connection, transaction);
+        personCommand.Parameters.AddWithValue("@firstName", patient.FirstName);
+        personCommand.Parameters.AddWithValue("@lastName", patient.LastName);
+        personCommand.Parameters.AddWithValue("@gender", patient.Gender);
+        personCommand.Parameters.AddWithValue("@dateOfBirth", patient.DateOfBirth.Date);
+        personCommand.Parameters.AddWithValue("@street", (object?)patient.StreetAddress ?? DBNull.Value);
+        personCommand.Parameters.AddWithValue("@city", (object?)patient.City ?? DBNull.Value);
+        personCommand.Parameters.AddWithValue("@state", (object?)patient.State ?? DBNull.Value);
+        personCommand.Parameters.AddWithValue("@zip", (object?)patient.ZipCode ?? DBNull.Value);
+        personCommand.Parameters.AddWithValue("@phone", (object?)patient.PhoneNumber ?? DBNull.Value);
+        personCommand.ExecuteNonQuery();
+        var personId = (int)personCommand.LastInsertedId;
+
+        using var patientCommand = new MySqlCommand(patientQuery, connection, transaction);
+        patientCommand.Parameters.AddWithValue("@personId", personId);
+        patientCommand.ExecuteNonQuery();
+        var patientId = (int)patientCommand.LastInsertedId;
+
+        transaction.Commit();
+        return patientId;
+    }
 
 }
