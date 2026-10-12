@@ -117,7 +117,7 @@ public class PatientDal
         command.Parameters["@gender"].Value = string.IsNullOrWhiteSpace(patient.Gender) ? DBNull.Value : patient.Gender.Trim();
 
         command.Parameters.Add("@dateOfBirth", MySqlDbType.DateTime);
-        command.Parameters["@dateOfBirth"].Value = patient.DateOfBirth; // Need to think of way to deal with null date of birth, but for now it is required in the patient class.
+        command.Parameters["@dateOfBirth"].Value = patient.DateOfBirth;
 
         command.Parameters.Add("@streetAddress", MySqlDbType.VarChar);
         command.Parameters["@streetAddress"].Value = string.IsNullOrWhiteSpace(patient.StreetAddress) ? DBNull.Value : patient.StreetAddress.Trim();

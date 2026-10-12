@@ -50,14 +50,16 @@ public class PatientEditController
             zipCode = null;
         } else if (!Regex.Match(zipCode, @"^\d{5}$").Success)
         {
-            zipCode = null;
+            throw new ArgumentException("Zip code must be in the format XXXXX. " +
+                "If you want this field to be optional, please leave it blank.");
         }
         if (string.IsNullOrWhiteSpace(phoneNumber))
         {
             phoneNumber = null;
         } else if (!Regex.Match(phoneNumber, @"^\d{3}-\d{3}-\d{4}$").Success)
         {
-            phoneNumber = null;
+            throw new ArgumentException("Phone number must be in the format XXX-XXX-XXXX. " +
+                "If you want this field to be optional, please leave it blank.");
         }
 
         if (dateOfBirth > DateTime.Now)
@@ -71,6 +73,7 @@ public class PatientEditController
         patient.FirstName = firstName;
         patient.LastName = lastName;
         patient.Gender = gender;
+        patient.DateOfBirth = dateOfBirth;
         patient.StreetAddress = streetAddress;
         patient.City = city;
         patient.State = state;
