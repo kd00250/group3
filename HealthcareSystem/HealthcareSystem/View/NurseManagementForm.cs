@@ -1,8 +1,7 @@
-﻿using HealthcareSystem.Controller;
+﻿using System.Text.RegularExpressions;
+using HealthcareSystem.Controller;
 using HealthcareSystem.Model;
 using MySqlConnector;
-using System.Text.RegularExpressions;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace HealthcareSystem.View;
 
@@ -15,6 +14,7 @@ public partial class NurseManagementForm : Form
     private const int NothingSelectedIndex = -1;
     private const int MaxZipCodeLength = 10;
     private const int MaxPasswordLength = 255;
+    private const int MaxPhoneNumberLength = 12;
 
     private readonly NurseController nurseController;
 
@@ -39,6 +39,7 @@ public partial class NurseManagementForm : Form
         this.zipCodeTextBox.MaxLength = MaxZipCodeLength;
         this.usernameTextBox.MaxLength = MaxNameAndCityLength;
         this.passwordTextBox.MaxLength = MaxPasswordLength;
+        this.phoneNumberTextBox.MaxLength = MaxPhoneNumberLength;
 
         this.dateOfBirthDatePicker.MaxDate = DateTime.Today;
         this.loggedInUserControl1.RefreshUser();
@@ -85,15 +86,13 @@ public partial class NurseManagementForm : Form
 
         if (string.IsNullOrWhiteSpace(username))
         {
-            this.usernameErrorLabel.Text = "Username is required.";
-            this.usernameErrorLabel.Visible = true;
+            this.showError(this.usernameErrorLabel, "Username is required.");
             return false;
         }
 
         if (username != username.Trim())
         {
-            this.usernameErrorLabel.Text = "Username cannot start or end with spaces.";
-            this.usernameErrorLabel.Visible = true;
+            this.showError(this.usernameErrorLabel, "Username cannot start or end with spaces.");
             return false;
         }
 
@@ -106,15 +105,13 @@ public partial class NurseManagementForm : Form
 
         if (string.IsNullOrWhiteSpace(password))
         {
-            this.passwordErrorLabel.Text = "Password is required.";
-            this.passwordErrorLabel.Visible = true;
+            this.showError(this.passwordErrorLabel, "Password is required.");
             return false;
         }
 
         if (password != password.Trim())
         {
-            this.passwordErrorLabel.Text = "Password cannot start or end with spaces.";
-            this.passwordErrorLabel.Visible = true;
+            this.showError(this.passwordErrorLabel, "Password cannot start or end with spaces.");
             return false;
         }
 
@@ -143,19 +140,11 @@ public partial class NurseManagementForm : Form
         }
         catch (MySqlException)
         {
-            MessageBox.Show(
-                "Unable to retrieve nurses from the database.",
-                "Database Error",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Error);
+            this.showMessage("Unable to retrieve nurses from the database.", "Database Error", MessageBoxIcon.Error);
         }
         catch (UnauthorizedAccessException ex)
         {
-            MessageBox.Show(
-                ex.Message,
-                "Access Denied",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Warning);
+            this.showMessage(ex.Message, "Access Denied", MessageBoxIcon.Warning);
 
             Close();
         }
@@ -237,7 +226,7 @@ public partial class NurseManagementForm : Form
 
     private bool validateNewNurse()
     {
-        bool isValid = this.validateFields();
+        var isValid = this.validateFields();
 
         if (!this.usernameValidation())
         {
@@ -265,46 +254,27 @@ public partial class NurseManagementForm : Form
             var credentials = this.getCredentialsFromFields();
             var nurseId = this.nurseController.AddNurse(nurse, credentials);
 
-            MessageBox.Show(
-                $"Nurse added successfully. Nurse ID: {nurseId}",
-                "Success",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
+            this.showMessage($"Nurse added successfully. Nurse ID: {nurseId}", "Success", MessageBoxIcon.Information);
 
             this.clearFields();
             this.loadNurses();
         }
         catch (ArgumentException ex)
         {
-            MessageBox.Show(
-                ex.Message,
-                "Validation Error",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Warning);
+            this.showMessage(ex.Message, "Validation Error", MessageBoxIcon.Warning);
         }
         catch (MySqlException ex) when (ex.Number == 1062)
         {
-            MessageBox.Show(
-                "A record with the same username already exists. Try a different the username.",
-                "Duplicate",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Warning);
+            this.showMessage("A record with the same username already exists. Try a different the username.",
+                "Duplicate", MessageBoxIcon.Warning);
         }
         catch (MySqlException)
         {
-            MessageBox.Show(
-                "Unable to add nurse to the database.",
-                "Database Error",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Error);
+            this.showMessage("Unable to add nurse to the database.", "Database Error", MessageBoxIcon.Error);
         }
         catch (UnauthorizedAccessException ex)
         {
-            MessageBox.Show(
-                ex.Message,
-                "Access Denied",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Warning);
+            this.showMessage(ex.Message, "Access Denied", MessageBoxIcon.Warning);
         }
     }
 
@@ -312,11 +282,7 @@ public partial class NurseManagementForm : Form
     {
         if (this.selectedNurseId == null)
         {
-            MessageBox.Show(
-                "Please select a nurse to update.",
-                "Update Nurse",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Warning);
+            this.showMessage("Please select a nurse to update.", "Update Nurse", MessageBoxIcon.Warning);
 
             return;
         }
@@ -331,10 +297,7 @@ public partial class NurseManagementForm : Form
             var nurse = this.getNurseFromFields();
 
             var updated = this.nurseController.UpdateNurse(nurse);
-
-            MessageBox.Show(
-                updated ? "Nurse updated successfully." : "No database rows were changed.", "Update Nurse",
-                MessageBoxButtons.OK,
+            this.showMessage(updated ? "Nurse updated successfully." : "No database rows were changed.", "Update Nurse",
                 MessageBoxIcon.Information);
 
             this.clearFields();
@@ -342,27 +305,15 @@ public partial class NurseManagementForm : Form
         }
         catch (ArgumentException ex)
         {
-            MessageBox.Show(
-                ex.Message,
-                "Validation Error",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Warning);
+            this.showMessage(ex.Message, "Validation Error", MessageBoxIcon.Warning);
         }
         catch (MySqlException)
         {
-            MessageBox.Show(
-                "Unable to update nurse.",
-                "Database Error",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Error);
+            this.showMessage("Unable to update nurse.", "Database Error", MessageBoxIcon.Error);
         }
         catch (UnauthorizedAccessException ex)
         {
-            MessageBox.Show(
-                ex.Message,
-                "Access Denied",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Warning);
+            this.showMessage(ex.Message, "Access Denied", MessageBoxIcon.Warning);
         }
     }
 
@@ -385,8 +336,7 @@ public partial class NurseManagementForm : Form
 
         if (this.genderComboBox.SelectedIndex == NothingSelectedIndex)
         {
-            this.genderErrorLabel.Text = "Please select a gender.";
-            this.genderErrorLabel.Visible = true;
+            this.showError(this.genderErrorLabel, "Please select a gender.");
             isValid = false;
         }
 
@@ -400,8 +350,7 @@ public partial class NurseManagementForm : Form
 
         if (this.stateComboBox.SelectedIndex == NothingSelectedIndex)
         {
-            this.stateErrorLabel.Text = "Please select a state.";
-            this.stateErrorLabel.Visible = true;
+            this.showError(this.stateErrorLabel, "Please select a state.");
             isValid = false;
         }
 
@@ -420,14 +369,12 @@ public partial class NurseManagementForm : Form
     {
         if (string.IsNullOrWhiteSpace(zipCode))
         {
-            this.zipCodeErrorLabel.Text = "ZIP code is required.";
-            this.zipCodeErrorLabel.Visible = true;
+            this.showError(this.zipCodeErrorLabel, "ZIP code is required.");
             isValid = false;
         }
         else if (!Regex.IsMatch(zipCode, @"^[0-9]{5}(-[0-9]{4})?$"))
         {
-            this.zipCodeErrorLabel.Text = "ZIP code must be ##### or #####-####.";
-            this.zipCodeErrorLabel.Visible = true;
+            this.showError(this.zipCodeErrorLabel, "ZIP code must be ##### or #####-####.");
             isValid = false;
         }
 
@@ -438,14 +385,12 @@ public partial class NurseManagementForm : Form
     {
         if (string.IsNullOrWhiteSpace(phoneNumber))
         {
-            this.phoneNumberErrorLabel.Text = "Phone number is required.";
-            this.phoneNumberErrorLabel.Visible = true;
+            this.showError(this.phoneNumberErrorLabel, "Phone number is required.");
             isValid = false;
         }
         else if (!Regex.IsMatch(phoneNumber, @"^\d{3}-\d{3}-\d{4}$"))
         {
-            this.phoneNumberErrorLabel.Text = "Enter a phone number in the format 123-456-7890.";
-            this.phoneNumberErrorLabel.Visible = true;
+            this.showError(this.phoneNumberErrorLabel, "Enter a phone number in the format 123-456-7890.");
             isValid = false;
         }
 
@@ -456,20 +401,17 @@ public partial class NurseManagementForm : Form
     {
         if (string.IsNullOrWhiteSpace(this.cityTextBox.Text))
         {
-            this.cityErrorLabel.Text = "City is required.";
-            this.cityErrorLabel.Visible = true;
+            this.showError(this.cityErrorLabel, "City is required.");
             isValid = false;
         }
         else if (!Regex.IsMatch(this.cityTextBox.Text.Trim(), @"^[a-zA-Z ]+$"))
         {
-            this.cityErrorLabel.Text = "City can only contain letters.";
-            this.cityErrorLabel.Visible = true;
+            this.showError(this.cityErrorLabel, "City can only contain letters.");
             isValid = false;
         }
         else if (this.cityTextBox.Text.Trim().Length > MaxNameAndCityLength)
         {
-            this.cityErrorLabel.Text = "City cannot exceed 50 characters.";
-            this.cityErrorLabel.Visible = true;
+            this.showError(this.cityErrorLabel, "City cannot exceed 50 characters.");
             isValid = false;
         }
 
@@ -480,20 +422,18 @@ public partial class NurseManagementForm : Form
     {
         if (string.IsNullOrWhiteSpace(this.streetAddressTextBox.Text))
         {
-            this.streetAddressErrorLabel.Text = "Street address is required.";
-            this.streetAddressErrorLabel.Visible = true;
+            this.showError(this.streetAddressErrorLabel, "Street address is required.");
             isValid = false;
         }
         else if (!Regex.IsMatch(this.streetAddressTextBox.Text.Trim(), @"^[a-zA-Z0-9 ]+$"))
         {
-            this.streetAddressErrorLabel.Text = "Street address can only contain letters, numbers, and spaces.";
-            this.streetAddressErrorLabel.Visible = true;
+            this.showError(this.streetAddressErrorLabel,
+                "Street address can only contain letters, numbers, and spaces.");
             isValid = false;
         }
         else if (this.streetAddressTextBox.Text.Trim().Length > MaxAddressLength)
         {
-            this.streetAddressErrorLabel.Text = "Street address cannot exceed 100 characters.";
-            this.streetAddressErrorLabel.Visible = true;
+            this.showError(this.streetAddressErrorLabel, "Street address cannot exceed 100 characters.");
             isValid = false;
         }
 
@@ -504,14 +444,12 @@ public partial class NurseManagementForm : Form
     {
         if (dateOfBirth > DateTime.Today)
         {
-            this.dateOfBirthErrorLabel.Text = "Date of birth cannot be in the future.";
-            this.dateOfBirthErrorLabel.Visible = true;
+            this.showError(this.dateOfBirthErrorLabel, "Date of birth cannot be in the future.");
             isValid = false;
         }
         else if (dateOfBirth == DateTime.Today)
         {
-            this.dateOfBirthErrorLabel.Text = "Please select a valid date of birth.";
-            this.dateOfBirthErrorLabel.Visible = true;
+            this.showError(this.dateOfBirthErrorLabel, "Please select a valid date of birth.");
             isValid = false;
         }
 
@@ -522,20 +460,17 @@ public partial class NurseManagementForm : Form
     {
         if (string.IsNullOrWhiteSpace(this.lastNameTextBox.Text))
         {
-            this.lastNameErrorLabel.Text = "Last name is required.";
-            this.lastNameErrorLabel.Visible = true;
+            this.showError(this.lastNameErrorLabel, "Last name is required.");
             isValid = false;
         }
         else if (!Regex.IsMatch(this.lastNameTextBox.Text.Trim(), @"^[a-zA-Z ]+$"))
         {
-            this.lastNameErrorLabel.Text = "Last name can only contain letters.";
-            this.lastNameErrorLabel.Visible = true;
+            this.showError(this.lastNameErrorLabel, "Last name can only contain letters.");
             isValid = false;
         }
         else if (this.lastNameTextBox.Text.Trim().Length > MaxNameAndCityLength)
         {
-            this.lastNameErrorLabel.Text = "Last name cannot exceed 50 characters.";
-            this.lastNameErrorLabel.Visible = true;
+            this.showError(this.lastNameErrorLabel, "Last name cannot exceed 50 characters.");
             isValid = false;
         }
 
@@ -546,20 +481,17 @@ public partial class NurseManagementForm : Form
     {
         if (string.IsNullOrWhiteSpace(this.firstNameTextBox.Text))
         {
-            this.firstNameErrorLabel.Text = "First name is required.";
-            this.firstNameErrorLabel.Visible = true;
+            this.showError(this.firstNameErrorLabel, "First name is required.");
             isValid = false;
         }
         else if (!Regex.IsMatch(this.firstNameTextBox.Text.Trim(), @"^[a-zA-Z ]+$"))
         {
-            this.firstNameErrorLabel.Text = "First name can only contain letters.";
-            this.firstNameErrorLabel.Visible = true;
+            this.showError(this.firstNameErrorLabel, "First name can only contain letters.");
             isValid = false;
         }
         else if (this.firstNameTextBox.Text.Trim().Length > MaxNameAndCityLength)
         {
-            this.firstNameErrorLabel.Text = "First name cannot exceed 50 characters.";
-            this.firstNameErrorLabel.Visible = true;
+            this.showError(this.firstNameErrorLabel, "First name cannot exceed 50 characters.");
             isValid = false;
         }
 
@@ -606,10 +538,21 @@ public partial class NurseManagementForm : Form
         this.loadNurses();
     }
 
-    #endregion
-
     private void backButton_Click(object sender, EventArgs e)
     {
-        this.Close();
+        Close();
     }
+
+    private void showError(Label errorLabel, string message)
+    {
+        errorLabel.Text = message;
+        errorLabel.Visible = true;
+    }
+
+    private void showMessage(string message, string title, MessageBoxIcon icon)
+    {
+        MessageBox.Show(message, title, MessageBoxButtons.OK, icon);
+    }
+
+    #endregion
 }
