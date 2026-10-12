@@ -55,6 +55,23 @@
             dateOfBirthDatePicker = new DateTimePicker();
             label12 = new Label();
             loggedInUserControl1 = new LoggedInUserControl();
+            firstNameErrorLabel = new Label();
+            dateOfBirthErrorLabel = new Label();
+            streetAddressErrorLabel = new Label();
+            stateErrorLabel = new Label();
+            phoneNumberErrorLabel = new Label();
+            lastNameErrorLabel = new Label();
+            genderErrorLabel = new Label();
+            cityErrorLabel = new Label();
+            zipCodeErrorLabel = new Label();
+            backButton = new Button();
+            label13 = new Label();
+            label14 = new Label();
+            label15 = new Label();
+            usernameTextBox = new TextBox();
+            passwordTextBox = new TextBox();
+            usernameErrorLabel = new Label();
+            passwordErrorLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)nurseDataGridView).BeginInit();
             SuspendLayout();
             // 
@@ -66,6 +83,7 @@
             nurseDataGridView.RowHeadersWidth = 51;
             nurseDataGridView.Size = new Size(1343, 359);
             nurseDataGridView.TabIndex = 0;
+            nurseDataGridView.CellClick += nurseDataGridView_CellClick;
             // 
             // label1
             // 
@@ -89,7 +107,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(741, 582);
+            label3.Location = new Point(540, 593);
             label3.Name = "label3";
             label3.Size = new Size(79, 20);
             label3.TabIndex = 3;
@@ -98,7 +116,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(74, 668);
+            label4.Location = new Point(73, 676);
             label4.Name = "label4";
             label4.Size = new Size(94, 20);
             label4.TabIndex = 4;
@@ -107,7 +125,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(741, 668);
+            label5.Location = new Point(540, 679);
             label5.Name = "label5";
             label5.Size = new Size(57, 20);
             label5.TabIndex = 5;
@@ -116,7 +134,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(74, 739);
+            label6.Location = new Point(73, 757);
             label6.Name = "label6";
             label6.Size = new Size(105, 20);
             label6.TabIndex = 6;
@@ -125,7 +143,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(741, 739);
+            label7.Location = new Point(540, 757);
             label7.Name = "label7";
             label7.Size = new Size(34, 20);
             label7.TabIndex = 7;
@@ -134,7 +152,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(74, 808);
+            label8.Location = new Point(73, 833);
             label8.Name = "label8";
             label8.Size = new Size(43, 20);
             label8.TabIndex = 8;
@@ -143,7 +161,7 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(741, 808);
+            label9.Location = new Point(540, 833);
             label9.Name = "label9";
             label9.Size = new Size(69, 20);
             label9.TabIndex = 9;
@@ -152,7 +170,7 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(74, 888);
+            label10.Location = new Point(74, 911);
             label10.Name = "label10";
             label10.Size = new Size(108, 20);
             label10.TabIndex = 10;
@@ -197,7 +215,6 @@
             updateNurseButton.Text = "Update Nurse";
             updateNurseButton.UseVisualStyleBackColor = true;
             updateNurseButton.Click += updateNurseButton_Click;
-            nurseDataGridView.CellClick += nurseDataGridView_CellClick;
             // 
             // label11
             // 
@@ -219,7 +236,7 @@
             // 
             // lastNameTextBox
             // 
-            lastNameTextBox.Location = new Point(741, 605);
+            lastNameTextBox.Location = new Point(540, 616);
             lastNameTextBox.Name = "lastNameTextBox";
             lastNameTextBox.PlaceholderText = "Enter Last Name";
             lastNameTextBox.Size = new Size(200, 27);
@@ -227,7 +244,7 @@
             // 
             // streetAddressTextBox
             // 
-            streetAddressTextBox.Location = new Point(74, 762);
+            streetAddressTextBox.Location = new Point(73, 780);
             streetAddressTextBox.Name = "streetAddressTextBox";
             streetAddressTextBox.PlaceholderText = "ex: 14 Peach St";
             streetAddressTextBox.Size = new Size(200, 27);
@@ -235,7 +252,7 @@
             // 
             // cityTextBox
             // 
-            cityTextBox.Location = new Point(741, 762);
+            cityTextBox.Location = new Point(540, 780);
             cityTextBox.Name = "cityTextBox";
             cityTextBox.PlaceholderText = "ex: Atlanta";
             cityTextBox.Size = new Size(200, 27);
@@ -243,7 +260,7 @@
             // 
             // phoneNumberTextBox
             // 
-            phoneNumberTextBox.Location = new Point(73, 911);
+            phoneNumberTextBox.Location = new Point(73, 934);
             phoneNumberTextBox.Name = "phoneNumberTextBox";
             phoneNumberTextBox.PlaceholderText = "Enter Phone Number";
             phoneNumberTextBox.Size = new Size(200, 27);
@@ -251,7 +268,7 @@
             // 
             // zipCodeTextBox
             // 
-            zipCodeTextBox.Location = new Point(741, 831);
+            zipCodeTextBox.Location = new Point(540, 856);
             zipCodeTextBox.Name = "zipCodeTextBox";
             zipCodeTextBox.Size = new Size(200, 27);
             zipCodeTextBox.TabIndex = 21;
@@ -259,7 +276,7 @@
             // genderComboBox
             // 
             genderComboBox.FormattingEnabled = true;
-            genderComboBox.Location = new Point(741, 691);
+            genderComboBox.Location = new Point(540, 702);
             genderComboBox.Name = "genderComboBox";
             genderComboBox.Size = new Size(200, 28);
             genderComboBox.TabIndex = 22;
@@ -267,14 +284,14 @@
             // stateComboBox
             // 
             stateComboBox.FormattingEnabled = true;
-            stateComboBox.Location = new Point(73, 831);
+            stateComboBox.Location = new Point(73, 856);
             stateComboBox.Name = "stateComboBox";
             stateComboBox.Size = new Size(200, 28);
             stateComboBox.TabIndex = 23;
             // 
             // dateOfBirthDatePicker
             // 
-            dateOfBirthDatePicker.Location = new Point(74, 691);
+            dateOfBirthDatePicker.Location = new Point(73, 700);
             dateOfBirthDatePicker.Name = "dateOfBirthDatePicker";
             dateOfBirthDatePicker.Size = new Size(250, 27);
             dateOfBirthDatePicker.TabIndex = 24;
@@ -296,11 +313,181 @@
             loggedInUserControl1.Size = new Size(329, 141);
             loggedInUserControl1.TabIndex = 26;
             // 
+            // firstNameErrorLabel
+            // 
+            firstNameErrorLabel.AutoSize = true;
+            firstNameErrorLabel.ForeColor = Color.Red;
+            firstNameErrorLabel.Location = new Point(74, 646);
+            firstNameErrorLabel.Name = "firstNameErrorLabel";
+            firstNameErrorLabel.Size = new Size(0, 20);
+            firstNameErrorLabel.TabIndex = 27;
+            // 
+            // dateOfBirthErrorLabel
+            // 
+            dateOfBirthErrorLabel.AutoSize = true;
+            dateOfBirthErrorLabel.ForeColor = Color.Red;
+            dateOfBirthErrorLabel.Location = new Point(74, 730);
+            dateOfBirthErrorLabel.Name = "dateOfBirthErrorLabel";
+            dateOfBirthErrorLabel.Size = new Size(0, 20);
+            dateOfBirthErrorLabel.TabIndex = 28;
+            // 
+            // streetAddressErrorLabel
+            // 
+            streetAddressErrorLabel.AutoSize = true;
+            streetAddressErrorLabel.ForeColor = Color.Red;
+            streetAddressErrorLabel.Location = new Point(75, 809);
+            streetAddressErrorLabel.Name = "streetAddressErrorLabel";
+            streetAddressErrorLabel.Size = new Size(0, 20);
+            streetAddressErrorLabel.TabIndex = 29;
+            // 
+            // stateErrorLabel
+            // 
+            stateErrorLabel.AutoSize = true;
+            stateErrorLabel.ForeColor = Color.Red;
+            stateErrorLabel.Location = new Point(74, 884);
+            stateErrorLabel.Name = "stateErrorLabel";
+            stateErrorLabel.Size = new Size(0, 20);
+            stateErrorLabel.TabIndex = 30;
+            // 
+            // phoneNumberErrorLabel
+            // 
+            phoneNumberErrorLabel.AutoSize = true;
+            phoneNumberErrorLabel.ForeColor = Color.Red;
+            phoneNumberErrorLabel.Location = new Point(75, 964);
+            phoneNumberErrorLabel.Name = "phoneNumberErrorLabel";
+            phoneNumberErrorLabel.Size = new Size(0, 20);
+            phoneNumberErrorLabel.TabIndex = 31;
+            // 
+            // lastNameErrorLabel
+            // 
+            lastNameErrorLabel.AutoSize = true;
+            lastNameErrorLabel.ForeColor = Color.Red;
+            lastNameErrorLabel.Location = new Point(540, 646);
+            lastNameErrorLabel.Name = "lastNameErrorLabel";
+            lastNameErrorLabel.Size = new Size(0, 20);
+            lastNameErrorLabel.TabIndex = 32;
+            // 
+            // genderErrorLabel
+            // 
+            genderErrorLabel.AutoSize = true;
+            genderErrorLabel.ForeColor = Color.Red;
+            genderErrorLabel.Location = new Point(540, 730);
+            genderErrorLabel.Name = "genderErrorLabel";
+            genderErrorLabel.Size = new Size(0, 20);
+            genderErrorLabel.TabIndex = 33;
+            // 
+            // cityErrorLabel
+            // 
+            cityErrorLabel.AutoSize = true;
+            cityErrorLabel.ForeColor = Color.Red;
+            cityErrorLabel.Location = new Point(540, 809);
+            cityErrorLabel.Name = "cityErrorLabel";
+            cityErrorLabel.Size = new Size(0, 20);
+            cityErrorLabel.TabIndex = 34;
+            // 
+            // zipCodeErrorLabel
+            // 
+            zipCodeErrorLabel.AutoSize = true;
+            zipCodeErrorLabel.ForeColor = Color.Red;
+            zipCodeErrorLabel.Location = new Point(540, 884);
+            zipCodeErrorLabel.Name = "zipCodeErrorLabel";
+            zipCodeErrorLabel.Size = new Size(0, 20);
+            zipCodeErrorLabel.TabIndex = 35;
+            // 
+            // backButton
+            // 
+            backButton.Location = new Point(12, 1056);
+            backButton.Name = "backButton";
+            backButton.Size = new Size(125, 40);
+            backButton.TabIndex = 36;
+            backButton.Text = "Back";
+            backButton.UseVisualStyleBackColor = true;
+            backButton.Click += backButton_Click;
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label13.Location = new Point(854, 550);
+            label13.Name = "label13";
+            label13.Size = new Size(282, 28);
+            label13.TabIndex = 37;
+            label13.Text = "New Nurse Login Credintials";
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Location = new Point(884, 593);
+            label14.Name = "label14";
+            label14.Size = new Size(75, 20);
+            label14.TabIndex = 38;
+            label14.Text = "Username";
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.Location = new Point(884, 679);
+            label15.Name = "label15";
+            label15.Size = new Size(70, 20);
+            label15.TabIndex = 39;
+            label15.Text = "Password";
+            // 
+            // usernameTextBox
+            // 
+            usernameTextBox.Location = new Point(884, 616);
+            usernameTextBox.Name = "usernameTextBox";
+            usernameTextBox.PlaceholderText = "Enter a username";
+            usernameTextBox.Size = new Size(200, 27);
+            usernameTextBox.TabIndex = 40;
+            // 
+            // passwordTextBox
+            // 
+            passwordTextBox.Location = new Point(884, 703);
+            passwordTextBox.Name = "passwordTextBox";
+            passwordTextBox.PlaceholderText = "Enter a password";
+            passwordTextBox.Size = new Size(200, 27);
+            passwordTextBox.TabIndex = 41;
+            // 
+            // usernameErrorLabel
+            // 
+            usernameErrorLabel.AutoSize = true;
+            usernameErrorLabel.ForeColor = Color.Red;
+            usernameErrorLabel.Location = new Point(886, 646);
+            usernameErrorLabel.Name = "usernameErrorLabel";
+            usernameErrorLabel.Size = new Size(0, 20);
+            usernameErrorLabel.TabIndex = 42;
+            // 
+            // passwordErrorLabel
+            // 
+            passwordErrorLabel.AutoSize = true;
+            passwordErrorLabel.ForeColor = Color.Red;
+            passwordErrorLabel.Location = new Point(885, 730);
+            passwordErrorLabel.Name = "passwordErrorLabel";
+            passwordErrorLabel.Size = new Size(0, 20);
+            passwordErrorLabel.TabIndex = 43;
+            // 
             // NurseManagementForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1365, 1107);
+            Controls.Add(passwordErrorLabel);
+            Controls.Add(usernameErrorLabel);
+            Controls.Add(passwordTextBox);
+            Controls.Add(usernameTextBox);
+            Controls.Add(label15);
+            Controls.Add(label14);
+            Controls.Add(label13);
+            Controls.Add(backButton);
+            Controls.Add(zipCodeErrorLabel);
+            Controls.Add(cityErrorLabel);
+            Controls.Add(genderErrorLabel);
+            Controls.Add(lastNameErrorLabel);
+            Controls.Add(phoneNumberErrorLabel);
+            Controls.Add(stateErrorLabel);
+            Controls.Add(streetAddressErrorLabel);
+            Controls.Add(dateOfBirthErrorLabel);
+            Controls.Add(firstNameErrorLabel);
             Controls.Add(loggedInUserControl1);
             Controls.Add(label12);
             Controls.Add(dateOfBirthDatePicker);
@@ -364,5 +551,22 @@
         private DateTimePicker dateOfBirthDatePicker;
         private Label label12;
         private LoggedInUserControl loggedInUserControl1;
+        private Label firstNameErrorLabel;
+        private Label dateOfBirthErrorLabel;
+        private Label streetAddressErrorLabel;
+        private Label stateErrorLabel;
+        private Label phoneNumberErrorLabel;
+        private Label lastNameErrorLabel;
+        private Label genderErrorLabel;
+        private Label cityErrorLabel;
+        private Label zipCodeErrorLabel;
+        private Button backButton;
+        private Label label13;
+        private Label label14;
+        private Label label15;
+        private TextBox usernameTextBox;
+        private TextBox passwordTextBox;
+        private Label usernameErrorLabel;
+        private Label passwordErrorLabel;
     }
 }

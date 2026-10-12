@@ -1,12 +1,20 @@
 ﻿using HealthcareSystem.Controller;
 using HealthcareSystem.Model;
 using MySqlConnector;
+using System.Text.RegularExpressions;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace HealthcareSystem.View;
 
 public partial class NurseManagementForm : Form
 {
     #region Fields
+
+    private const int MaxNameAndCityLength = 50;
+    private const int MaxAddressLength = 100;
+    private const int NothingSelectedIndex = -1;
+    private const int MaxZipCodeLength = 6;
+    private const int MaxPasswordLength = 255;
 
     private readonly NurseController nurseController;
 
@@ -24,6 +32,14 @@ public partial class NurseManagementForm : Form
         this.configureNurseGrid();
         this.configureGenderComboBox();
         this.configureStateComboBox();
+        this.firstNameTextBox.MaxLength = MaxNameAndCityLength;
+        this.lastNameTextBox.MaxLength = MaxNameAndCityLength;
+        this.cityTextBox.MaxLength = MaxNameAndCityLength;
+        this.streetAddressTextBox.MaxLength = MaxAddressLength;
+        this.zipCodeTextBox.MaxLength = MaxZipCodeLength;
+        this.usernameTextBox.MaxLength = MaxNameAndCityLength;
+        this.passwordTextBox.MaxLength = MaxPasswordLength;
+
         this.dateOfBirthDatePicker.MaxDate = DateTime.Today;
         this.loggedInUserControl1.RefreshUser();
 
@@ -52,6 +68,57 @@ public partial class NurseManagementForm : Form
         this.genderComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
         this.genderComboBox.Items.Clear();
         this.genderComboBox.Items.AddRange("Male", "Female");
+    }
+
+    private NurseCredentials getCredentialsFromFields()
+    {
+        return new NurseCredentials
+        {
+            Username = this.usernameTextBox.Text.Trim(),
+            Password = this.passwordTextBox.Text
+        };
+    }
+
+    private bool usernameValidation()
+    {
+        string username = this.usernameTextBox.Text.Trim();
+
+        if (string.IsNullOrWhiteSpace(username))
+        {
+            this.usernameErrorLabel.Text = "Username is required.";
+            this.usernameErrorLabel.Visible = true;
+            return false;
+        }
+
+        if (username != username.Trim())
+        {
+            this.usernameErrorLabel.Text = "Username cannot start or end with spaces.";
+            this.usernameErrorLabel.Visible = true;
+            return false;
+        }
+
+        return true;
+    }
+
+    private bool passwordValidation()
+    {
+        string password = this.passwordTextBox.Text;
+
+        if (string.IsNullOrWhiteSpace(password))
+        {
+            this.passwordErrorLabel.Text = "Password is required.";
+            this.passwordErrorLabel.Visible = true;
+            return false;
+        }
+
+        if (password != password.Trim())
+        {
+            this.passwordErrorLabel.Text = "Password cannot start or end with spaces.";
+            this.passwordErrorLabel.Visible = true;
+            return false;
+        }
+
+        return true;
     }
 
     private void configureStateComboBox()
@@ -122,6 +189,7 @@ public partial class NurseManagementForm : Form
         this.selectedNurseId = nurse.NurseId;
         this.firstNameTextBox.Text = nurse.FirstName;
         this.lastNameTextBox.Text = nurse.LastName;
+
         this.genderComboBox.SelectedItem = nurse.Gender;
         this.dateOfBirthDatePicker.Value = nurse.DateOfBirth;
         this.streetAddressTextBox.Text = nurse.StreetAddress ?? "";
@@ -131,32 +199,71 @@ public partial class NurseManagementForm : Form
         this.phoneNumberTextBox.Text = nurse.PhoneNumber ?? "";
         this.addNurseButton.Enabled = false;
         this.updateNurseButton.Enabled = true;
+
+        this.usernameTextBox.Clear();
+        this.passwordTextBox.Clear();
+        this.usernameTextBox.Enabled = false;
+        this.passwordTextBox.Enabled = false;
+
+        this.clearValidationErrors();
     }
 
     private void clearFields()
     {
         this.selectedNurseId = null;
+
         this.firstNameTextBox.Clear();
         this.lastNameTextBox.Clear();
-        this.genderComboBox.SelectedIndex = -1;
+        this.genderComboBox.SelectedIndex = NothingSelectedIndex;
         this.dateOfBirthDatePicker.Value = DateTime.Today;
         this.streetAddressTextBox.Clear();
         this.cityTextBox.Clear();
-        this.stateComboBox.SelectedIndex = -1;
+        this.stateComboBox.SelectedIndex = NothingSelectedIndex;
         this.zipCodeTextBox.Clear();
         this.phoneNumberTextBox.Clear();
+
+        this.usernameTextBox.Clear();
+        this.passwordTextBox.Clear();
+
+        this.usernameTextBox.Enabled = true;
+        this.passwordTextBox.Enabled = true;
+
         this.addNurseButton.Enabled = true;
         this.updateNurseButton.Enabled = false;
 
+        this.clearValidationErrors();
         this.nurseDataGridView.ClearSelection();
+    }
+
+    private bool validateNewNurse()
+    {
+        bool isValid = this.validateFields();
+
+        if (!this.usernameValidation())
+        {
+            isValid = false;
+        }
+
+        if (!this.passwordValidation())
+        {
+            isValid = false;
+        }
+
+        return isValid;
     }
 
     private void addNurseButton_Click(object sender, EventArgs e)
     {
+        if (!this.validateNewNurse())
+        {
+            return;
+        }
+
         try
         {
             var nurse = this.getNurseFromFields();
-            var nurseId = this.nurseController.AddNurse(nurse);
+            var credentials = this.getCredentialsFromFields();
+            var nurseId = this.nurseController.AddNurse(nurse, credentials);
 
             MessageBox.Show(
                 $"Nurse added successfully. Nurse ID: {nurseId}",
@@ -172,6 +279,14 @@ public partial class NurseManagementForm : Form
             MessageBox.Show(
                 ex.Message,
                 "Validation Error",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning);
+        }
+        catch (MySqlException ex) when (ex.Number == 1062)
+        {
+            MessageBox.Show(
+                "A record with the same username already exists. Try a different the username.",
+                "Duplicate",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Warning);
         }
@@ -203,6 +318,11 @@ public partial class NurseManagementForm : Form
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Warning);
 
+            return;
+        }
+
+        if (!this.validateFields())
+        {
             return;
         }
 
@@ -253,9 +373,209 @@ public partial class NurseManagementForm : Form
         this.loadNurses();
     }
 
-    private void nurseDataGridView_CellClick(
-        object sender,
-        DataGridViewCellEventArgs e)
+    private bool validateFields()
+    {
+        this.clearValidationErrors();
+
+        var isValid = true;
+
+        isValid = this.firstNameValidation(isValid);
+
+        isValid = this.lastNameValidation(isValid);
+
+        if (this.genderComboBox.SelectedIndex == NothingSelectedIndex)
+        {
+            this.genderErrorLabel.Text = "Please select a gender.";
+            this.genderErrorLabel.Visible = true;
+            isValid = false;
+        }
+
+        var dateOfBirth = this.dateOfBirthDatePicker.Value.Date;
+
+        isValid = this.dateOfBirthValidation(dateOfBirth, isValid);
+
+        isValid = this.streetAddressValidation(isValid);
+
+        isValid = this.cityValidation(isValid);
+
+        if (this.stateComboBox.SelectedIndex == NothingSelectedIndex)
+        {
+            this.stateErrorLabel.Text = "Please select a state.";
+            this.stateErrorLabel.Visible = true;
+            isValid = false;
+        }
+
+        var zipCode = this.zipCodeTextBox.Text.Trim();
+
+        isValid = this.zipCodeValidation(zipCode, isValid);
+
+        var phoneNumber = this.phoneNumberTextBox.Text.Trim();
+
+        isValid = this.phoneNumberValidation(phoneNumber, isValid);
+
+        return isValid;
+    }
+
+    private bool zipCodeValidation(string zipCode, bool isValid)
+    {
+        if (string.IsNullOrWhiteSpace(zipCode))
+        {
+            this.zipCodeErrorLabel.Text = "ZIP code is required.";
+            this.zipCodeErrorLabel.Visible = true;
+            isValid = false;
+        }
+        else if (!Regex.IsMatch(zipCode, @"^[0-9]{6}$"))
+        {
+            this.zipCodeErrorLabel.Text = "ZIP code must contain exactly 6 digits.";
+            this.zipCodeErrorLabel.Visible = true;
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    private bool phoneNumberValidation(string phoneNumber, bool isValid)
+    {
+        if (string.IsNullOrWhiteSpace(phoneNumber))
+        {
+            this.phoneNumberErrorLabel.Text = "Phone number is required.";
+            this.phoneNumberErrorLabel.Visible = true;
+            isValid = false;
+        }
+        else if (!Regex.IsMatch(phoneNumber, @"^\d{3}-\d{3}-\d{4}$"))
+        {
+            this.phoneNumberErrorLabel.Text = "Enter a phone number in the format 123-456-7890.";
+            this.phoneNumberErrorLabel.Visible = true;
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    private bool cityValidation(bool isValid)
+    {
+        if (string.IsNullOrWhiteSpace(this.cityTextBox.Text))
+        {
+            this.cityErrorLabel.Text = "City is required.";
+            this.cityErrorLabel.Visible = true;
+            isValid = false;
+        }
+        else if (!Regex.IsMatch(this.cityTextBox.Text.Trim(), @"^[a-zA-Z ]+$"))
+        {
+            this.cityErrorLabel.Text = "City can only contain letters.";
+            this.cityErrorLabel.Visible = true;
+            isValid = false;
+        }
+        else if (this.cityTextBox.Text.Trim().Length > MaxNameAndCityLength)
+        {
+            this.cityErrorLabel.Text = "City cannot exceed 50 characters.";
+            this.cityErrorLabel.Visible = true;
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    private bool streetAddressValidation(bool isValid)
+    {
+        if (string.IsNullOrWhiteSpace(this.streetAddressTextBox.Text))
+        {
+            this.streetAddressErrorLabel.Text = "Street address is required.";
+            this.streetAddressErrorLabel.Visible = true;
+            isValid = false;
+        }
+        else if (this.streetAddressTextBox.Text.Trim().Length > MaxAddressLength)
+        {
+            this.streetAddressErrorLabel.Text = "Street address cannot exceed 100 characters.";
+            this.streetAddressErrorLabel.Visible = true;
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    private bool dateOfBirthValidation(DateTime dateOfBirth, bool isValid)
+    {
+        if (dateOfBirth > DateTime.Today)
+        {
+            this.dateOfBirthErrorLabel.Text = "Date of birth cannot be in the future.";
+            this.dateOfBirthErrorLabel.Visible = true;
+            isValid = false;
+        }
+        else if (dateOfBirth == DateTime.Today)
+        {
+            this.dateOfBirthErrorLabel.Text = "Please select a valid date of birth.";
+            this.dateOfBirthErrorLabel.Visible = true;
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    private bool lastNameValidation(bool isValid)
+    {
+        if (string.IsNullOrWhiteSpace(this.lastNameTextBox.Text))
+        {
+            this.lastNameErrorLabel.Text = "Last name is required.";
+            this.lastNameErrorLabel.Visible = true;
+            isValid = false;
+        }
+        else if (!Regex.IsMatch(this.lastNameTextBox.Text.Trim(), @"^[a-zA-Z ]+$"))
+        {
+            this.lastNameErrorLabel.Text = "Last name can only contain letters.";
+            this.lastNameErrorLabel.Visible = true;
+            isValid = false;
+        }
+        else if (this.lastNameTextBox.Text.Trim().Length > MaxNameAndCityLength)
+        {
+            this.lastNameErrorLabel.Text = "Last name cannot exceed 50 characters.";
+            this.lastNameErrorLabel.Visible = true;
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    private bool firstNameValidation(bool isValid)
+    {
+        if (string.IsNullOrWhiteSpace(this.firstNameTextBox.Text))
+        {
+            this.firstNameErrorLabel.Text = "First name is required.";
+            this.firstNameErrorLabel.Visible = true;
+            isValid = false;
+        }
+        else if (!Regex.IsMatch(this.firstNameTextBox.Text.Trim(), @"^[a-zA-Z ]+$"))
+        {
+            this.firstNameErrorLabel.Text = "First name can only contain letters.";
+            this.firstNameErrorLabel.Visible = true;
+            isValid = false;
+        }
+        else if (this.firstNameTextBox.Text.Trim().Length > MaxNameAndCityLength)
+        {
+            this.firstNameErrorLabel.Text = "First name cannot exceed 50 characters.";
+            this.firstNameErrorLabel.Visible = true;
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    private void clearValidationErrors()
+    {
+        this.firstNameErrorLabel.Visible = false;
+        this.lastNameErrorLabel.Visible = false;
+        this.genderErrorLabel.Visible = false;
+        this.dateOfBirthErrorLabel.Visible = false;
+        this.streetAddressErrorLabel.Visible = false;
+        this.cityErrorLabel.Visible = false;
+        this.stateErrorLabel.Visible = false;
+        this.zipCodeErrorLabel.Visible = false;
+        this.phoneNumberErrorLabel.Visible = false;
+        this.usernameErrorLabel.Visible = false;
+        this.passwordErrorLabel.Visible = false;
+    }
+
+    private void nurseDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
     {
         if (e.RowIndex < 0)
         {
@@ -281,4 +601,9 @@ public partial class NurseManagementForm : Form
     }
 
     #endregion
+
+    private void backButton_Click(object sender, EventArgs e)
+    {
+        this.Close();
+    }
 }

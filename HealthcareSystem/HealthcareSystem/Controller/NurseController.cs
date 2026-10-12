@@ -7,6 +7,12 @@ public class NurseController
 {
     #region Fields
 
+    private const int MaxNameLength = 50;
+    private const int MaxPasswordLength = 255;
+    private const int MaxPhoneNumberLength = 20;
+    private const int MaxStreetAddressLength = 100;
+    private const int MaxZipCodeAndGenderLength = 10;
+
     private readonly NurseDal nurseDal;
 
     #endregion
@@ -29,12 +35,13 @@ public class NurseController
     /// <summary>
     ///     Adds a new nurse.
     /// </summary>
-    public int AddNurse(Nurse nurse)
+    public int AddNurse(Nurse nurse, NurseCredentials credentials)
     {
         this.ensureAdministrator();
         this.validateNurse(nurse);
+        this.validateCredentials(credentials);
 
-        return this.nurseDal.AddNurse(nurse);
+        return this.nurseDal.AddNurse(nurse, credentials);
     }
 
     /// <summary>
@@ -94,14 +101,14 @@ public class NurseController
     {
         ArgumentNullException.ThrowIfNull(nurse);
 
-        this.validateStringField(nurse.FirstName, "First name", 50);
-        this.validateStringField(nurse.LastName, "Last name", 50);
-        this.validateStringField(nurse.Gender, "Gender", 10);
-        this.validateStringField(nurse.StreetAddress, "Street address", 100);
-        this.validateStringField(nurse.City, "City", 50);
-        this.validateStringField(nurse.State, "State", 50);
-        this.validateStringField(nurse.ZipCode, "Zip code", 10);
-        this.validateStringField(nurse.PhoneNumber, "Phone number", 20);
+        this.validateStringField(nurse.FirstName, "First name", MaxNameLength);
+        this.validateStringField(nurse.LastName, "Last name", MaxNameLength);
+        this.validateStringField(nurse.Gender, "Gender", MaxZipCodeAndGenderLength);
+        this.validateStringField(nurse.StreetAddress, "Street address", MaxStreetAddressLength);
+        this.validateStringField(nurse.City, "City", MaxNameLength);
+        this.validateStringField(nurse.State, "State", MaxNameLength);
+        this.validateStringField(nurse.ZipCode, "Zip code", MaxZipCodeAndGenderLength);
+        this.validateStringField(nurse.PhoneNumber, "Phone number", MaxPhoneNumberLength);
 
         if (nurse.DateOfBirth == default || nurse.DateOfBirth.Date > DateTime.Today)
         {
@@ -120,6 +127,31 @@ public class NurseController
         {
             throw new ArgumentException(
                 $"{fieldName} cannot exceed {maxLength} characters.");
+        }
+    }
+
+    private void validateCredentials(NurseCredentials credentials)
+    {
+        ArgumentNullException.ThrowIfNull(credentials);
+
+        if (string.IsNullOrWhiteSpace(credentials.Username))
+        {
+            throw new ArgumentException("Username is required.");
+        }
+
+        if (credentials.Username.Trim().Length > MaxNameLength)
+        {
+            throw new ArgumentException("Username cannot exceed 50 characters.");
+        }
+
+        if (string.IsNullOrWhiteSpace(credentials.Password))
+        {
+            throw new ArgumentException("Password is required.");
+        }
+
+        if (credentials.Password.Length > MaxPasswordLength)
+        {
+            throw new ArgumentException("Password cannot exceed 255 characters.");
         }
     }
 

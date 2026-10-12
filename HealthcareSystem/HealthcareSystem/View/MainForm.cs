@@ -65,8 +65,16 @@ namespace HealthcareSystem.View
             var nurseDal = new NurseDal();
             var nurseController = new NurseController(nurseDal);
             using var nurseForm = new NurseManagementForm(nurseController);
+            this.Hide();
 
-            nurseForm.ShowDialog(this);
+            try
+            {
+                nurseForm.ShowDialog(this);
+            }
+            finally
+            {
+                this.Show();
+            }
         }
     }
 }

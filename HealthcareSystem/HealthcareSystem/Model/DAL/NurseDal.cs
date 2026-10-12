@@ -4,7 +4,7 @@ namespace HealthcareSystem.Model.DAL;
 
 public class NurseDal
 {
-    public int AddNurse(Nurse nurse)
+    public int AddNurse(Nurse nurse, NurseCredentials credentials)
     {
         using var connection = new MySqlConnection(Connection.ConnectionString());
         connection.Open();
@@ -52,6 +52,36 @@ public class NurseDal
 
             nurseCommand.ExecuteNonQuery();
             var nurseId = checked((int)nurseCommand.LastInsertedId);
+
+            const string accountQuery = """
+                                        INSERT INTO user_account (
+                                            username,
+                                            password,
+                                            account_role,
+                                            person_id
+                                        )
+                                        VALUES (
+                                            @username,
+                                            @password,
+                                            @accountRole,
+                                            @personId
+                                        );
+                                        """;
+            using var accountCommand = new MySqlCommand(accountQuery, connection, transaction);
+
+            accountCommand.Parameters.Add("@username", MySqlDbType.VarChar);
+            accountCommand.Parameters["@username"].Value = credentials.Username.Trim();
+
+            accountCommand.Parameters.Add("@password", MySqlDbType.VarChar);
+            accountCommand.Parameters["@password"].Value = credentials.Password;
+
+            accountCommand.Parameters.Add("@accountRole", MySqlDbType.VarChar);
+            accountCommand.Parameters["@accountRole"].Value = AccountRole.Nurse.ToString().ToLowerInvariant();
+
+            accountCommand.Parameters.Add("@personId", MySqlDbType.Int32);
+            accountCommand.Parameters["@personId"].Value = personId;
+
+            accountCommand.ExecuteNonQuery();
             transaction.Commit();
 
             return nurseId;
