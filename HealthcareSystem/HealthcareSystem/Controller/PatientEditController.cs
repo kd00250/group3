@@ -26,17 +26,19 @@ public class PatientEditController
         {
             throw new ArgumentException("Please fill in first name, last name, and gender.");
         }
-        if (Regex.Match(firstName, @"\d").Success || Regex.Match(lastName, @"\d").Success || Regex.Match(gender, @"\d").Success)
+        if (!Regex.Match(firstName, @"^\p{L}[\p{L}\p{M} '’\-\.]*$").Success || !Regex.Match(lastName, @"^\p{L}[\p{L}\p{M} '’\-\.]*$").Success)
         {
-            throw new ArgumentException("First name, last name, and gender cannot contain numbers.");
+            throw new ArgumentException("First name, last name, can only contain letters, spaces, and the following characters: '’-.");
         }
-
         if (string.IsNullOrWhiteSpace(streetAddress)) {
             streetAddress = null;
         }
         if (string.IsNullOrWhiteSpace(city))
         {
             city = null;
+        } else if (!Regex.Match(city, @"^\p{L}[\p{L}\p{M} '’\-\.]*$").Success)
+        {
+            throw new ArgumentException("City can only contain letters, spaces, and the following characters: '’-.");
         }
         if (string.IsNullOrWhiteSpace(state))
         {
@@ -48,9 +50,9 @@ public class PatientEditController
         if (string.IsNullOrWhiteSpace(zipCode))
         {
             zipCode = null;
-        } else if (!Regex.Match(zipCode, @"^\d{5}$").Success)
+        } else if (!Regex.Match(zipCode, @"^\d{5}$").Success && !Regex.Match(zipCode, @"^\d{5}-\d{4}$").Success)
         {
-            throw new ArgumentException("Zip code must be in the format XXXXX. " +
+            throw new ArgumentException("Zip code must be in the format XXXXX or XXXXX-XXXX. " +
                 "If you want this field to be optional, please leave it blank.");
         }
         if (string.IsNullOrWhiteSpace(phoneNumber))
