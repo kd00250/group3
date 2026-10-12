@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using HealthcareSystem.Controller;
+﻿using HealthcareSystem.Controller;
 using HealthcareSystem.Model;
 using MySqlConnector;
-using Mysqlx;
 
 namespace HealthcareSystem.View
 {
