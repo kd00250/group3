@@ -175,7 +175,7 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(74, 911);
+            label10.Location = new Point(74, 904);
             label10.Name = "label10";
             label10.Size = new Size(108, 20);
             label10.TabIndex = 10;
@@ -184,7 +184,7 @@
             // refreshButton
             // 
             refreshButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            refreshButton.Location = new Point(870, 1055);
+            refreshButton.Location = new Point(870, 980);
             refreshButton.Name = "refreshButton";
             refreshButton.Size = new Size(125, 40);
             refreshButton.TabIndex = 11;
@@ -195,7 +195,7 @@
             // clearButton
             // 
             clearButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            clearButton.Location = new Point(711, 1055);
+            clearButton.Location = new Point(706, 980);
             clearButton.Name = "clearButton";
             clearButton.Size = new Size(125, 40);
             clearButton.TabIndex = 12;
@@ -206,7 +206,7 @@
             // addNurseButton
             // 
             addNurseButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            addNurseButton.Location = new Point(1041, 1056);
+            addNurseButton.Location = new Point(1041, 980);
             addNurseButton.Name = "addNurseButton";
             addNurseButton.Size = new Size(125, 39);
             addNurseButton.TabIndex = 13;
@@ -217,7 +217,7 @@
             // updateNurseButton
             // 
             updateNurseButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            updateNurseButton.Location = new Point(1201, 1055);
+            updateNurseButton.Location = new Point(1200, 979);
             updateNurseButton.Name = "updateNurseButton";
             updateNurseButton.Size = new Size(125, 40);
             updateNurseButton.TabIndex = 14;
@@ -272,7 +272,7 @@
             // 
             // phoneNumberTextBox
             // 
-            phoneNumberTextBox.Location = new Point(73, 934);
+            phoneNumberTextBox.Location = new Point(74, 927);
             phoneNumberTextBox.Name = "phoneNumberTextBox";
             phoneNumberTextBox.PlaceholderText = "Enter Phone Number";
             phoneNumberTextBox.Size = new Size(200, 27);
@@ -367,7 +367,7 @@
             // 
             phoneNumberErrorLabel.AutoSize = true;
             phoneNumberErrorLabel.ForeColor = Color.Red;
-            phoneNumberErrorLabel.Location = new Point(75, 964);
+            phoneNumberErrorLabel.Location = new Point(75, 957);
             phoneNumberErrorLabel.Name = "phoneNumberErrorLabel";
             phoneNumberErrorLabel.Size = new Size(0, 20);
             phoneNumberErrorLabel.TabIndex = 31;
@@ -415,7 +415,7 @@
             // backButton
             // 
             backButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            backButton.Location = new Point(12, 1056);
+            backButton.Location = new Point(12, 980);
             backButton.Name = "backButton";
             backButton.Size = new Size(125, 40);
             backButton.TabIndex = 36;
@@ -496,7 +496,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1365, 1107);
+            ClientSize = new Size(1365, 1035);
             Controls.Add(passwordErrorLabel);
             Controls.Add(usernameErrorLabel);
             Controls.Add(passwordTextBox);
