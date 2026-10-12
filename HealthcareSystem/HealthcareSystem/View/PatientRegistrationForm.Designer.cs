@@ -218,7 +218,7 @@ namespace HealthcareSystem.View
             // zipTextBox
             // 
             zipTextBox.Location = new Point(275, 250);
-            zipTextBox.MaxLength = 9;
+            zipTextBox.MaxLength = 10;
             zipTextBox.Name = "zipTextBox";
             zipTextBox.Size = new Size(160, 23);
             zipTextBox.TabIndex = 8;
