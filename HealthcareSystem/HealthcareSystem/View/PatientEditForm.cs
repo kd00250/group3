@@ -23,21 +23,40 @@ namespace HealthcareSystem
         public PatientEditForm(Patient SelectedPatient)
         {
             InitializeComponent();
+            this.loggedInUserControl1.RefreshUser();
+            this.firstBox.Text = SelectedPatient.FirstName;
+            this.lastBox.Text = SelectedPatient.LastName;
+            this.genderCombo.SelectedItem = SelectedPatient.Gender;
+            this.dateOfBirthPicker.ShowCheckBox = false; 
+            this.dateOfBirthPicker.Value = SelectedPatient.DateOfBirth;
+            this.streetBox.Text = SelectedPatient.StreetAddress;
+            this.cityBox.Text = SelectedPatient.City;
+            this.stateCombo.SelectedItem = SelectedPatient.State;
+            this.zipBox.Text = SelectedPatient.ZipCode;
+            this.phoneBox.Text = SelectedPatient.PhoneNumber;
             this.SelectedPatient = SelectedPatient;
         }
 
         private void submitButton_Click(object sender, EventArgs e)
         {
+            var firstName = firstBox.Text;
+            var lastName = lastBox.Text;
+            var gender = genderCombo.SelectedItem?.ToString();
+            var dateOfBirth = dateOfBirthPicker.Value;
+            var streetAddress = streetBox.Text;
+            var city = cityBox.Text;
+            var state = stateCombo.SelectedItem?.ToString();
+            var zipCode = zipBox.Text;
+            var phoneNumber = phoneBox.Text;
 
-            var selectedAttribute = attributeCombo.SelectedItem?.ToString();
-            var nextValue = valueBox.Text;
-            if (string.IsNullOrEmpty(selectedAttribute) || string.IsNullOrEmpty(nextValue))
+            if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName) || string.IsNullOrEmpty(gender) || string.IsNullOrEmpty(streetAddress) || string.IsNullOrEmpty(city) || string.IsNullOrEmpty(state) || string.IsNullOrEmpty(zipCode) || string.IsNullOrEmpty(phoneNumber))
             {
-                throw new ArgumentException("Please fill in all fields.");
+                MessageBox.Show("Please fill in all required fields.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
             try
             {
-                PatientEditController.editPatient(SelectedPatient, selectedAttribute, nextValue);
+                PatientEditController.editPatient(SelectedPatient, firstName, lastName, gender, dateOfBirth, streetAddress, city, state, zipCode, phoneNumber);
                 MessageBox.Show("Patient information updated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (ArgumentException ex)
@@ -51,5 +70,6 @@ namespace HealthcareSystem
         {
             Close();
         }
+
     }
 }
