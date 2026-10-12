@@ -20,6 +20,7 @@ namespace HealthcareSystem.View
         {
             this.InitializeComponent();
 
+            this.dateOfBirthPicker.MaxDate = DateTime.Today;
             this.patientController = patientController;
             this.loggedInUserControl1.RefreshUser();
         }
@@ -36,7 +37,7 @@ namespace HealthcareSystem.View
                 DateOfBirth = this.dateOfBirthPicker.Value.Date,
                 StreetAddress = this.streetTextBox.Text,
                 City = this.cityTextBox.Text,
-                State = this.stateTextBox.Text,
+                State = this.stateComboBox.Text,
                 ZipCode = this.zipTextBox.Text,
                 PhoneNumber = this.phoneTextBox.Text,
                 IsActive = this.isActiveCheckbox.Checked
@@ -77,7 +78,7 @@ namespace HealthcareSystem.View
             this.dateOfBirthPicker.Value = DateTime.Today;
             this.streetTextBox.Clear();
             this.cityTextBox.Clear();
-            this.stateTextBox.Clear();
+            this.stateComboBox.SelectedIndex = -1;
             this.zipTextBox.Clear();
             this.phoneTextBox.Clear();
             this.isActiveCheckbox.Checked = false;

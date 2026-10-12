@@ -1,5 +1,6 @@
 ﻿using HealthcareSystem.Model;
 using HealthcareSystem.Model.DAL;
+using System.Text.RegularExpressions;
 
 namespace HealthcareSystem.Controller;
 
@@ -79,8 +80,15 @@ public class PatientController
             throw new ArgumentException("Date of birth cannot be in the future.");
         if (!string.IsNullOrWhiteSpace(patient.ZipCode) && !System.Text.RegularExpressions.Regex.IsMatch(patient.ZipCode.Trim(), @"^\d{5}(-\d{4})?$"))
             throw new ArgumentException("Zip code must be 5 digits (or ZIP+4).");
-        if (!string.IsNullOrWhiteSpace(patient.PhoneNumber) && patient.PhoneNumber.Count(char.IsDigit) < 10)
-            throw new ArgumentException("Phone number must have at least 10 digits.");
+        if (!string.IsNullOrWhiteSpace(patient.PhoneNumber) &&
+            !Regex.IsMatch(patient.PhoneNumber.Trim(), @"^[0-9]{3}-[0-9]{3}-[0-9]{4}$"))
+            throw new ArgumentException("Phone number must be in the format xxx-xxx-xxxx.");
+        if (!Regex.IsMatch(patient.FirstName.Trim(), @"^\p{L}[\p{L}\p{M} '’\-]*$") ||
+            !Regex.IsMatch(patient.LastName.Trim(), @"^\p{L}[\p{L}\p{M} '’\-]*$"))
+            throw new ArgumentException("Names may only contain letters, spaces, hyphens, and apostrophes.");
+        if (!string.IsNullOrWhiteSpace(patient.City) &&
+            !Regex.IsMatch(patient.City.Trim(), @"^\p{L}[\p{L}\p{M} '’\-\.]*$"))
+            throw new ArgumentException("City may only contain letters, spaces, periods, hyphens, and apostrophes.");
 
         patient.FirstName = patient.FirstName.Trim();
         patient.LastName = patient.LastName.Trim();
