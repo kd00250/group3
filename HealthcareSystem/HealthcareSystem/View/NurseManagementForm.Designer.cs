@@ -77,6 +77,7 @@
             // 
             // nurseDataGridView
             // 
+            nurseDataGridView.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             nurseDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             nurseDataGridView.Location = new Point(12, 175);
             nurseDataGridView.Name = "nurseDataGridView";
@@ -106,6 +107,7 @@
             // 
             // label3
             // 
+            label3.Anchor = AnchorStyles.Top;
             label3.AutoSize = true;
             label3.Location = new Point(540, 593);
             label3.Name = "label3";
@@ -124,6 +126,7 @@
             // 
             // label5
             // 
+            label5.Anchor = AnchorStyles.Top;
             label5.AutoSize = true;
             label5.Location = new Point(540, 679);
             label5.Name = "label5";
@@ -142,6 +145,7 @@
             // 
             // label7
             // 
+            label7.Anchor = AnchorStyles.Top;
             label7.AutoSize = true;
             label7.Location = new Point(540, 757);
             label7.Name = "label7";
@@ -160,6 +164,7 @@
             // 
             // label9
             // 
+            label9.Anchor = AnchorStyles.Top;
             label9.AutoSize = true;
             label9.Location = new Point(540, 833);
             label9.Name = "label9";
@@ -178,6 +183,7 @@
             // 
             // refreshButton
             // 
+            refreshButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             refreshButton.Location = new Point(870, 1055);
             refreshButton.Name = "refreshButton";
             refreshButton.Size = new Size(125, 40);
@@ -188,6 +194,7 @@
             // 
             // clearButton
             // 
+            clearButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             clearButton.Location = new Point(711, 1055);
             clearButton.Name = "clearButton";
             clearButton.Size = new Size(125, 40);
@@ -198,6 +205,7 @@
             // 
             // addNurseButton
             // 
+            addNurseButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             addNurseButton.Location = new Point(1041, 1056);
             addNurseButton.Name = "addNurseButton";
             addNurseButton.Size = new Size(125, 39);
@@ -208,6 +216,7 @@
             // 
             // updateNurseButton
             // 
+            updateNurseButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             updateNurseButton.Location = new Point(1201, 1055);
             updateNurseButton.Name = "updateNurseButton";
             updateNurseButton.Size = new Size(125, 40);
@@ -218,6 +227,7 @@
             // 
             // label11
             // 
+            label11.Anchor = AnchorStyles.Top;
             label11.AutoSize = true;
             label11.Font = new Font("Segoe UI", 16F);
             label11.Location = new Point(540, 24);
@@ -236,6 +246,7 @@
             // 
             // lastNameTextBox
             // 
+            lastNameTextBox.Anchor = AnchorStyles.Top;
             lastNameTextBox.Location = new Point(540, 616);
             lastNameTextBox.Name = "lastNameTextBox";
             lastNameTextBox.PlaceholderText = "Enter Last Name";
@@ -252,6 +263,7 @@
             // 
             // cityTextBox
             // 
+            cityTextBox.Anchor = AnchorStyles.Top;
             cityTextBox.Location = new Point(540, 780);
             cityTextBox.Name = "cityTextBox";
             cityTextBox.PlaceholderText = "ex: Atlanta";
@@ -268,6 +280,7 @@
             // 
             // zipCodeTextBox
             // 
+            zipCodeTextBox.Anchor = AnchorStyles.Top;
             zipCodeTextBox.Location = new Point(540, 856);
             zipCodeTextBox.Name = "zipCodeTextBox";
             zipCodeTextBox.Size = new Size(200, 27);
@@ -275,6 +288,7 @@
             // 
             // genderComboBox
             // 
+            genderComboBox.Anchor = AnchorStyles.Top;
             genderComboBox.FormattingEnabled = true;
             genderComboBox.Location = new Point(540, 702);
             genderComboBox.Name = "genderComboBox";
@@ -360,6 +374,7 @@
             // 
             // lastNameErrorLabel
             // 
+            lastNameErrorLabel.Anchor = AnchorStyles.Top;
             lastNameErrorLabel.AutoSize = true;
             lastNameErrorLabel.ForeColor = Color.Red;
             lastNameErrorLabel.Location = new Point(540, 646);
@@ -369,6 +384,7 @@
             // 
             // genderErrorLabel
             // 
+            genderErrorLabel.Anchor = AnchorStyles.Top;
             genderErrorLabel.AutoSize = true;
             genderErrorLabel.ForeColor = Color.Red;
             genderErrorLabel.Location = new Point(540, 730);
@@ -378,6 +394,7 @@
             // 
             // cityErrorLabel
             // 
+            cityErrorLabel.Anchor = AnchorStyles.Top;
             cityErrorLabel.AutoSize = true;
             cityErrorLabel.ForeColor = Color.Red;
             cityErrorLabel.Location = new Point(540, 809);
@@ -387,6 +404,7 @@
             // 
             // zipCodeErrorLabel
             // 
+            zipCodeErrorLabel.Anchor = AnchorStyles.Top;
             zipCodeErrorLabel.AutoSize = true;
             zipCodeErrorLabel.ForeColor = Color.Red;
             zipCodeErrorLabel.Location = new Point(540, 884);
@@ -396,6 +414,7 @@
             // 
             // backButton
             // 
+            backButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             backButton.Location = new Point(12, 1056);
             backButton.Name = "backButton";
             backButton.Size = new Size(125, 40);
@@ -406,6 +425,7 @@
             // 
             // label13
             // 
+            label13.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label13.AutoSize = true;
             label13.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label13.Location = new Point(854, 550);
@@ -416,6 +436,7 @@
             // 
             // label14
             // 
+            label14.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label14.AutoSize = true;
             label14.Location = new Point(884, 593);
             label14.Name = "label14";
@@ -425,6 +446,7 @@
             // 
             // label15
             // 
+            label15.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label15.AutoSize = true;
             label15.Location = new Point(884, 679);
             label15.Name = "label15";
@@ -434,6 +456,7 @@
             // 
             // usernameTextBox
             // 
+            usernameTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             usernameTextBox.Location = new Point(884, 616);
             usernameTextBox.Name = "usernameTextBox";
             usernameTextBox.PlaceholderText = "Enter a username";
@@ -442,6 +465,7 @@
             // 
             // passwordTextBox
             // 
+            passwordTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             passwordTextBox.Location = new Point(884, 703);
             passwordTextBox.Name = "passwordTextBox";
             passwordTextBox.PlaceholderText = "Enter a password";
@@ -450,6 +474,7 @@
             // 
             // usernameErrorLabel
             // 
+            usernameErrorLabel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             usernameErrorLabel.AutoSize = true;
             usernameErrorLabel.ForeColor = Color.Red;
             usernameErrorLabel.Location = new Point(886, 646);
@@ -459,6 +484,7 @@
             // 
             // passwordErrorLabel
             // 
+            passwordErrorLabel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             passwordErrorLabel.AutoSize = true;
             passwordErrorLabel.ForeColor = Color.Red;
             passwordErrorLabel.Location = new Point(885, 730);
