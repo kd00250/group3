@@ -13,7 +13,7 @@ public partial class NurseManagementForm : Form
     private const int MaxNameAndCityLength = 50;
     private const int MaxAddressLength = 100;
     private const int NothingSelectedIndex = -1;
-    private const int MaxZipCodeLength = 6;
+    private const int MaxZipCodeLength = 5;
     private const int MaxPasswordLength = 255;
 
     private readonly NurseController nurseController;
@@ -81,7 +81,7 @@ public partial class NurseManagementForm : Form
 
     private bool usernameValidation()
     {
-        string username = this.usernameTextBox.Text.Trim();
+        var username = this.usernameTextBox.Text;
 
         if (string.IsNullOrWhiteSpace(username))
         {
@@ -102,7 +102,7 @@ public partial class NurseManagementForm : Form
 
     private bool passwordValidation()
     {
-        string password = this.passwordTextBox.Text;
+        var password = this.passwordTextBox.Text;
 
         if (string.IsNullOrWhiteSpace(password))
         {
@@ -424,9 +424,9 @@ public partial class NurseManagementForm : Form
             this.zipCodeErrorLabel.Visible = true;
             isValid = false;
         }
-        else if (!Regex.IsMatch(zipCode, @"^[0-9]{6}$"))
+        else if (!Regex.IsMatch(zipCode, @"^[0-9]{5}$"))
         {
-            this.zipCodeErrorLabel.Text = "ZIP code must contain exactly 6 digits.";
+            this.zipCodeErrorLabel.Text = "ZIP code must contain exactly 5 digits.";
             this.zipCodeErrorLabel.Visible = true;
             isValid = false;
         }
@@ -481,6 +481,12 @@ public partial class NurseManagementForm : Form
         if (string.IsNullOrWhiteSpace(this.streetAddressTextBox.Text))
         {
             this.streetAddressErrorLabel.Text = "Street address is required.";
+            this.streetAddressErrorLabel.Visible = true;
+            isValid = false;
+        }
+        else if (!Regex.IsMatch(this.streetAddressTextBox.Text.Trim(), @"^[a-zA-Z0-9 ]+$"))
+        {
+            this.streetAddressErrorLabel.Text = "Street address can only contain letters, numbers, and spaces.";
             this.streetAddressErrorLabel.Visible = true;
             isValid = false;
         }
