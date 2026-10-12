@@ -1,4 +1,5 @@
-﻿using HealthcareSystem.Model;
+﻿using System.Text.RegularExpressions;
+using HealthcareSystem.Model;
 using HealthcareSystem.Model.DAL;
 
 namespace HealthcareSystem.Controller;
@@ -54,20 +55,20 @@ public class NurseController
         return this.nurseDal.GetAllNurses();
     }
 
-    /// <summary>
-    ///     Retrieves a nurse by their nurse ID.
-    /// </summary>
-    public Nurse? GetNurseById(int nurseId)
-    {
-        this.ensureAdministrator();
+    ///// <summary>
+    /////     Retrieves a nurse by their nurse ID.
+    ///// </summary>
+    //public Nurse? GetNurseById(int nurseId)
+    //{
+    //    this.ensureAdministrator();
 
-        if (nurseId <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(nurseId));
-        }
+    //    if (nurseId <= 0)
+    //    {
+    //        throw new ArgumentOutOfRangeException(nameof(nurseId));
+    //    }
 
-        return this.nurseDal.GetNurseById(nurseId);
-    }
+    //    return this.nurseDal.GetNurseById(nurseId);
+    //}
 
     /// <summary>
     /// Updates an existing nurse.
@@ -107,12 +108,28 @@ public class NurseController
         this.validateStringField(nurse.StreetAddress, "Street address", MaxStreetAddressLength);
         this.validateStringField(nurse.City, "City", MaxNameLength);
         this.validateStringField(nurse.State, "State", MaxNameLength);
-        this.validateStringField(nurse.ZipCode, "Zip code", MaxZipCodeAndGenderLength);
         this.validateStringField(nurse.PhoneNumber, "Phone number", MaxPhoneNumberLength);
+
+        this.validateZipCode(nurse.ZipCode);
 
         if (nurse.DateOfBirth == default || nurse.DateOfBirth.Date > DateTime.Today)
         {
             throw new ArgumentException("A valid date of birth is required.");
+        }
+    }
+
+    private void validateZipCode(string? zipCode)
+    {
+        this.validateStringField(zipCode, "Zip code", MaxZipCodeAndGenderLength);
+
+        if (string.IsNullOrWhiteSpace(zipCode))
+        {
+            throw new ArgumentException("Zip code is required.");
+        }
+
+        if (!Regex.IsMatch(zipCode, @"^[0-9]{5}(-[0-9]{4})?$"))
+        {
+            throw new ArgumentException("ZIP code must be ##### or #####-####.");
         }
     }
 

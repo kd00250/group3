@@ -13,7 +13,7 @@ public partial class NurseManagementForm : Form
     private const int MaxNameAndCityLength = 50;
     private const int MaxAddressLength = 100;
     private const int NothingSelectedIndex = -1;
-    private const int MaxZipCodeLength = 5;
+    private const int MaxZipCodeLength = 10;
     private const int MaxPasswordLength = 255;
 
     private readonly NurseController nurseController;
@@ -424,9 +424,9 @@ public partial class NurseManagementForm : Form
             this.zipCodeErrorLabel.Visible = true;
             isValid = false;
         }
-        else if (!Regex.IsMatch(zipCode, @"^[0-9]{5}$"))
+        else if (!Regex.IsMatch(zipCode, @"^[0-9]{5}(-[0-9]{4})?$"))
         {
-            this.zipCodeErrorLabel.Text = "ZIP code must contain exactly 5 digits.";
+            this.zipCodeErrorLabel.Text = "ZIP code must be ##### or #####-####.";
             this.zipCodeErrorLabel.Visible = true;
             isValid = false;
         }
