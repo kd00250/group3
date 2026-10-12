@@ -19,32 +19,54 @@ public class PatientEditController
     /// <param name="state">The new state for the patient.</param>
     /// <param name="zipCode">The new zip code for the patient.</param>
     /// <param name="phoneNumber">The new phone number for the patient.</param>
-    public static void editPatient(Patient patient, String firstName, String lastName, String gender, DateTime dateOfBirth, String streetAddress, String city, String state, String zipCode, String phoneNumber)
+    /// <param name="isActive">The new active status for the patient.</param>
+    public static void editPatient(Patient patient, String firstName, String lastName, String gender, DateTime dateOfBirth, String? streetAddress, String? city, String? state, String? zipCode, String? phoneNumber, bool isActive)
     {
-        if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName) || string.IsNullOrEmpty(gender) || string.IsNullOrEmpty(streetAddress) || string.IsNullOrEmpty(city) || string.IsNullOrEmpty(state) || string.IsNullOrEmpty(zipCode) || string.IsNullOrEmpty(phoneNumber))
+        if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName) || string.IsNullOrWhiteSpace(gender))
         {
-            throw new ArgumentException("Please fill in all fields.");
+            throw new ArgumentException("Please fill in first name, last name, and gender.");
+        }
+        if (Regex.Match(firstName, @"\d").Success || Regex.Match(lastName, @"\d").Success || Regex.Match(gender, @"\d").Success)
+        {
+            throw new ArgumentException("First name, last name, and gender cannot contain numbers.");
+        }
+
+        if (string.IsNullOrWhiteSpace(streetAddress)) {
+            streetAddress = null;
+        }
+        if (string.IsNullOrWhiteSpace(city))
+        {
+            city = null;
+        }
+        if (string.IsNullOrWhiteSpace(state))
+        {
+            state = null;
+        } else if (!Regex.Match(state, @"^[A-Z]{2}$").Success)
+        {
+            state = null;
+        }
+        if (string.IsNullOrWhiteSpace(zipCode))
+        {
+            zipCode = null;
+        } else if (!Regex.Match(zipCode, @"^\d{5}$").Success)
+        {
+            zipCode = null;
+        }
+        if (string.IsNullOrWhiteSpace(phoneNumber))
+        {
+            phoneNumber = null;
+        } else if (!Regex.Match(phoneNumber, @"^\d{3}-\d{3}-\d{4}$").Success)
+        {
+            phoneNumber = null;
         }
 
         if (dateOfBirth > DateTime.Now)
         {
             throw new ArgumentException("Date of birth cannot be in the future.");
         }
-        if (!Regex.Match(phoneNumber, @"^\d{3}-\d{3}-\d{4}$").Success)
-        {
-            throw new ArgumentException("Invalid phone number format.");
-        }
-        if (!Regex.Match(zipCode, @"^\d{5}$").Success)
-        {
-            throw new ArgumentException("Invalid zip code format.");
-        }
         if (gender != "Male" && gender != "Female" && gender != "Other")
         {
             throw new ArgumentException("Invalid gender. Please select Male, Female, or Other.");
-        }
-        if (!Regex.Match(state, @"^[A-Z]{2}$").Success)
-        {
-            throw new ArgumentException("Invalid state format. Please enter a valid two-letter state abbreviation.");
         }
         patient.FirstName = firstName;
         patient.LastName = lastName;
@@ -54,6 +76,7 @@ public class PatientEditController
         patient.State = state;
         patient.ZipCode = zipCode;
         patient.PhoneNumber = phoneNumber;
+        patient.IsActive = isActive;
         PatientDal.editPatient(patient);
     }
 }

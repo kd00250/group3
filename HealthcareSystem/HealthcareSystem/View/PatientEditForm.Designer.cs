@@ -49,6 +49,8 @@
             genderCombo = new ComboBox();
             stateCombo = new ComboBox();
             loggedInUserControl1 = new HealthcareSystem.View.LoggedInUserControl();
+            activeCheck = new CheckBox();
+            activeLabel = new Label();
             SuspendLayout();
             // 
             // submitButton
@@ -233,11 +235,31 @@
             loggedInUserControl1.Size = new Size(216, 91);
             loggedInUserControl1.TabIndex = 26;
             // 
+            // activeCheck
+            // 
+            activeCheck.AutoSize = true;
+            activeCheck.Location = new Point(250, 389);
+            activeCheck.Name = "activeCheck";
+            activeCheck.Size = new Size(18, 17);
+            activeCheck.TabIndex = 27;
+            activeCheck.UseVisualStyleBackColor = true;
+            // 
+            // activeLabel
+            // 
+            activeLabel.AutoSize = true;
+            activeLabel.Location = new Point(85, 386);
+            activeLabel.Name = "activeLabel";
+            activeLabel.Size = new Size(116, 20);
+            activeLabel.TabIndex = 28;
+            activeLabel.Text = "Is patient active:";
+            // 
             // PatientEditForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(401, 470);
+            Controls.Add(activeLabel);
+            Controls.Add(activeCheck);
             Controls.Add(loggedInUserControl1);
             Controls.Add(stateCombo);
             Controls.Add(genderCombo);
@@ -287,5 +309,7 @@
         private ComboBox genderCombo;
         private ComboBox stateCombo;
         private View.LoggedInUserControl loggedInUserControl1;
+        private CheckBox activeCheck;
+        private Label activeLabel;
     }
 }

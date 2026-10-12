@@ -86,7 +86,7 @@ public class PatientDal
     public static void editPatient(Patient patient) {
         using var connection = new MySqlConnection(Connection.ConnectionString());
         connection.Open();
-        const string query = """
+        const string personQuery = """
                              UPDATE person
                              SET first_name = @firstName,
                                  last_name = @lastName,
@@ -99,8 +99,13 @@ public class PatientDal
                                  phone_number = @phoneNumber
                              WHERE person_id = @personId;
                              """;
-        
-        using var command = new MySqlCommand(query, connection);
+        const string patientQuery = """
+                             UPDATE patient
+                             SET is_active = @isActive
+                             WHERE person_id = @personId;
+                             """;
+
+        using var command = new MySqlCommand(personQuery, connection);
 
         command.Parameters.Add("@firstName", MySqlDbType.VarChar);
         command.Parameters["@firstName"].Value = string.IsNullOrWhiteSpace(patient.FirstName) ? DBNull.Value : patient.FirstName.Trim();
@@ -133,6 +138,15 @@ public class PatientDal
         command.Parameters["@personId"].Value = patient.PersonId;
 
         command.ExecuteNonQuery();
+
+        using var patientCommand = new MySqlCommand(patientQuery, connection);
+        patientCommand.Parameters.Add("@isActive", MySqlDbType.Bool);
+        patientCommand.Parameters["@isActive"].Value = patient.IsActive;
+
+        patientCommand.Parameters.Add("@personId", MySqlDbType.Int32);
+        patientCommand.Parameters["@personId"].Value = patient.PersonId;
+
+        patientCommand.ExecuteNonQuery();
     }
 
 }

@@ -34,6 +34,7 @@ namespace HealthcareSystem
             this.stateCombo.SelectedItem = SelectedPatient.State;
             this.zipBox.Text = SelectedPatient.ZipCode;
             this.phoneBox.Text = SelectedPatient.PhoneNumber;
+            this.activeCheck.Checked = SelectedPatient.IsActive;
             this.SelectedPatient = SelectedPatient;
         }
 
@@ -48,15 +49,16 @@ namespace HealthcareSystem
             var state = stateCombo.SelectedItem?.ToString();
             var zipCode = zipBox.Text;
             var phoneNumber = phoneBox.Text;
+            var isActive = activeCheck.Checked;
 
-            if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName) || string.IsNullOrEmpty(gender) || string.IsNullOrEmpty(streetAddress) || string.IsNullOrEmpty(city) || string.IsNullOrEmpty(state) || string.IsNullOrEmpty(zipCode) || string.IsNullOrEmpty(phoneNumber))
+            if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName) || string.IsNullOrWhiteSpace(gender))
             {
-                MessageBox.Show("Please fill in all required fields.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please fill in first name, last name, and gender.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             try
             {
-                PatientEditController.editPatient(SelectedPatient, firstName, lastName, gender, dateOfBirth, streetAddress, city, state, zipCode, phoneNumber);
+                PatientEditController.editPatient(SelectedPatient, firstName, lastName, gender, dateOfBirth, streetAddress, city, state, zipCode, phoneNumber, isActive);
                 MessageBox.Show("Patient information updated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (ArgumentException ex)
