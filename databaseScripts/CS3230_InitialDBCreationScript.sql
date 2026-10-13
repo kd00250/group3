@@ -130,7 +130,14 @@ CREATE TABLE `appointment` (
         references `doctor`(doctor_id),
         
 	constraint uq_appointment_doctor_id_appointment_date_appointment_time
-		unique (doctor_id, appointment_date, appointment_time)
+		unique (doctor_id, appointment_date, appointment_time),
+        
+	constraint chk_appointment_appointment_time 
+		check (
+			appointment_time between '08:00:00' and '16:45:00'
+            and minute(appointment_time) % 15 = 0
+            and second(appointment_time) = 0
+		)
 );
 
 CREATE TABLE `visit` (
