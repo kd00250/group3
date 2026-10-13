@@ -68,7 +68,7 @@ public partial class NurseManagementForm : Form
     {
         this.genderComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
         this.genderComboBox.Items.Clear();
-        this.genderComboBox.Items.AddRange("Male", "Female");
+        this.genderComboBox.Items.AddRange("Male", "Female", "Other");
     }
 
     private NurseCredentials getCredentialsFromFields()
