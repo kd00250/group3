@@ -1,5 +1,5 @@
 ﻿using HealthcareSystem.Controller;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 
 namespace HealthcareSystem.View
 {
