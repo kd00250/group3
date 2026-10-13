@@ -118,4 +118,74 @@ public class PatientDal
         return patientId;
     }
 
+    /// <summary>
+    /// Edits the patient.
+    /// </summary>
+    /// <param name="patient">The patient to be edited.</param>
+    public static void editPatient(Patient patient) {
+        using var connection = new MySqlConnection(Connection.ConnectionString());
+        connection.Open();
+        const string personQuery = """
+                             UPDATE person
+                             SET first_name = @firstName,
+                                 last_name = @lastName,
+                                 gender = @gender,
+                                 date_of_birth = @dateOfBirth,
+                                 street_address = @streetAddress,
+                                 city = @city,
+                                 state = @state,
+                                 zip_code = @zipCode,
+                                 phone_number = @phoneNumber
+                             WHERE person_id = @personId;
+                             """;
+        const string patientQuery = """
+                             UPDATE patient
+                             SET is_active = @isActive
+                             WHERE person_id = @personId;
+                             """;
+
+        using var command = new MySqlCommand(personQuery, connection);
+
+        command.Parameters.Add("@firstName", MySqlDbType.VarChar);
+        command.Parameters["@firstName"].Value = string.IsNullOrWhiteSpace(patient.FirstName) ? DBNull.Value : patient.FirstName.Trim();
+
+        command.Parameters.Add("@lastName", MySqlDbType.VarChar);
+        command.Parameters["@lastName"].Value = string.IsNullOrWhiteSpace(patient.LastName) ? DBNull.Value : patient.LastName.Trim();
+
+        command.Parameters.Add("@gender", MySqlDbType.VarChar);
+        command.Parameters["@gender"].Value = string.IsNullOrWhiteSpace(patient.Gender) ? DBNull.Value : patient.Gender.Trim();
+
+        command.Parameters.Add("@dateOfBirth", MySqlDbType.DateTime);
+        command.Parameters["@dateOfBirth"].Value = patient.DateOfBirth;
+
+        command.Parameters.Add("@streetAddress", MySqlDbType.VarChar);
+        command.Parameters["@streetAddress"].Value = string.IsNullOrWhiteSpace(patient.StreetAddress) ? DBNull.Value : patient.StreetAddress.Trim();
+
+        command.Parameters.Add("@city", MySqlDbType.VarChar);
+        command.Parameters["@city"].Value = string.IsNullOrWhiteSpace(patient.City) ? DBNull.Value : patient.City.Trim();
+
+        command.Parameters.Add("@state", MySqlDbType.VarChar);
+        command.Parameters["@state"].Value = string.IsNullOrWhiteSpace(patient.State) ? DBNull.Value : patient.State.Trim();
+
+        command.Parameters.Add("@zipCode", MySqlDbType.VarChar);
+        command.Parameters["@zipCode"].Value = string.IsNullOrWhiteSpace(patient.ZipCode) ? DBNull.Value : patient.ZipCode.Trim();
+
+        command.Parameters.Add("@phoneNumber", MySqlDbType.VarChar);
+        command.Parameters["@phoneNumber"].Value = string.IsNullOrWhiteSpace(patient.PhoneNumber) ? DBNull.Value : patient.PhoneNumber.Trim();
+
+        command.Parameters.Add("@personId", MySqlDbType.Int32);
+        command.Parameters["@personId"].Value = patient.PersonId;
+
+        command.ExecuteNonQuery();
+
+        using var patientCommand = new MySqlCommand(patientQuery, connection);
+        patientCommand.Parameters.Add("@isActive", MySqlDbType.Bool);
+        patientCommand.Parameters["@isActive"].Value = patient.IsActive;
+
+        patientCommand.Parameters.Add("@personId", MySqlDbType.Int32);
+        patientCommand.Parameters["@personId"].Value = patient.PersonId;
+
+        patientCommand.ExecuteNonQuery();
+    }
+
 }
