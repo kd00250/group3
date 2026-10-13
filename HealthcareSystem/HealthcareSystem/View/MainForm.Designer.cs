@@ -84,14 +84,14 @@
             findPatientButton.Text = "Find Existing Patient";
             findPatientButton.UseVisualStyleBackColor = true;
             findPatientButton.Click += findPatientButton_Click;
-            //
+            // 
             // registerPatientButton
-            //
+            // 
             registerPatientButton.Font = new Font("Segoe UI Semibold", 9F);
-            registerPatientButton.Location = new Point(204, 175);
+            registerPatientButton.Location = new Point(233, 241);
             registerPatientButton.Margin = new Padding(3, 2, 3, 2);
             registerPatientButton.Name = "registerPatientButton";
-            registerPatientButton.Size = new Size(152, 34);
+            registerPatientButton.Size = new Size(174, 34);
             registerPatientButton.TabIndex = 5;
             registerPatientButton.Text = "Register New Patient";
             registerPatientButton.UseVisualStyleBackColor = true;

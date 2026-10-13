@@ -77,6 +77,8 @@ namespace HealthcareSystem.View
             {
                 this.Show();
             }
+        }
+
         private void registerPatientButton_Click(object sender, EventArgs e)
         {
             using var registrationForm = new PatientRegistrationForm(new PatientController(new PatientDal()));
