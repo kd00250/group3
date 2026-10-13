@@ -33,6 +33,7 @@
             manageNursesButton = new Button();
             loggedInUserControl1 = new LoggedInUserControl();
             findPatientButton = new Button();
+            registerPatientButton = new Button();
             SuspendLayout();
             // 
             // logoutButton
@@ -83,6 +84,18 @@
             findPatientButton.Text = "Find Existing Patient";
             findPatientButton.UseVisualStyleBackColor = true;
             findPatientButton.Click += findPatientButton_Click;
+            //
+            // registerPatientButton
+            //
+            registerPatientButton.Font = new Font("Segoe UI Semibold", 9F);
+            registerPatientButton.Location = new Point(204, 175);
+            registerPatientButton.Margin = new Padding(3, 2, 3, 2);
+            registerPatientButton.Name = "registerPatientButton";
+            registerPatientButton.Size = new Size(152, 34);
+            registerPatientButton.TabIndex = 5;
+            registerPatientButton.Text = "Register New Patient";
+            registerPatientButton.UseVisualStyleBackColor = true;
+            registerPatientButton.Click += registerPatientButton_Click;
             // 
             // MainForm
             // 
@@ -90,6 +103,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(681, 480);
             Controls.Add(findPatientButton);
+            Controls.Add(registerPatientButton);
             Controls.Add(loggedInUserControl1);
             Controls.Add(manageNursesButton);
             Controls.Add(label1);
@@ -107,5 +121,6 @@
         private Button manageNursesButton;
         private LoggedInUserControl loggedInUserControl1;
         private Button findPatientButton;
+        private Button registerPatientButton;
     }
 }

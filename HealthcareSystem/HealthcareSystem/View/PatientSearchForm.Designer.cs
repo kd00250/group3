@@ -139,16 +139,17 @@
             resultsGridView.Name = "resultsGridView";
             resultsGridView.ReadOnly = true;
             resultsGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            resultsGridView.Size = new Size(745, 263);
+            resultsGridView.Size = new Size(747, 264);
             resultsGridView.TabIndex = 9;
             resultsGridView.CellDoubleClick += resultsGridView_CellDoubleClick;
             resultsGridView.SelectionChanged += resultsGridView_SelectionChanged;
             // 
             // errorLabel
             // 
+            errorLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             errorLabel.AutoSize = true;
             errorLabel.ForeColor = Color.Red;
-            errorLabel.Location = new Point(178, 426);
+            errorLabel.Location = new Point(178, 427);
             errorLabel.Name = "errorLabel";
             errorLabel.Size = new Size(0, 15);
             errorLabel.TabIndex = 10;
@@ -163,8 +164,9 @@
             // 
             // selectButton
             // 
+            selectButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             selectButton.Enabled = false;
-            selectButton.Location = new Point(845, 426);
+            selectButton.Location = new Point(847, 427);
             selectButton.Name = "selectButton";
             selectButton.Size = new Size(75, 23);
             selectButton.TabIndex = 12;
@@ -183,7 +185,8 @@
             // 
             // backButton
             // 
-            backButton.Location = new Point(-1, 426);
+            backButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            backButton.Location = new Point(-1, 427);
             backButton.Name = "backButton";
             backButton.Size = new Size(75, 23);
             backButton.TabIndex = 14;
@@ -197,7 +200,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = backButton;
-            ClientSize = new Size(932, 450);
+            ClientSize = new Size(934, 451);
             Controls.Add(backButton);
             Controls.Add(label4);
             Controls.Add(selectButton);
@@ -213,6 +216,7 @@
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(loggedInUserControl1);
+            MinimumSize = new Size(950, 490);
             Name = "PatientSearchForm";
             Text = "Healthcare System - Patient Search";
             ((System.ComponentModel.ISupportInitialize)resultsGridView).EndInit();

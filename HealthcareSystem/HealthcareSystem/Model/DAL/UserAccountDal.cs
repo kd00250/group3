@@ -14,8 +14,8 @@ public class UserAccountDal
                              FROM user_account ua
                              INNER JOIN person p 
                                 ON ua.person_id = p.person_id
-                             WHERE ua.username = @username
-                             AND ua.password = @password;
+                             WHERE BINARY ua.username = @username
+                             AND BINARY ua.password = @password;
                              """;
         using var command = new MySqlCommand(query, connection);
         command.Parameters.AddWithValue("@username", username);

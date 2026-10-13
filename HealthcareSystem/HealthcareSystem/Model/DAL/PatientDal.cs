@@ -78,5 +78,114 @@ public class PatientDal
             PhoneNumber = reader.GetFieldValueCheckNull<string?>(reader.GetOrdinal("phone_number"))
         };
     }
+    /// <summary>
+    /// Adds a new patient to the database and returns the new patient id.
+    /// </summary>
+    /// <param name="patient">The patient to add.</param>
+    /// <returns>The id of the newly added patient.</returns>
+    public int Add(Patient patient)
+    {
+        const string personQuery = """
+                                   INSERT INTO person (first_name, last_name, gender, date_of_birth, street_address, city, state, zip_code, phone_number)
+                                   VALUES (@firstName, @lastName, @gender, @dateOfBirth, @street, @city, @state, @zip, @phone);
+                                   """;
+        const string patientQuery = "INSERT INTO patient (person_id, is_active) VALUES (@personId, @isActive);";
+
+        using var connection = new MySqlConnection(Connection.ConnectionString());
+        connection.Open();
+        using var transaction = connection.BeginTransaction();
+
+        using var personCommand = new MySqlCommand(personQuery, connection, transaction);
+        personCommand.Parameters.AddWithValue("@firstName", patient.FirstName);
+        personCommand.Parameters.AddWithValue("@lastName", patient.LastName);
+        personCommand.Parameters.AddWithValue("@gender", patient.Gender);
+        personCommand.Parameters.AddWithValue("@dateOfBirth", patient.DateOfBirth.Date);
+        personCommand.Parameters.AddWithValue("@street", (object?)patient.StreetAddress ?? DBNull.Value);
+        personCommand.Parameters.AddWithValue("@city", (object?)patient.City ?? DBNull.Value);
+        personCommand.Parameters.AddWithValue("@state", (object?)patient.State ?? DBNull.Value);
+        personCommand.Parameters.AddWithValue("@zip", (object?)patient.ZipCode ?? DBNull.Value);
+        personCommand.Parameters.AddWithValue("@phone", (object?)patient.PhoneNumber ?? DBNull.Value);
+        personCommand.ExecuteNonQuery();
+        var personId = (int)personCommand.LastInsertedId;
+
+        using var patientCommand = new MySqlCommand(patientQuery, connection, transaction);
+        patientCommand.Parameters.AddWithValue("@personId", personId);
+        patientCommand.Parameters.AddWithValue("@isActive", patient.IsActive);
+        patientCommand.ExecuteNonQuery();
+        var patientId = (int)patientCommand.LastInsertedId;
+
+        transaction.Commit();
+        return patientId;
+    }
+
+    /// <summary>
+    /// Edits the patient.
+    /// </summary>
+    /// <param name="patient">The patient to be edited.</param>
+    public static void editPatient(Patient patient) {
+        using var connection = new MySqlConnection(Connection.ConnectionString());
+        connection.Open();
+        const string personQuery = """
+                             UPDATE person
+                             SET first_name = @firstName,
+                                 last_name = @lastName,
+                                 gender = @gender,
+                                 date_of_birth = @dateOfBirth,
+                                 street_address = @streetAddress,
+                                 city = @city,
+                                 state = @state,
+                                 zip_code = @zipCode,
+                                 phone_number = @phoneNumber
+                             WHERE person_id = @personId;
+                             """;
+        const string patientQuery = """
+                             UPDATE patient
+                             SET is_active = @isActive
+                             WHERE person_id = @personId;
+                             """;
+
+        using var command = new MySqlCommand(personQuery, connection);
+
+        command.Parameters.Add("@firstName", MySqlDbType.VarChar);
+        command.Parameters["@firstName"].Value = string.IsNullOrWhiteSpace(patient.FirstName) ? DBNull.Value : patient.FirstName.Trim();
+
+        command.Parameters.Add("@lastName", MySqlDbType.VarChar);
+        command.Parameters["@lastName"].Value = string.IsNullOrWhiteSpace(patient.LastName) ? DBNull.Value : patient.LastName.Trim();
+
+        command.Parameters.Add("@gender", MySqlDbType.VarChar);
+        command.Parameters["@gender"].Value = string.IsNullOrWhiteSpace(patient.Gender) ? DBNull.Value : patient.Gender.Trim();
+
+        command.Parameters.Add("@dateOfBirth", MySqlDbType.DateTime);
+        command.Parameters["@dateOfBirth"].Value = patient.DateOfBirth;
+
+        command.Parameters.Add("@streetAddress", MySqlDbType.VarChar);
+        command.Parameters["@streetAddress"].Value = string.IsNullOrWhiteSpace(patient.StreetAddress) ? DBNull.Value : patient.StreetAddress.Trim();
+
+        command.Parameters.Add("@city", MySqlDbType.VarChar);
+        command.Parameters["@city"].Value = string.IsNullOrWhiteSpace(patient.City) ? DBNull.Value : patient.City.Trim();
+
+        command.Parameters.Add("@state", MySqlDbType.VarChar);
+        command.Parameters["@state"].Value = string.IsNullOrWhiteSpace(patient.State) ? DBNull.Value : patient.State.Trim();
+
+        command.Parameters.Add("@zipCode", MySqlDbType.VarChar);
+        command.Parameters["@zipCode"].Value = string.IsNullOrWhiteSpace(patient.ZipCode) ? DBNull.Value : patient.ZipCode.Trim();
+
+        command.Parameters.Add("@phoneNumber", MySqlDbType.VarChar);
+        command.Parameters["@phoneNumber"].Value = string.IsNullOrWhiteSpace(patient.PhoneNumber) ? DBNull.Value : patient.PhoneNumber.Trim();
+
+        command.Parameters.Add("@personId", MySqlDbType.Int32);
+        command.Parameters["@personId"].Value = patient.PersonId;
+
+        command.ExecuteNonQuery();
+
+        using var patientCommand = new MySqlCommand(patientQuery, connection);
+        patientCommand.Parameters.Add("@isActive", MySqlDbType.Bool);
+        patientCommand.Parameters["@isActive"].Value = patient.IsActive;
+
+        patientCommand.Parameters.Add("@personId", MySqlDbType.Int32);
+        patientCommand.Parameters["@personId"].Value = patient.PersonId;
+
+        patientCommand.ExecuteNonQuery();
+    }
 
 }
