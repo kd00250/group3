@@ -1,4 +1,6 @@
-﻿using HealthcareSystem.Model;
+﻿using HealthcareSystem.Controller;
+using HealthcareSystem.Model;
+using HealthcareSystem.Model.DAL;
 
 namespace HealthcareSystem.View
 {
@@ -37,7 +39,9 @@ namespace HealthcareSystem.View
 
         private void makeAppointmentButton_Click(object sender, EventArgs e)
         {
-
+            var appointmentController = new AppointmentController(new AppointmentDal(), new DoctorDal());
+            using var makeAppointmentForm = new MakeAppointmentForm(this.SelectedPatient, appointmentController);
+            makeAppointmentForm.ShowDialog();
         }
 
         private void viewVisitsButton_Click(object sender, EventArgs e)
