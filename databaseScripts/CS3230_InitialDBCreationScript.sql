@@ -127,7 +127,10 @@ CREATE TABLE `appointment` (
 
     constraint appointment_fk_doctor
         foreign key (doctor_id)
-        references `doctor`(doctor_id)
+        references `doctor`(doctor_id),
+        
+	constraint uq_appointment_doctor_id_appointment_date_appointment_time
+		unique (doctor_id, appointment_date, appointment_time)
 );
 
 CREATE TABLE `visit` (
