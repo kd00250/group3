@@ -21,11 +21,6 @@ public class Doctor
     public string LastName { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the specialties as a comma-separated string, or null if the doctor has no specialties.
-    /// </summary>
-    public string? Specialties { get; set; }
-
-    /// <summary>
     /// Gets the full name.
     /// </summary>
     public string FullName => $"{this.FirstName} {this.LastName}";
