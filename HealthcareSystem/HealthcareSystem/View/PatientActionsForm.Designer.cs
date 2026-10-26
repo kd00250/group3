@@ -39,16 +39,16 @@
             // loggedInUserControl1
             // 
             loggedInUserControl1.Location = new Point(0, 0);
-            loggedInUserControl1.Margin = new Padding(3, 2, 3, 2);
             loggedInUserControl1.Name = "loggedInUserControl1";
-            loggedInUserControl1.Size = new Size(245, 101);
+            loggedInUserControl1.Size = new Size(280, 135);
             loggedInUserControl1.TabIndex = 0;
             // 
             // editPatientButton
             // 
-            editPatientButton.Location = new Point(321, 56);
+            editPatientButton.Location = new Point(367, 75);
+            editPatientButton.Margin = new Padding(3, 4, 3, 4);
             editPatientButton.Name = "editPatientButton";
-            editPatientButton.Size = new Size(156, 59);
+            editPatientButton.Size = new Size(178, 79);
             editPatientButton.TabIndex = 1;
             editPatientButton.Text = "Edit Patient Information";
             editPatientButton.UseVisualStyleBackColor = true;
@@ -56,9 +56,10 @@
             // 
             // viewAppointmentsButton
             // 
-            viewAppointmentsButton.Location = new Point(321, 147);
+            viewAppointmentsButton.Location = new Point(367, 196);
+            viewAppointmentsButton.Margin = new Padding(3, 4, 3, 4);
             viewAppointmentsButton.Name = "viewAppointmentsButton";
-            viewAppointmentsButton.Size = new Size(156, 59);
+            viewAppointmentsButton.Size = new Size(178, 79);
             viewAppointmentsButton.TabIndex = 2;
             viewAppointmentsButton.Text = "View Appointments";
             viewAppointmentsButton.UseVisualStyleBackColor = true;
@@ -66,9 +67,10 @@
             // 
             // makeAppointmentButton
             // 
-            makeAppointmentButton.Location = new Point(321, 240);
+            makeAppointmentButton.Location = new Point(367, 320);
+            makeAppointmentButton.Margin = new Padding(3, 4, 3, 4);
             makeAppointmentButton.Name = "makeAppointmentButton";
-            makeAppointmentButton.Size = new Size(156, 59);
+            makeAppointmentButton.Size = new Size(178, 79);
             makeAppointmentButton.TabIndex = 3;
             makeAppointmentButton.Text = "Make Appointment";
             makeAppointmentButton.UseVisualStyleBackColor = true;
@@ -76,9 +78,10 @@
             // 
             // viewVisitsButton
             // 
-            viewVisitsButton.Location = new Point(321, 323);
+            viewVisitsButton.Location = new Point(367, 431);
+            viewVisitsButton.Margin = new Padding(3, 4, 3, 4);
             viewVisitsButton.Name = "viewVisitsButton";
-            viewVisitsButton.Size = new Size(156, 59);
+            viewVisitsButton.Size = new Size(178, 79);
             viewVisitsButton.TabIndex = 4;
             viewVisitsButton.Text = "View Visits";
             viewVisitsButton.UseVisualStyleBackColor = true;
@@ -86,9 +89,10 @@
             // 
             // backButton
             // 
-            backButton.Location = new Point(0, 424);
+            backButton.Location = new Point(0, 565);
+            backButton.Margin = new Padding(3, 4, 3, 4);
             backButton.Name = "backButton";
-            backButton.Size = new Size(104, 27);
+            backButton.Size = new Size(119, 36);
             backButton.TabIndex = 5;
             backButton.Text = "Back";
             backButton.UseVisualStyleBackColor = true;
@@ -96,17 +100,19 @@
             // 
             // PatientActionsForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = backButton;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(914, 600);
             Controls.Add(backButton);
             Controls.Add(viewVisitsButton);
             Controls.Add(makeAppointmentButton);
             Controls.Add(viewAppointmentsButton);
             Controls.Add(editPatientButton);
             Controls.Add(loggedInUserControl1);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "PatientActionsForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "HealthCare System - Patient Actions";
             ResumeLayout(false);
         }
