@@ -126,6 +126,7 @@
             Controls.Add(passwordTextBox);
             Controls.Add(usernameTextBox);
             Name = "LoginForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "LoginForm";
             ResumeLayout(false);
             PerformLayout();

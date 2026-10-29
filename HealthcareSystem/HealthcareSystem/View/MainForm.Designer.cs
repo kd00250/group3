@@ -109,6 +109,7 @@
             Controls.Add(label1);
             Controls.Add(logoutButton);
             Name = "MainForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "MainForm";
             ResumeLayout(false);
             PerformLayout();

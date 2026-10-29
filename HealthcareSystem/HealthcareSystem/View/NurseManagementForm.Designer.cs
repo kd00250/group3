@@ -542,6 +542,7 @@
             Controls.Add(label1);
             Controls.Add(nurseDataGridView);
             Name = "NurseManagementForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "NurseManagement";
             ((System.ComponentModel.ISupportInitialize)nurseDataGridView).EndInit();
             ResumeLayout(false);
