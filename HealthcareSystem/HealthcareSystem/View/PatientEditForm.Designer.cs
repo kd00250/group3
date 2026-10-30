@@ -51,6 +51,9 @@
             loggedInUserControl1 = new HealthcareSystem.View.LoggedInUserControl();
             activeCheck = new CheckBox();
             activeLabel = new Label();
+            firstNameErrorLabel = new Label();
+            lastNameErrorLabel = new Label();
+            genderErrorLabel = new Label();
             SuspendLayout();
             // 
             // submitButton
@@ -253,11 +256,41 @@
             activeLabel.TabIndex = 28;
             activeLabel.Text = "Is patient active:";
             // 
+            // firstNameErrorLabel
+            // 
+            firstNameErrorLabel.AutoSize = true;
+            firstNameErrorLabel.ForeColor = Color.Red;
+            firstNameErrorLabel.Location = new Point(333, 92);
+            firstNameErrorLabel.Name = "firstNameErrorLabel";
+            firstNameErrorLabel.Size = new Size(0, 20);
+            firstNameErrorLabel.TabIndex = 29;
+            // 
+            // lastNameErrorLabel
+            // 
+            lastNameErrorLabel.AutoSize = true;
+            lastNameErrorLabel.ForeColor = Color.Red;
+            lastNameErrorLabel.Location = new Point(333, 127);
+            lastNameErrorLabel.Name = "lastNameErrorLabel";
+            lastNameErrorLabel.Size = new Size(0, 20);
+            lastNameErrorLabel.TabIndex = 30;
+            // 
+            // genderErrorLabel
+            // 
+            genderErrorLabel.AutoSize = true;
+            genderErrorLabel.ForeColor = Color.Red;
+            genderErrorLabel.Location = new Point(333, 158);
+            genderErrorLabel.Name = "genderErrorLabel";
+            genderErrorLabel.Size = new Size(0, 20);
+            genderErrorLabel.TabIndex = 31;
+            // 
             // PatientEditForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(401, 470);
+            ClientSize = new Size(507, 470);
+            Controls.Add(genderErrorLabel);
+            Controls.Add(lastNameErrorLabel);
+            Controls.Add(firstNameErrorLabel);
             Controls.Add(activeLabel);
             Controls.Add(activeCheck);
             Controls.Add(loggedInUserControl1);
@@ -312,5 +345,8 @@
         private View.LoggedInUserControl loggedInUserControl1;
         private CheckBox activeCheck;
         private Label activeLabel;
+        private Label firstNameErrorLabel;
+        private Label lastNameErrorLabel;
+        private Label genderErrorLabel;
     }
 }
