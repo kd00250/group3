@@ -56,11 +56,18 @@ namespace HealthcareSystem.View
             registerButton = new Button();
             clearButton = new Button();
             backButton = new Button();
-            errorLabel = new Label();
             firstNameErrorLabel = new Label();
             lastNameErrorLabel = new Label();
             genderErrorLabel = new Label();
+            errorLabel = new Label();
             SuspendLayout();
+            // 
+            // loggedInUserControl1
+            // 
+            loggedInUserControl1.Location = new Point(0, 0);
+            loggedInUserControl1.Name = "loggedInUserControl1";
+            loggedInUserControl1.Size = new Size(280, 135);
+            loggedInUserControl1.TabIndex = 0;
             // 
             // firstNameLabel
             // 
@@ -279,16 +286,6 @@ namespace HealthcareSystem.View
             backButton.UseVisualStyleBackColor = true;
             backButton.Click += backButton_Click;
             // 
-            // errorLabel
-            // 
-            errorLabel.AutoSize = true;
-            errorLabel.ForeColor = Color.Red;
-            errorLabel.Location = new Point(200, 507);
-            errorLabel.Name = "errorLabel";
-            errorLabel.Size = new Size(0, 20);
-            errorLabel.TabIndex = 13;
-            errorLabel.Visible = false;
-            // 
             // firstNameErrorLabel
             // 
             firstNameErrorLabel.AutoSize = true;
@@ -311,10 +308,20 @@ namespace HealthcareSystem.View
             // 
             genderErrorLabel.AutoSize = true;
             genderErrorLabel.ForeColor = Color.Red;
-            genderErrorLabel.Location = new Point(511, 136);
+            genderErrorLabel.Location = new Point(506, 136);
             genderErrorLabel.Name = "genderErrorLabel";
             genderErrorLabel.Size = new Size(0, 20);
             genderErrorLabel.TabIndex = 16;
+            // 
+            // errorLabel
+            // 
+            errorLabel.AutoSize = true;
+            errorLabel.ForeColor = Color.Red;
+            errorLabel.Location = new Point(200, 507);
+            errorLabel.Name = "errorLabel";
+            errorLabel.Size = new Size(0, 20);
+            errorLabel.TabIndex = 13;
+            errorLabel.Visible = false;
             // 
             // PatientRegistrationForm
             // 
@@ -384,9 +391,9 @@ namespace HealthcareSystem.View
         private Button registerButton;
         private Button clearButton;
         private Button backButton;
-        private Label errorLabel;
         private Label firstNameErrorLabel;
         private Label lastNameErrorLabel;
         private Label genderErrorLabel;
+        private Label errorLabel;
     }
 }

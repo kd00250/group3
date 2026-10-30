@@ -33,7 +33,6 @@ namespace HealthcareSystem.View
             {
                 return;
             }
-            //this.errorLabel.Visible = false;
 
             var patient = new Patient
             {
@@ -88,7 +87,6 @@ namespace HealthcareSystem.View
             this.zipTextBox.Clear();
             this.phoneTextBox.Clear();
             this.isActiveCheckbox.Checked = false;
-            //this.errorLabel.Visible = false;
             this.clearValidationErrors();
             this.firstNameTextBox.Focus();
         }
