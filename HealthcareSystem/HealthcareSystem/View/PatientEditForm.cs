@@ -64,12 +64,6 @@ namespace HealthcareSystem
             var zipCode = zipBox.Text.Trim();
             var phoneNumber = phoneBox.Text.Trim();
             var isActive = activeCheck.Checked;
-
-            if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName) || string.IsNullOrWhiteSpace(gender))
-            {
-                MessageBox.Show("Please fill in first name, last name, and gender.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
             try
             {
                 PatientEditController.editPatient(SelectedPatient, firstName, lastName, gender, dateOfBirth, streetAddress, city, state, zipCode, phoneNumber, isActive);
