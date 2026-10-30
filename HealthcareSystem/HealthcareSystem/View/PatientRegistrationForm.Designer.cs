@@ -57,14 +57,10 @@ namespace HealthcareSystem.View
             clearButton = new Button();
             backButton = new Button();
             errorLabel = new Label();
+            firstNameErrorLabel = new Label();
+            lastNameErrorLabel = new Label();
+            genderErrorLabel = new Label();
             SuspendLayout();
-            // 
-            // loggedInUserControl1
-            // 
-            loggedInUserControl1.Location = new Point(0, 0);
-            loggedInUserControl1.Name = "loggedInUserControl1";
-            loggedInUserControl1.Size = new Size(200, 135);
-            loggedInUserControl1.TabIndex = 0;
             // 
             // firstNameLabel
             // 
@@ -293,14 +289,43 @@ namespace HealthcareSystem.View
             errorLabel.TabIndex = 13;
             errorLabel.Visible = false;
             // 
+            // firstNameErrorLabel
+            // 
+            firstNameErrorLabel.AutoSize = true;
+            firstNameErrorLabel.ForeColor = Color.Red;
+            firstNameErrorLabel.Location = new Point(506, 58);
+            firstNameErrorLabel.Name = "firstNameErrorLabel";
+            firstNameErrorLabel.Size = new Size(0, 20);
+            firstNameErrorLabel.TabIndex = 14;
+            // 
+            // lastNameErrorLabel
+            // 
+            lastNameErrorLabel.AutoSize = true;
+            lastNameErrorLabel.ForeColor = Color.Red;
+            lastNameErrorLabel.Location = new Point(506, 97);
+            lastNameErrorLabel.Name = "lastNameErrorLabel";
+            lastNameErrorLabel.Size = new Size(0, 20);
+            lastNameErrorLabel.TabIndex = 15;
+            // 
+            // genderErrorLabel
+            // 
+            genderErrorLabel.AutoSize = true;
+            genderErrorLabel.ForeColor = Color.Red;
+            genderErrorLabel.Location = new Point(511, 136);
+            genderErrorLabel.Name = "genderErrorLabel";
+            genderErrorLabel.Size = new Size(0, 20);
+            genderErrorLabel.TabIndex = 16;
+            // 
             // PatientRegistrationForm
             // 
             AcceptButton = registerButton;
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = backButton;
-            ClientSize = new Size(640, 600);
-            Controls.Add(loggedInUserControl1);
+            ClientSize = new Size(779, 600);
+            Controls.Add(genderErrorLabel);
+            Controls.Add(lastNameErrorLabel);
+            Controls.Add(firstNameErrorLabel);
             Controls.Add(firstNameLabel);
             Controls.Add(lastNameLabel);
             Controls.Add(genderLabel);
@@ -360,5 +385,8 @@ namespace HealthcareSystem.View
         private Button clearButton;
         private Button backButton;
         private Label errorLabel;
+        private Label firstNameErrorLabel;
+        private Label lastNameErrorLabel;
+        private Label genderErrorLabel;
     }
 }
