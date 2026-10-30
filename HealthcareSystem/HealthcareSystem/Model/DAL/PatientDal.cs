@@ -125,7 +125,11 @@ public class PatientDal
     public static void editPatient(Patient patient) {
         using var connection = new MySqlConnection(Connection.ConnectionString());
         connection.Open();
-        const string personQuery = """
+        using var transaction = connection.BeginTransaction();
+
+        try
+        {
+            const string personQuery = """
                              UPDATE person
                              SET first_name = @firstName,
                                  last_name = @lastName,
@@ -138,54 +142,61 @@ public class PatientDal
                                  phone_number = @phoneNumber
                              WHERE person_id = @personId;
                              """;
-        const string patientQuery = """
+            const string patientQuery = """
                              UPDATE patient
                              SET is_active = @isActive
                              WHERE person_id = @personId;
                              """;
 
-        using var command = new MySqlCommand(personQuery, connection);
+            using var personCommand = new MySqlCommand(personQuery, connection, transaction);
 
-        command.Parameters.Add("@firstName", MySqlDbType.VarChar);
-        command.Parameters["@firstName"].Value = string.IsNullOrWhiteSpace(patient.FirstName) ? DBNull.Value : patient.FirstName.Trim();
+            personCommand.Parameters.Add("@firstName", MySqlDbType.VarChar);
+            personCommand.Parameters["@firstName"].Value = string.IsNullOrWhiteSpace(patient.FirstName) ? DBNull.Value : patient.FirstName.Trim();
 
-        command.Parameters.Add("@lastName", MySqlDbType.VarChar);
-        command.Parameters["@lastName"].Value = string.IsNullOrWhiteSpace(patient.LastName) ? DBNull.Value : patient.LastName.Trim();
+            personCommand.Parameters.Add("@lastName", MySqlDbType.VarChar);
+            personCommand.Parameters["@lastName"].Value = string.IsNullOrWhiteSpace(patient.LastName) ? DBNull.Value : patient.LastName.Trim();
 
-        command.Parameters.Add("@gender", MySqlDbType.VarChar);
-        command.Parameters["@gender"].Value = string.IsNullOrWhiteSpace(patient.Gender) ? DBNull.Value : patient.Gender.Trim();
+            personCommand.Parameters.Add("@gender", MySqlDbType.VarChar);
+            personCommand.Parameters["@gender"].Value = string.IsNullOrWhiteSpace(patient.Gender) ? DBNull.Value : patient.Gender.Trim();
 
-        command.Parameters.Add("@dateOfBirth", MySqlDbType.DateTime);
-        command.Parameters["@dateOfBirth"].Value = patient.DateOfBirth;
+            personCommand.Parameters.Add("@dateOfBirth", MySqlDbType.DateTime);
+            personCommand.Parameters["@dateOfBirth"].Value = patient.DateOfBirth;
 
-        command.Parameters.Add("@streetAddress", MySqlDbType.VarChar);
-        command.Parameters["@streetAddress"].Value = string.IsNullOrWhiteSpace(patient.StreetAddress) ? DBNull.Value : patient.StreetAddress.Trim();
+            personCommand.Parameters.Add("@streetAddress", MySqlDbType.VarChar);
+            personCommand.Parameters["@streetAddress"].Value = string.IsNullOrWhiteSpace(patient.StreetAddress) ? DBNull.Value : patient.StreetAddress.Trim();
 
-        command.Parameters.Add("@city", MySqlDbType.VarChar);
-        command.Parameters["@city"].Value = string.IsNullOrWhiteSpace(patient.City) ? DBNull.Value : patient.City.Trim();
+            personCommand.Parameters.Add("@city", MySqlDbType.VarChar);
+            personCommand.Parameters["@city"].Value = string.IsNullOrWhiteSpace(patient.City) ? DBNull.Value : patient.City.Trim();
 
-        command.Parameters.Add("@state", MySqlDbType.VarChar);
-        command.Parameters["@state"].Value = string.IsNullOrWhiteSpace(patient.State) ? DBNull.Value : patient.State.Trim();
+            personCommand.Parameters.Add("@state", MySqlDbType.VarChar);
+            personCommand.Parameters["@state"].Value = string.IsNullOrWhiteSpace(patient.State) ? DBNull.Value : patient.State.Trim();
 
-        command.Parameters.Add("@zipCode", MySqlDbType.VarChar);
-        command.Parameters["@zipCode"].Value = string.IsNullOrWhiteSpace(patient.ZipCode) ? DBNull.Value : patient.ZipCode.Trim();
+            personCommand.Parameters.Add("@zipCode", MySqlDbType.VarChar);
+            personCommand.Parameters["@zipCode"].Value = string.IsNullOrWhiteSpace(patient.ZipCode) ? DBNull.Value : patient.ZipCode.Trim();
 
-        command.Parameters.Add("@phoneNumber", MySqlDbType.VarChar);
-        command.Parameters["@phoneNumber"].Value = string.IsNullOrWhiteSpace(patient.PhoneNumber) ? DBNull.Value : patient.PhoneNumber.Trim();
+            personCommand.Parameters.Add("@phoneNumber", MySqlDbType.VarChar);
+            personCommand.Parameters["@phoneNumber"].Value = string.IsNullOrWhiteSpace(patient.PhoneNumber) ? DBNull.Value : patient.PhoneNumber.Trim();
 
-        command.Parameters.Add("@personId", MySqlDbType.Int32);
-        command.Parameters["@personId"].Value = patient.PersonId;
+            personCommand.Parameters.Add("@personId", MySqlDbType.Int32);
+            personCommand.Parameters["@personId"].Value = patient.PersonId;
 
-        command.ExecuteNonQuery();
+            personCommand.ExecuteNonQuery();
 
-        using var patientCommand = new MySqlCommand(patientQuery, connection);
-        patientCommand.Parameters.Add("@isActive", MySqlDbType.Bool);
-        patientCommand.Parameters["@isActive"].Value = patient.IsActive;
+            using var patientCommand = new MySqlCommand(patientQuery, connection, transaction);
+            patientCommand.Parameters.Add("@isActive", MySqlDbType.Bool);
+            patientCommand.Parameters["@isActive"].Value = patient.IsActive;
 
-        patientCommand.Parameters.Add("@personId", MySqlDbType.Int32);
-        patientCommand.Parameters["@personId"].Value = patient.PersonId;
+            patientCommand.Parameters.Add("@personId", MySqlDbType.Int32);
+            patientCommand.Parameters["@personId"].Value = patient.PersonId;
 
-        patientCommand.ExecuteNonQuery();
+            patientCommand.ExecuteNonQuery();
+            transaction.Commit();
+        }
+        catch
+        {
+            transaction.Rollback();
+            throw;
+        }
     }
 
 }
