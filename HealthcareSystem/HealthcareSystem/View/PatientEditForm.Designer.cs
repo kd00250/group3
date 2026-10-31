@@ -54,6 +54,10 @@
             firstNameErrorLabel = new Label();
             lastNameErrorLabel = new Label();
             genderErrorLabel = new Label();
+            cityErrorLabel = new Label();
+            zipCodeErrorLabel = new Label();
+            phoneNumberErrorLabel = new Label();
+            streetAddressErrorLabel = new Label();
             SuspendLayout();
             // 
             // submitButton
@@ -283,11 +287,51 @@
             genderErrorLabel.Size = new Size(0, 20);
             genderErrorLabel.TabIndex = 31;
             // 
+            // cityErrorLabel
+            // 
+            cityErrorLabel.AutoSize = true;
+            cityErrorLabel.ForeColor = Color.Red;
+            cityErrorLabel.Location = new Point(331, 259);
+            cityErrorLabel.Name = "cityErrorLabel";
+            cityErrorLabel.Size = new Size(0, 20);
+            cityErrorLabel.TabIndex = 32;
+            // 
+            // zipCodeErrorLabel
+            // 
+            zipCodeErrorLabel.AutoSize = true;
+            zipCodeErrorLabel.ForeColor = Color.Red;
+            zipCodeErrorLabel.Location = new Point(331, 327);
+            zipCodeErrorLabel.Name = "zipCodeErrorLabel";
+            zipCodeErrorLabel.Size = new Size(0, 20);
+            zipCodeErrorLabel.TabIndex = 33;
+            // 
+            // phoneNumberErrorLabel
+            // 
+            phoneNumberErrorLabel.AutoSize = true;
+            phoneNumberErrorLabel.ForeColor = Color.Red;
+            phoneNumberErrorLabel.Location = new Point(331, 360);
+            phoneNumberErrorLabel.Name = "phoneNumberErrorLabel";
+            phoneNumberErrorLabel.Size = new Size(0, 20);
+            phoneNumberErrorLabel.TabIndex = 34;
+            // 
+            // streetAddressErrorLabel
+            // 
+            streetAddressErrorLabel.AutoSize = true;
+            streetAddressErrorLabel.ForeColor = Color.Red;
+            streetAddressErrorLabel.Location = new Point(331, 224);
+            streetAddressErrorLabel.Name = "streetAddressErrorLabel";
+            streetAddressErrorLabel.Size = new Size(0, 20);
+            streetAddressErrorLabel.TabIndex = 35;
+            // 
             // PatientEditForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(617, 470);
+            ClientSize = new Size(826, 470);
+            Controls.Add(streetAddressErrorLabel);
+            Controls.Add(phoneNumberErrorLabel);
+            Controls.Add(zipCodeErrorLabel);
+            Controls.Add(cityErrorLabel);
             Controls.Add(genderErrorLabel);
             Controls.Add(lastNameErrorLabel);
             Controls.Add(firstNameErrorLabel);
@@ -348,5 +392,9 @@
         private Label firstNameErrorLabel;
         private Label lastNameErrorLabel;
         private Label genderErrorLabel;
+        private Label cityErrorLabel;
+        private Label zipCodeErrorLabel;
+        private Label phoneNumberErrorLabel;
+        private Label streetAddressErrorLabel;
     }
 }
