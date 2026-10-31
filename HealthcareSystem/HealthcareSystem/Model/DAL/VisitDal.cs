@@ -169,4 +169,97 @@ public class VisitDal
 
         return reader.IsDBNull(ordinal) ? null : reader.GetFieldValue<T>(ordinal);
     }
+
+    /// <summary>
+    /// Gets upcoming appointments for a patient that do not have visits.
+    /// </summary>
+    /// <param name="patientId">The patient identifier.</param>
+    /// <returns>The available appointments.</returns>
+    public List<Appointment> GetAvailableAppointments(int patientId)
+    {
+        var appointments = new List<Appointment>();
+
+        const string query = """
+                         SELECT a.appointment_id, a.patient_id, a.doctor_id,
+                                a.appointment_date, a.appointment_time, a.reason
+                         FROM appointment a
+                         WHERE a.patient_id = @patientId
+                         AND TIMESTAMP(a.appointment_date, a.appointment_time) >= NOW()
+                         AND NOT EXISTS (
+                             SELECT 1
+                             FROM visit v
+                             WHERE v.appointment_id = a.appointment_id
+                         )
+                         ORDER BY a.appointment_date ASC, a.appointment_time ASC;
+                         """;
+
+        using var connection = new MySqlConnection(Connection.ConnectionString());
+        connection.Open();
+
+        using var command = new MySqlCommand(query, connection);
+        command.Parameters.Add("@patientId", MySqlDbType.Int32);
+        command.Parameters["@patientId"].Value = patientId;
+
+        using var reader = command.ExecuteReader();
+
+        while (reader.Read())
+        {
+            appointments.Add(new Appointment
+            {
+                AppointmentId = reader.GetInt32(reader.GetOrdinal("appointment_id")),
+                PatientId = reader.GetInt32(reader.GetOrdinal("patient_id")),
+                DoctorId = reader.GetInt32(reader.GetOrdinal("doctor_id")),
+                AppointmentDate = reader.GetDateTime(reader.GetOrdinal("appointment_date")),
+                AppointmentTime = reader.GetTimeSpan(reader.GetOrdinal("appointment_time")),
+                Reason = this.getNullableString(reader, "reason")
+            });
+        }
+
+        return appointments;
+    }
+
+    /// <summary>
+    /// Creates a visit for an available appointment.
+    /// </summary>
+    /// <param name="patientId">The patient identifier.</param>
+    /// <param name="appointmentId">The appointment identifier.</param>
+    /// <returns>The newly created visit identifier.</returns>
+    public int CreateVisit(int patientId, int appointmentId)
+    {
+        const string query = """
+                             INSERT INTO visit
+                                 (appointment_id, visit_datetime, is_finalized)
+                             SELECT a.appointment_id, NOW(), FALSE
+                             FROM appointment a
+                             WHERE a.appointment_id = @appointmentId
+                             AND a.patient_id = @patientId
+                             AND TIMESTAMP(a.appointment_date, a.appointment_time) >= NOW()
+                             AND NOT EXISTS (
+                                 SELECT 1
+                                 FROM visit v
+                                 WHERE v.appointment_id = a.appointment_id
+                             );
+                             """;
+
+        using var connection = new MySqlConnection(Connection.ConnectionString());
+        connection.Open();
+
+        using var command = new MySqlCommand(query, connection);
+
+        command.Parameters.Add("@patientId", MySqlDbType.Int32);
+        command.Parameters["@patientId"].Value = patientId;
+
+        command.Parameters.Add("@appointmentId", MySqlDbType.Int32);
+        command.Parameters["@appointmentId"].Value = appointmentId;
+
+        var rowsAffected = command.ExecuteNonQuery();
+
+        if (rowsAffected == 0)
+        {
+            throw new ArgumentException(
+                "The appointment is no longer available for starting a visit.");
+        }
+
+        return Convert.ToInt32(command.LastInsertedId);
+    }
 }

@@ -95,4 +95,35 @@ public class VisitController
             throw new ArgumentException($"{name} must be greater than 0 and no more than {max}.");
         }
     }
+
+    /// <summary>
+    /// Gets upcoming appointments that are available for starting a visit.
+    /// </summary>
+    public List<Appointment> GetAvailableAppointments(Patient patient)
+    {
+        return this.visitDal.GetAvailableAppointments(patient.PatientId);
+    }
+
+    /// <summary>
+    /// Starts a new visit for an appointment.
+    /// </summary>
+    public Visit StartVisit(Patient patient, Appointment appointment)
+    {
+        if (patient == null || appointment == null)
+        {
+            throw new ArgumentException("A patient and appointment must be selected.");
+        }
+
+        var user = SessionManager.CurrentUser;
+
+        if (user == null ||
+            this.visitDal.GetNurseIdByPersonId(user.PersonId) == null)
+        {
+            throw new ArgumentException("Only a nurse can start a visit.");
+        }
+
+        return this.visitDal.CreateVisit(
+            patient.PatientId,
+            appointment.AppointmentId);
+    }
 }

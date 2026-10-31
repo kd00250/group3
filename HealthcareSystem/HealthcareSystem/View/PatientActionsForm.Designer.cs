@@ -34,6 +34,7 @@
             makeAppointmentButton = new Button();
             viewVisitsButton = new Button();
             backButton = new Button();
+            startNewVisitButton = new Button();
             SuspendLayout();
             // 
             // loggedInUserControl1
@@ -45,7 +46,7 @@
             // 
             // editPatientButton
             // 
-            editPatientButton.Location = new Point(367, 75);
+            editPatientButton.Location = new Point(367, 45);
             editPatientButton.Margin = new Padding(3, 4, 3, 4);
             editPatientButton.Name = "editPatientButton";
             editPatientButton.Size = new Size(178, 79);
@@ -56,7 +57,7 @@
             // 
             // viewAppointmentsButton
             // 
-            viewAppointmentsButton.Location = new Point(367, 196);
+            viewAppointmentsButton.Location = new Point(367, 156);
             viewAppointmentsButton.Margin = new Padding(3, 4, 3, 4);
             viewAppointmentsButton.Name = "viewAppointmentsButton";
             viewAppointmentsButton.Size = new Size(178, 79);
@@ -67,7 +68,7 @@
             // 
             // makeAppointmentButton
             // 
-            makeAppointmentButton.Location = new Point(367, 320);
+            makeAppointmentButton.Location = new Point(367, 261);
             makeAppointmentButton.Margin = new Padding(3, 4, 3, 4);
             makeAppointmentButton.Name = "makeAppointmentButton";
             makeAppointmentButton.Size = new Size(178, 79);
@@ -78,7 +79,7 @@
             // 
             // viewVisitsButton
             // 
-            viewVisitsButton.Location = new Point(367, 431);
+            viewVisitsButton.Location = new Point(367, 372);
             viewVisitsButton.Margin = new Padding(3, 4, 3, 4);
             viewVisitsButton.Name = "viewVisitsButton";
             viewVisitsButton.Size = new Size(178, 79);
@@ -98,12 +99,22 @@
             backButton.UseVisualStyleBackColor = true;
             backButton.Click += backButton_Click;
             // 
+            // startNewVisitButton
+            // 
+            startNewVisitButton.Location = new Point(363, 474);
+            startNewVisitButton.Name = "startNewVisitButton";
+            startNewVisitButton.Size = new Size(182, 79);
+            startNewVisitButton.TabIndex = 6;
+            startNewVisitButton.Text = "Start New Visit";
+            startNewVisitButton.UseVisualStyleBackColor = true;
+            // 
             // PatientActionsForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = backButton;
             ClientSize = new Size(914, 600);
+            Controls.Add(startNewVisitButton);
             Controls.Add(backButton);
             Controls.Add(viewVisitsButton);
             Controls.Add(makeAppointmentButton);
@@ -124,5 +135,6 @@
         private Button makeAppointmentButton;
         private Button viewVisitsButton;
         private Button backButton;
+        private Button startNewVisitButton;
     }
 }
