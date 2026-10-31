@@ -51,6 +51,13 @@
             loggedInUserControl1 = new HealthcareSystem.View.LoggedInUserControl();
             activeCheck = new CheckBox();
             activeLabel = new Label();
+            firstNameErrorLabel = new Label();
+            lastNameErrorLabel = new Label();
+            genderErrorLabel = new Label();
+            cityErrorLabel = new Label();
+            zipCodeErrorLabel = new Label();
+            phoneNumberErrorLabel = new Label();
+            streetAddressErrorLabel = new Label();
             SuspendLayout();
             // 
             // submitButton
@@ -253,11 +260,81 @@
             activeLabel.TabIndex = 28;
             activeLabel.Text = "Is patient active:";
             // 
+            // firstNameErrorLabel
+            // 
+            firstNameErrorLabel.AutoSize = true;
+            firstNameErrorLabel.ForeColor = Color.Red;
+            firstNameErrorLabel.Location = new Point(333, 92);
+            firstNameErrorLabel.Name = "firstNameErrorLabel";
+            firstNameErrorLabel.Size = new Size(0, 20);
+            firstNameErrorLabel.TabIndex = 29;
+            // 
+            // lastNameErrorLabel
+            // 
+            lastNameErrorLabel.AutoSize = true;
+            lastNameErrorLabel.ForeColor = Color.Red;
+            lastNameErrorLabel.Location = new Point(333, 127);
+            lastNameErrorLabel.Name = "lastNameErrorLabel";
+            lastNameErrorLabel.Size = new Size(0, 20);
+            lastNameErrorLabel.TabIndex = 30;
+            // 
+            // genderErrorLabel
+            // 
+            genderErrorLabel.AutoSize = true;
+            genderErrorLabel.ForeColor = Color.Red;
+            genderErrorLabel.Location = new Point(333, 158);
+            genderErrorLabel.Name = "genderErrorLabel";
+            genderErrorLabel.Size = new Size(0, 20);
+            genderErrorLabel.TabIndex = 31;
+            // 
+            // cityErrorLabel
+            // 
+            cityErrorLabel.AutoSize = true;
+            cityErrorLabel.ForeColor = Color.Red;
+            cityErrorLabel.Location = new Point(331, 259);
+            cityErrorLabel.Name = "cityErrorLabel";
+            cityErrorLabel.Size = new Size(0, 20);
+            cityErrorLabel.TabIndex = 32;
+            // 
+            // zipCodeErrorLabel
+            // 
+            zipCodeErrorLabel.AutoSize = true;
+            zipCodeErrorLabel.ForeColor = Color.Red;
+            zipCodeErrorLabel.Location = new Point(331, 327);
+            zipCodeErrorLabel.Name = "zipCodeErrorLabel";
+            zipCodeErrorLabel.Size = new Size(0, 20);
+            zipCodeErrorLabel.TabIndex = 33;
+            // 
+            // phoneNumberErrorLabel
+            // 
+            phoneNumberErrorLabel.AutoSize = true;
+            phoneNumberErrorLabel.ForeColor = Color.Red;
+            phoneNumberErrorLabel.Location = new Point(331, 360);
+            phoneNumberErrorLabel.Name = "phoneNumberErrorLabel";
+            phoneNumberErrorLabel.Size = new Size(0, 20);
+            phoneNumberErrorLabel.TabIndex = 34;
+            // 
+            // streetAddressErrorLabel
+            // 
+            streetAddressErrorLabel.AutoSize = true;
+            streetAddressErrorLabel.ForeColor = Color.Red;
+            streetAddressErrorLabel.Location = new Point(331, 224);
+            streetAddressErrorLabel.Name = "streetAddressErrorLabel";
+            streetAddressErrorLabel.Size = new Size(0, 20);
+            streetAddressErrorLabel.TabIndex = 35;
+            // 
             // PatientEditForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(401, 470);
+            ClientSize = new Size(826, 470);
+            Controls.Add(streetAddressErrorLabel);
+            Controls.Add(phoneNumberErrorLabel);
+            Controls.Add(zipCodeErrorLabel);
+            Controls.Add(cityErrorLabel);
+            Controls.Add(genderErrorLabel);
+            Controls.Add(lastNameErrorLabel);
+            Controls.Add(firstNameErrorLabel);
             Controls.Add(activeLabel);
             Controls.Add(activeCheck);
             Controls.Add(loggedInUserControl1);
@@ -312,5 +389,12 @@
         private View.LoggedInUserControl loggedInUserControl1;
         private CheckBox activeCheck;
         private Label activeLabel;
+        private Label firstNameErrorLabel;
+        private Label lastNameErrorLabel;
+        private Label genderErrorLabel;
+        private Label cityErrorLabel;
+        private Label zipCodeErrorLabel;
+        private Label phoneNumberErrorLabel;
+        private Label streetAddressErrorLabel;
     }
 }
