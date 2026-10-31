@@ -10,18 +10,17 @@ public partial class OrderTestForm : Form
     #region Fields
 
     private readonly OrderTestController orderTestController;
-
-    private int? selectedNurseId;
+    private readonly int visitId;
 
     #endregion
 
     #region Constructors
 
-    public OrderTestForm(OrderTestController orderTestController)
+    public OrderTestForm(OrderTestController orderTestController, int visitId)
     {
         this.InitializeComponent();
-
         this.orderTestController = orderTestController;
+        this.visitId = visitId;
         this.configureSelectGrid();
         this.configureSelectedGrid();
         this.loggedInUserControl1.RefreshUser();
@@ -102,6 +101,84 @@ public partial class OrderTestForm : Form
     private void backButton_Click(object sender, EventArgs e)
     {
         Close();
+    }
+
+    private void OrderTestForm_Load(object sender, EventArgs e)
+    {
+        this.loadTests();
+    }
+
+    private void addButton_Click(object sender, EventArgs e)
+    {
+        if (this.testSelectGrid.SelectedRows.Count == 0)
+        {
+            this.showMessage("Please select a test to add.", "No Test Selected", MessageBoxIcon.Warning);
+            return;
+        }
+        var selectedTest = this.testSelectGrid.SelectedRows[0].DataBoundItem as Test;
+        if (selectedTest != null)
+        {
+            var selectedTests = this.selectedTestGrid.DataSource as IList<Test> ?? new List<Test>();
+            if (!selectedTests.Contains(selectedTest))
+            {
+                selectedTests.Add(selectedTest);
+                this.selectedTestGrid.DataSource = null;
+                this.selectedTestGrid.DataSource = selectedTests;
+                this.selectedTestGrid.ClearSelection();
+            }
+            else
+            {
+                this.showMessage("This test has already been added.", "Duplicate Test", MessageBoxIcon.Warning);
+            }
+        }
+    }
+    
+    private void removeButton_Click(object sender, EventArgs e)
+    {
+        if (this.selectedTestGrid.SelectedRows.Count == 0)
+        {
+            this.showMessage("Please select a test to remove.", "No Test Selected", MessageBoxIcon.Warning);
+            return;
+        }
+        var selectedTest = this.selectedTestGrid.SelectedRows[0].DataBoundItem as Test;
+        if (selectedTest != null)
+        {
+            var selectedTests = this.selectedTestGrid.DataSource as IList<Test>;
+            if (selectedTests != null && selectedTests.Contains(selectedTest))
+            {
+                selectedTests.Remove(selectedTest);
+                this.selectedTestGrid.DataSource = null;
+                this.selectedTestGrid.DataSource = selectedTests;
+                this.selectedTestGrid.ClearSelection();
+            }
+        }
+    }
+
+    private void confirmButton_Click(object sender, EventArgs e)
+    {
+        var selectedTests = this.selectedTestGrid.DataSource as IList<Test>;
+        if (selectedTests == null || selectedTests.Count == 0)
+        {
+            this.showMessage("Please select at least one test to order.", "No Tests Selected", MessageBoxIcon.Warning);
+            return;
+        }
+
+        int visit_id = this.visitId;
+        try
+        {
+            this.orderTestController.ConfirmLabOrder(selectedTests, visit_id);
+            this.showMessage("Lab order confirmed successfully.", "Success", MessageBoxIcon.Information);
+            this.selectedTestGrid.DataSource = null;
+        }
+        catch (MySqlException)
+        {
+            this.showMessage("Unable to confirm lab order due to a database error.", "Database Error", MessageBoxIcon.Error);
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            this.showMessage(ex.Message, "Access Denied", MessageBoxIcon.Warning);
+            Close();
+        }
     }
 
     private void showMessage(string message, string title, MessageBoxIcon icon)

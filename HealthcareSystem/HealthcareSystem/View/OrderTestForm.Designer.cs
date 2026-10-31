@@ -68,7 +68,7 @@
             testSelectGrid.RowHeadersWidth = 51;
             testSelectGrid.Size = new Size(342, 314);
             testSelectGrid.TabIndex = 0;
-            testSelectGrid.CellClick += nurseDataGridView_CellClick;
+            testSelectGrid.CellClick += testSelectGrid_CellClick;
             // 
             // testsLabel
             // 
@@ -108,7 +108,7 @@
             confirmOrderButton.TabIndex = 14;
             confirmOrderButton.Text = "Confirm";
             confirmOrderButton.UseVisualStyleBackColor = true;
-            confirmOrderButton.Click += updateNurseButton_Click;
+            confirmOrderButton.Click += confirmButton_Click;
             // 
             // testNameBox
             // 
