@@ -112,6 +112,26 @@ namespace HealthcareSystem.View
                 isValid = false;
             }
 
+            if (!this.streetAddressValidation())
+            {
+                isValid = false;
+            }
+
+            if (!this.cityValidation())
+            {
+                isValid = false;
+            }
+
+            if (!this.zipCodeValidation())
+            {
+                isValid = false;
+            }
+
+            if (!this.phoneNumberValidation())
+            {
+                isValid = false;
+            }
+
             return isValid;
         }
 
@@ -169,11 +189,105 @@ namespace HealthcareSystem.View
             return true;
         }
 
+        private bool streetAddressValidation()
+        {
+            var streetAddress = this.streetTextBox.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(streetAddress))
+            {
+                return true;
+            }
+
+            if (!Regex.IsMatch(streetAddress, @"^[\p{L}\p{M}0-9 -]+$"))
+            {
+                this.showFieldError(this.streetAddressErrorLabel, "Street address can only contain letters, numbers, spaces, and hyphens.");
+
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool cityValidation()
+        {
+            var city = this.cityTextBox.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(city))
+            {
+                return true;
+            }
+
+            if (!Regex.IsMatch(city, @"^[\p{L}\p{M} -]+$"))
+            {
+                this.showFieldError(this.cityErrorLabel, "City can only contain letters, spaces, and hyphens.");
+
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool zipCodeValidation()
+        {
+            var zipCode = this.zipTextBox.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(zipCode))
+            {
+                return true;
+            }
+
+            if (!Regex.IsMatch(zipCode, @"^[0-9-]+$"))
+            {
+                this.showFieldError(this.zipCodeErrorLabel, "ZIP code can only contain numbers and a hyphen.");
+
+                return false;
+            }
+
+            if (!Regex.IsMatch(zipCode, @"^[0-9]{5}(-[0-9]{4})?$"))
+            {
+                this.showFieldError(this.zipCodeErrorLabel, "ZIP code must be in the format XXXXX or XXXXX-XXXX.");
+
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool phoneNumberValidation()
+        {
+            var phoneNumber = this.phoneTextBox.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(phoneNumber))
+            {
+                return true;
+            }
+
+            if (!Regex.IsMatch(phoneNumber, @"^[0-9-]+$"))
+            {
+                this.showFieldError(this.phoneNumberErrorLabel, "Phone number can only contain numbers and hyphens.");
+
+                return false;
+            }
+
+            if (!Regex.IsMatch(phoneNumber, @"^[0-9]{3}-[0-9]{3}-[0-9]{4}$"))
+            {
+                this.showFieldError(this.phoneNumberErrorLabel, "Phone number must be in the format XXX-XXX-XXXX.");
+
+                return false;
+            }
+
+            return true;
+        }
+
         private void clearValidationErrors()
         {
             this.firstNameErrorLabel.Visible = false;
             this.lastNameErrorLabel.Visible = false;
             this.genderErrorLabel.Visible = false;
+            this.streetAddressErrorLabel.Visible = false;
+            this.cityErrorLabel.Visible = false;
+            this.zipCodeErrorLabel.Visible = false;
+            this.phoneNumberErrorLabel.Visible = false;
             this.errorLabel.Visible = false;
         }
 

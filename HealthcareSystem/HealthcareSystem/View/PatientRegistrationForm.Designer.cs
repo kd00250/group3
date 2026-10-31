@@ -60,6 +60,10 @@ namespace HealthcareSystem.View
             lastNameErrorLabel = new Label();
             genderErrorLabel = new Label();
             errorLabel = new Label();
+            streetAddressErrorLabel = new Label();
+            cityErrorLabel = new Label();
+            zipCodeErrorLabel = new Label();
+            phoneNumberErrorLabel = new Label();
             SuspendLayout();
             // 
             // loggedInUserControl1
@@ -323,13 +327,53 @@ namespace HealthcareSystem.View
             errorLabel.TabIndex = 13;
             errorLabel.Visible = false;
             // 
+            // streetAddressErrorLabel
+            // 
+            streetAddressErrorLabel.AutoSize = true;
+            streetAddressErrorLabel.ForeColor = Color.Red;
+            streetAddressErrorLabel.Location = new Point(506, 217);
+            streetAddressErrorLabel.Name = "streetAddressErrorLabel";
+            streetAddressErrorLabel.Size = new Size(0, 20);
+            streetAddressErrorLabel.TabIndex = 17;
+            // 
+            // cityErrorLabel
+            // 
+            cityErrorLabel.AutoSize = true;
+            cityErrorLabel.ForeColor = Color.Red;
+            cityErrorLabel.Location = new Point(506, 257);
+            cityErrorLabel.Name = "cityErrorLabel";
+            cityErrorLabel.Size = new Size(0, 20);
+            cityErrorLabel.TabIndex = 18;
+            // 
+            // zipCodeErrorLabel
+            // 
+            zipCodeErrorLabel.AutoSize = true;
+            zipCodeErrorLabel.ForeColor = Color.Red;
+            zipCodeErrorLabel.Location = new Point(506, 336);
+            zipCodeErrorLabel.Name = "zipCodeErrorLabel";
+            zipCodeErrorLabel.Size = new Size(0, 20);
+            zipCodeErrorLabel.TabIndex = 19;
+            // 
+            // phoneNumberErrorLabel
+            // 
+            phoneNumberErrorLabel.AutoSize = true;
+            phoneNumberErrorLabel.ForeColor = Color.Red;
+            phoneNumberErrorLabel.Location = new Point(506, 377);
+            phoneNumberErrorLabel.Name = "phoneNumberErrorLabel";
+            phoneNumberErrorLabel.Size = new Size(0, 20);
+            phoneNumberErrorLabel.TabIndex = 20;
+            // 
             // PatientRegistrationForm
             // 
             AcceptButton = registerButton;
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = backButton;
-            ClientSize = new Size(779, 600);
+            ClientSize = new Size(972, 600);
+            Controls.Add(phoneNumberErrorLabel);
+            Controls.Add(zipCodeErrorLabel);
+            Controls.Add(cityErrorLabel);
+            Controls.Add(streetAddressErrorLabel);
             Controls.Add(genderErrorLabel);
             Controls.Add(lastNameErrorLabel);
             Controls.Add(firstNameErrorLabel);
@@ -395,5 +439,9 @@ namespace HealthcareSystem.View
         private Label lastNameErrorLabel;
         private Label genderErrorLabel;
         private Label errorLabel;
+        private Label streetAddressErrorLabel;
+        private Label cityErrorLabel;
+        private Label zipCodeErrorLabel;
+        private Label phoneNumberErrorLabel;
     }
 }
