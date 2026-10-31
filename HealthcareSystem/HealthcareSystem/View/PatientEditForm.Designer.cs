@@ -287,7 +287,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(507, 470);
+            ClientSize = new Size(617, 470);
             Controls.Add(genderErrorLabel);
             Controls.Add(lastNameErrorLabel);
             Controls.Add(firstNameErrorLabel);

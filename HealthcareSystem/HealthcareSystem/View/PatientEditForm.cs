@@ -1,4 +1,5 @@
 ﻿using Google.Protobuf.WellKnownTypes;
+using System.Text.RegularExpressions;
 using HealthcareSystem.Controller;
 using HealthcareSystem.Model;
 using Org.BouncyCastle.Asn1.Cms;
@@ -54,6 +55,11 @@ namespace HealthcareSystem
 
         private void submitButton_Click(object sender, EventArgs e)
         {
+            if (!this.validateFields())
+            {
+                return;
+            }
+
             var firstName = firstBox.Text.Trim();
             var lastName = lastBox.Text.Trim();
             var gender = genderCombo.SelectedItem?.ToString();
@@ -74,6 +80,92 @@ namespace HealthcareSystem
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
+        }
+
+        private bool validateFields()
+        {
+            this.clearValidationErrors();
+
+            bool isValid = true;
+
+            if (!this.firstNameValidation())
+            {
+                isValid = false;
+            }
+
+            if (!this.lastNameValidation())
+            {
+                isValid = false;
+            }
+
+            if (!this.genderValidation())
+            {
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        private bool genderValidation()
+        {
+            if (this.genderCombo.SelectedIndex == -1)
+            {
+                this.showFieldError(this.genderErrorLabel, "Please select a gender.");
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool lastNameValidation()
+        {
+            var lastName = this.lastBox.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(lastName))
+            {
+                this.showFieldError(this.lastNameErrorLabel, "Last name is required.");
+                return false;
+            }
+
+            if (!Regex.IsMatch(lastName, @"^[a-zA-Z ]+$"))
+            {
+                this.showFieldError(this.lastNameErrorLabel, "Last name can only contain letters.");
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool firstNameValidation()
+        {
+            var firstName = this.firstBox.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(firstName))
+            {
+                this.showFieldError(this.firstNameErrorLabel, "First name is required.");
+                return false;
+            }
+
+            if (!Regex.IsMatch(firstName, @"^[a-zA-Z ]+$"))
+            {
+                this.showFieldError(this.firstNameErrorLabel, "First name can only contain letters.");
+                return false;
+            }
+
+            return true;
+        }
+
+        private void clearValidationErrors()
+        {
+            this.firstNameErrorLabel.Visible = false;
+            this.lastNameErrorLabel.Visible = false;
+            this.genderErrorLabel.Visible = false;
+        }
+
+        private void showFieldError(Label errorLabel, string message)
+        {
+            errorLabel.Text = message;
+            errorLabel.Visible = true;
         }
 
         private void backButton_Click(object sender, EventArgs e)
