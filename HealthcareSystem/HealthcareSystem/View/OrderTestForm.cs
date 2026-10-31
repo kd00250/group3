@@ -9,13 +9,6 @@ public partial class OrderTestForm : Form
 {
     #region Fields
 
-    private const int MaxNameAndCityLength = 50;
-    private const int MaxAddressLength = 100;
-    private const int NothingSelectedIndex = -1;
-    private const int MaxZipCodeLength = 10;
-    private const int MaxPasswordLength = 255;
-    private const int MaxPhoneNumberLength = 12;
-
     private readonly OrderTestController orderTestController;
 
     private int? selectedNurseId;
@@ -30,10 +23,7 @@ public partial class OrderTestForm : Form
 
         this.orderTestController = orderTestController;
         this.configureSelectGrid();
-        this.testNameBox.MaxLength = MaxNameAndCityLength;
-        this.lowBox.MaxLength = MaxNameAndCityLength;
-        this.highBox.MaxLength = MaxNameAndCityLength;
-        this.unitBox.MaxLength = MaxNameAndCityLength;
+        this.configureSelectedGrid();
         this.loggedInUserControl1.RefreshUser();
     }
 
@@ -54,15 +44,24 @@ public partial class OrderTestForm : Form
         this.testSelectGrid.RowHeadersVisible = false;
     }
 
+    private void configureSelectedGrid()
+    {
+        this.selectedTestGrid.ReadOnly = true;
+        this.selectedTestGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+        this.selectedTestGrid.MultiSelect = false;
+        this.selectedTestGrid.AutoGenerateColumns = true;
+        this.selectedTestGrid.AllowUserToAddRows = false;
+        this.selectedTestGrid.AllowUserToDeleteRows = false;
+        this.selectedTestGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        this.selectedTestGrid.AllowUserToResizeRows = false;
+        this.selectedTestGrid.RowHeadersVisible = false;
+    }
 
-    // FIXME: This method is needs to load tests not nurses.
     private void loadTests() 
     {
         try
         {
             var tests = this.orderTestController.GetAllTests();
-
-            this.testSelectGrid.DataSource = null;
             this.testSelectGrid.DataSource = tests;
             this.testSelectGrid.ClearSelection();
         }
@@ -78,8 +77,15 @@ public partial class OrderTestForm : Form
         }
     }
 
-    // FIXME: This method is needs to load tests not nurses.
-    private void nurseDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
+    private void displayTest(Test test)
+    {
+        this.testNameBox.Text = test.TestName;
+        this.highBox.Text = test.HighValue.ToString();
+        this.lowBox.Text = test.LowValue.ToString();
+        this.unitBox.Text = test.UnitName;
+    }
+
+    private void testSelectGrid_CellClick(object sender, DataGridViewCellEventArgs e)
     {
         if (e.RowIndex < 0)
         {

@@ -22,14 +22,14 @@ public class OrderedTest
     /// <value>
     /// The date and time the test was performed.
     /// </value>
-    public DateTime dateTimePreformed { get; set; }
+    public DateTime? dateTimePreformed { get; set; }
     /// <summary>
     /// Gets or sets the test result.
     /// </summary>
     /// <value>
     /// The test result.
     /// </value>
-    public double testResult { get; set; }
+    public double? testResult { get; set; }
     /// <summary>
     /// Gets or sets a value indicating whether the test result is abnormal.
     /// </summary>

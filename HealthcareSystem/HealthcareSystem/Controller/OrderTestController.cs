@@ -6,94 +6,38 @@ namespace HealthcareSystem.Controller;
 
 public class OrderTestController
 {
-    private readonly IOrderTestDAL orderTestDAL;
-    public OrderTestController(IOrderTestDAL orderTestDAL)
-    {
-        this.orderTestDAL = orderTestDAL;
-    }
-    public List<Test> GetAllTests()
-    {
-        return this.orderTestDAL.GetAllTests();
-    }
-
     #region Fields
-
-    private const int MaxtTestNameLength = 100;
-    private const int MaxUnitNameLength = 30;
 
     private readonly OrderTestDal orderTestDal;
 
     #endregion
-
+    
     #region Constructors
 
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="OrderTestController" /> class.
-    /// </summary>
-    /// <param name="orderTestDal">The order test dal.</param>
-    public OrderTestController(OrderTestDal orderTestDal)
+    public OrderTestController(OrderTestDal orderTestDAL)
     {
-        this.orderTestDal = orderTestDal;
+        this.orderTestDal = orderTestDAL;
     }
 
     #endregion
 
     #region Methods
-
-    /// <summary>
-    ///     Adds a new test.
-    /// </summary>
-    public int AddTest(Test test)
-    {
-        this.ensureAdministrator();
-        this.validateTest(test);
-
-        return this.orderTestDal.AddTest(test);
-    }
-
     /// <summary>
     ///     Retrieves all tests.
     /// </summary>
     public IList<Test> GetAllTests()
     {
-        this.ensureAdministrator();
-
         return this.orderTestDal.GetAllTests();
     }
 
-    /// <summary>
-    ///     Updates an existing test.
-    /// </summary>
-    public bool UpdateTest(Test test)
+    public void ConfirmLabOrder(IList<Test> tests, int visit_id)
     {
-        this.ensureAdministrator();
-        this.validateTest(test);
-
-        if (test.TestId <= 0)
+        int orderId = this.orderTestDal.LabOrder(DateTime.Now, visit_id);
+        foreach (Test test in tests)
         {
-            throw new ArgumentException("A valid test ID is required.");
+            this.orderTestDal.OrderTest(orderId, test.TestCode, null, null, false);
         }
 
-        return this.orderTestDal.UpdateTest(test);
-    }
-
-    private void ensureAdministrator()
-    {
-        if (!SessionManager.IsAdmin)
-        {
-            throw new UnauthorizedAccessException("Only administrators can manage tests.");
-        }
-    }
-
-
-    /// <summary>
-    ///     Retrieves all nurses.
-    /// </summary>
-    public IList<Nurse> GetAllNurses()
-    {
-        this.ensureAdministrator();
-
-        return this.nurseDal.GetAllNurses();
     }
     #endregion
 }
