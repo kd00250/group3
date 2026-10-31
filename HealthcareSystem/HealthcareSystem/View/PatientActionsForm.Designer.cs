@@ -83,7 +83,7 @@
             viewVisitsButton.Name = "viewVisitsButton";
             viewVisitsButton.Size = new Size(178, 79);
             viewVisitsButton.TabIndex = 4;
-            viewVisitsButton.Text = "View Visits";
+            viewVisitsButton.Text = "View/Edit Visits";
             viewVisitsButton.UseVisualStyleBackColor = true;
             viewVisitsButton.Click += viewVisitsButton_Click;
             // 
