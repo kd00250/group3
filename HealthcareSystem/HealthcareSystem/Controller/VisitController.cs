@@ -122,8 +122,11 @@ public class VisitController
             throw new ArgumentException("Only a nurse can start a visit.");
         }
 
-        return this.visitDal.CreateVisit(
-            patient.PatientId,
-            appointment.AppointmentId);
+        var visit = this.visitDal.CreateVisit(patient.PatientId, appointment.AppointmentId);
+
+        visit.DoctorName = appointment.DoctorName;
+        visit.Reason = appointment.Reason;
+
+        return visit;
     }
 }

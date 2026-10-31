@@ -22,6 +22,14 @@ public class Appointment
     public int DoctorId { get; set; }
 
     /// <summary>
+    ///     Gets or sets the name of the doctor.
+    /// </summary>
+    /// <value>
+    ///     The name of the doctor.
+    /// </value>
+    public string DoctorName { get; set; } = string.Empty;
+
+    /// <summary>
     /// Gets or sets the appointment date, only the date part is used.
     /// </summary>
     public DateTime AppointmentDate { get; set; }

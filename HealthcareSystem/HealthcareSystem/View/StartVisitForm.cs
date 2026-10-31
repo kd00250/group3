@@ -24,8 +24,8 @@ namespace HealthcareSystem.View
             this.dataGridView1.AutoGenerateColumns = true;
             this.dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            this.startVisitButton.Click += this.startVisitButton_Click;
-            this.backButton.Click += this.backButton_Click;
+            this.startVisitButton.Enabled = false;
+            this.dataGridView1.SelectionChanged += this.dataGridView1_SelectionChanged;
 
             this.loadAppointments();
         }
@@ -42,6 +42,8 @@ namespace HealthcareSystem.View
             this.dataGridView1.Columns[nameof(Appointment.PatientId)]!.Visible = false;
             this.dataGridView1.Columns[nameof(Appointment.AppointmentDate)]!.Visible = false;
             this.dataGridView1.Columns[nameof(Appointment.AppointmentTime)]!.Visible = false;
+            this.dataGridView1.Columns[nameof(Appointment.DoctorId)]!.Visible = false;
+            this.dataGridView1.Columns[nameof(Appointment.DoctorName)]!.HeaderText = "Doctor Name";
 
             if (this.dataGridView1.Columns[nameof(Appointment.AppointmentDateTime)] is DataGridViewColumn dateTimeColumn)
             {
@@ -50,7 +52,7 @@ namespace HealthcareSystem.View
 
             this.dataGridView1.ClearSelection();
 
-            this.startVisitButton.Enabled = appointments.Count > 0;
+            this.startVisitButton.Enabled = false;
         }
 
         private void backButton_Click(object? sender, EventArgs e)
@@ -61,16 +63,6 @@ namespace HealthcareSystem.View
 
         private void startVisitButton_Click(object? sender, EventArgs e)
         {
-            if (this.dataGridView1.SelectedRows.Count == 0)
-            {
-                MessageBox.Show(
-                    "Please select an appointment.",
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-
-                return;
-            }
 
             var appointment = this.dataGridView1.SelectedRows[0].DataBoundItem as Appointment;
 
@@ -120,6 +112,12 @@ namespace HealthcareSystem.View
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
+        }
+
+        private void dataGridView1_SelectionChanged(object? sender, EventArgs e)
+        {
+            this.startVisitButton.Enabled =
+                this.dataGridView1.SelectedRows.Count > 0;
         }
     }
 }

@@ -181,8 +181,12 @@ public class VisitDal
 
         const string query = """
                          SELECT a.appointment_id, a.patient_id, a.doctor_id,
-                                a.appointment_date, a.appointment_time, a.reason
+                                a.appointment_date, a.appointment_time, a.reason,
+                                dp.first_name AS doctor_first_name,
+                                dp.last_name AS doctor_last_name
                          FROM appointment a
+                         JOIN doctor d ON a.doctor_id = d.doctor_id
+                         JOIN person dp ON d.person_id = dp.person_id
                          WHERE a.patient_id = @patientId
                          AND TIMESTAMP(a.appointment_date, a.appointment_time) >= NOW()
                          AND NOT EXISTS (
@@ -211,7 +215,8 @@ public class VisitDal
                 DoctorId = reader.GetInt32(reader.GetOrdinal("doctor_id")),
                 AppointmentDate = reader.GetDateTime(reader.GetOrdinal("appointment_date")),
                 AppointmentTime = reader.GetTimeSpan(reader.GetOrdinal("appointment_time")),
-                Reason = this.getNullableString(reader, "reason")
+                Reason = this.getNullableString(reader, "reason"),
+                DoctorName = $"{reader.GetString(reader.GetOrdinal("doctor_first_name"))} " + $"{reader.GetString(reader.GetOrdinal("doctor_last_name"))}"
             });
         }
 
