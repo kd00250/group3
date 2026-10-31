@@ -74,6 +74,7 @@
             startVisitButton.TabIndex = 3;
             startVisitButton.Text = "Start Visit";
             startVisitButton.UseVisualStyleBackColor = true;
+            startVisitButton.Click += startVisitButton_Click;
             // 
             // backButton
             // 
@@ -83,6 +84,7 @@
             backButton.TabIndex = 4;
             backButton.Text = "Back";
             backButton.UseVisualStyleBackColor = true;
+            backButton.Click += backButton_Click;
             // 
             // loggedInUserControl1
             // 

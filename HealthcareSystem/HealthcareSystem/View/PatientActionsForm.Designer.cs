@@ -107,6 +107,7 @@
             startNewVisitButton.TabIndex = 6;
             startNewVisitButton.Text = "Start New Visit";
             startNewVisitButton.UseVisualStyleBackColor = true;
+            startNewVisitButton.Click += startNewVisitButton_Click;
             // 
             // PatientActionsForm
             // 

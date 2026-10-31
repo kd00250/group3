@@ -171,7 +171,7 @@ public class VisitDal
     }
 
     /// <summary>
-    /// Gets upcoming appointments for a patient that do not have visits.
+    ///     Gets upcoming appointments for a patient that do not have visits.
     /// </summary>
     /// <param name="patientId">The patient identifier.</param>
     /// <returns>The available appointments.</returns>
@@ -219,12 +219,12 @@ public class VisitDal
     }
 
     /// <summary>
-    /// Creates a visit for an available appointment.
+    ///     Creates a visit for an available appointment.
     /// </summary>
     /// <param name="patientId">The patient identifier.</param>
     /// <param name="appointmentId">The appointment identifier.</param>
     /// <returns>The newly created visit identifier.</returns>
-    public int CreateVisit(int patientId, int appointmentId)
+    public Visit CreateVisit(int patientId, int appointmentId)
     {
         const string query = """
                              INSERT INTO visit
@@ -259,7 +259,15 @@ public class VisitDal
             throw new ArgumentException(
                 "The appointment is no longer available for starting a visit.");
         }
+        var visitId = Convert.ToInt32(command.LastInsertedId);
 
-        return Convert.ToInt32(command.LastInsertedId);
+        return new Visit
+        {
+            VisitId = visitId,
+            AppointmentId = appointmentId,
+            PatientId = patientId,
+            VisitDateTime = DateTime.Now,
+            IsFinalized = false
+        };
     }
 }
