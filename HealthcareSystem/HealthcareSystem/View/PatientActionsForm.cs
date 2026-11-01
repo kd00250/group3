@@ -34,7 +34,9 @@ namespace HealthcareSystem.View
 
         private void viewAppointmentsButton_Click(object sender, EventArgs e)
         {
-
+            var appointmentController = new AppointmentController(new AppointmentDal(), new DoctorDal());
+            using var patientAppointmentsForm = new PatientAppointmentsForm(this.SelectedPatient, appointmentController);
+            patientAppointmentsForm.ShowDialog();
         }
 
         private void makeAppointmentButton_Click(object sender, EventArgs e)

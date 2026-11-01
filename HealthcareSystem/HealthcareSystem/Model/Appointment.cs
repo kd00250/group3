@@ -49,4 +49,18 @@ public class Appointment
     /// </summary>
     public DateTime AppointmentDateTime => this.AppointmentDate.Date + this.AppointmentTime;
 
+    /// <summary>
+    /// Gets or sets the first name of the doctor.
+    /// </summary>
+    public string DoctorFirstName { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the last name of the doctor.
+    /// </summary>
+    public string DoctorLastName { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets the full name of the doctor.
+    /// </summary>
+    public string DoctorFullName => $"{this.DoctorFirstName} {this.DoctorLastName}";
 }

@@ -282,6 +282,7 @@
             Controls.Add(backButton);
             Controls.Add(submitButton);
             Name = "PatientEditForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "PatientEditForm";
             ResumeLayout(false);
             PerformLayout();
