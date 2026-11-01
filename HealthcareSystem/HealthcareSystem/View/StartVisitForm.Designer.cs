@@ -34,6 +34,7 @@
             startVisitButton = new Button();
             backButton = new Button();
             loggedInUserControl1 = new LoggedInUserControl();
+            patientLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -93,11 +94,21 @@
             loggedInUserControl1.Size = new Size(271, 135);
             loggedInUserControl1.TabIndex = 5;
             // 
+            // patientLabel
+            // 
+            patientLabel.AutoSize = true;
+            patientLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            patientLabel.Location = new Point(255, 56);
+            patientLabel.Name = "patientLabel";
+            patientLabel.Size = new Size(0, 20);
+            patientLabel.TabIndex = 6;
+            // 
             // StartVisitForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(869, 503);
+            Controls.Add(patientLabel);
             Controls.Add(loggedInUserControl1);
             Controls.Add(backButton);
             Controls.Add(startVisitButton);
@@ -120,5 +131,6 @@
         private Button startVisitButton;
         private Button backButton;
         private LoggedInUserControl loggedInUserControl1;
+        private Label patientLabel;
     }
 }

@@ -16,6 +16,7 @@ namespace HealthcareSystem.View
             this.visitController = visitController;
 
             this.loggedInUserControl1.RefreshUser();
+            this.patientLabel.Text = $"Appointments for {this.selectedPatient.FullName} (born {this.selectedPatient.DateOfBirth:MM/dd/yyyy})";
 
             this.dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.MultiSelect = false;
