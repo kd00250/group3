@@ -22,13 +22,26 @@ public class PatientEditController
     /// <param name="isActive">The new active status for the patient.</param>
     public static void editPatient(Patient patient, String firstName, String lastName, String gender, DateTime dateOfBirth, String? streetAddress, String? city, String? state, String? zipCode, String? phoneNumber, bool isActive)
     {
-        if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName) || string.IsNullOrWhiteSpace(gender))
+        String errorMessage = "";
+        if (string.IsNullOrWhiteSpace(firstName))
         {
-            throw new ArgumentException("Please fill in first name, last name, and gender.");
+            errorMessage += "Please fill in first name." + Environment.NewLine;
         }
-        if (!Regex.Match(firstName, @"^\p{L}[\p{L}\p{M} '’\-\.]*$").Success || !Regex.Match(lastName, @"^\p{L}[\p{L}\p{M} '’\-\.]*$").Success)
+        if (string.IsNullOrWhiteSpace(lastName))
         {
-            throw new ArgumentException("First name, last name, can only contain letters, spaces, and the following characters: '’-.");
+            errorMessage += "Please fill in last name." + Environment.NewLine;
+        }
+        if (string.IsNullOrWhiteSpace(gender))
+        {
+            errorMessage += "Please fill in gender." + Environment.NewLine;
+        }
+        if (!Regex.Match(firstName, @"^\p{L}[\p{L}\p{M} '’\-\.]*$").Success)
+        {
+            errorMessage += "First name can only contain letters, spaces, and the following characters: '’-." + Environment.NewLine;
+        }
+        if (!Regex.Match(lastName, @"^\p{L}[\p{L}\p{M} '’\-\.]*$").Success)
+        {
+            errorMessage += "Last name can only contain letters, spaces, and the following characters: '’-." + Environment.NewLine;
         }
         if (string.IsNullOrWhiteSpace(streetAddress)) {
             streetAddress = null;
@@ -38,7 +51,7 @@ public class PatientEditController
             city = null;
         } else if (!Regex.Match(city, @"^\p{L}[\p{L}\p{M} '’\-\.]*$").Success)
         {
-            throw new ArgumentException("City can only contain letters, spaces, and the following characters: '’-.");
+            errorMessage += "City can only contain letters, spaces, and the following characters: '’-." + Environment.NewLine;
         }
         if (string.IsNullOrWhiteSpace(state))
         {
@@ -52,25 +65,29 @@ public class PatientEditController
             zipCode = null;
         } else if (!Regex.Match(zipCode, @"^\d{5}$").Success && !Regex.Match(zipCode, @"^\d{5}-\d{4}$").Success)
         {
-            throw new ArgumentException("Zip code must be in the format XXXXX or XXXXX-XXXX. " +
-                "If you want this field to be optional, please leave it blank.");
+            errorMessage += "Zip code must be in the format XXXXX or XXXXX-XXXX. " +
+                "If you want this field to be optional, please leave it blank." + Environment.NewLine;
         }
         if (string.IsNullOrWhiteSpace(phoneNumber))
         {
             phoneNumber = null;
         } else if (!Regex.Match(phoneNumber, @"^\d{3}-\d{3}-\d{4}$").Success)
         {
-            throw new ArgumentException("Phone number must be in the format XXX-XXX-XXXX. " +
-                "If you want this field to be optional, please leave it blank.");
+            errorMessage += "Phone number must be in the format XXX-XXX-XXXX. " +
+                "If you want this field to be optional, please leave it blank." + Environment.NewLine;
         }
 
         if (dateOfBirth > DateTime.Now)
         {
-            throw new ArgumentException("Date of birth cannot be in the future.");
+            errorMessage += "Date of birth cannot be in the future." + Environment.NewLine;
         }
         if (gender != "Male" && gender != "Female" && gender != "Other")
         {
-            throw new ArgumentException("Invalid gender. Please select Male, Female, or Other.");
+            errorMessage += "Invalid gender. Please select Male, Female, or Other." + Environment.NewLine;
+        }
+        if (!string.IsNullOrEmpty(errorMessage))
+        {
+            throw new ArgumentException(errorMessage);
         }
         patient.FirstName = firstName;
         patient.LastName = lastName;
