@@ -125,3 +125,19 @@ SELECT date_add(curdate(), interval 7 day), '09:30:00', 'Follow up visit', pa.pa
 		 doctor d JOIN person dp ON d.person_id = dp.person_id
 	WHERE pe.first_name = 'John' AND pe.last_name = 'Daniels'
 		AND dp.last_name = 'Mitchell';
+        
+-- Past appointments for testing the past appointments list
+-- Jane Daniels (2001) now has two past apointments
+INSERT INTO appointment (appointment_date, appointment_time, reason, patient_id, doctor_id)
+SELECT date_sub(curdate(), interval 14 day), '10:00:00', 'Annual checkup', pa.patient_id, d.doctor_id
+	FROM patient pa JOIN person pe ON pa.person_id = pe.person_id,
+		 doctor d JOIN person dp ON d.person_id = dp.person_id
+	WHERE pe.first_name = 'Jane' AND pe.date_of_birth = '2001-11-17'
+		AND dp.last_name = 'Owen';
+        
+INSERT INTO appointment (appointment_date, appointment_time, reason, patient_id, doctor_id)
+SELECT date_sub(curdate(), interval 30 day), '13:30:00', 'Flu symptoms', pa.patient_id, d.doctor_id
+	FROM patient pa JOIN person pe ON pa.person_id = pe.person_id,
+		 doctor d JOIN person dp ON d.person_id = dp.person_id
+	WHERE pe.first_name = 'Jane' AND pe.date_of_birth = '2001-11-17'
+		AND dp.last_name = 'Daniels';

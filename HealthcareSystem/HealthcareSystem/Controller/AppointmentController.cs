@@ -146,6 +146,22 @@ public class AppointmentController
         return this.appointmentDal.Add(appointment);
     }
 
+    /// <summary>
+    /// Gets the appointments for patient which are split into upcoming and past appointments
+    /// using the same moment in time so every appointment appears in exactly one of the two lists.
+    /// </summary>
+    /// <param name="patientId">The patient identifier.</param>
+    /// <returns>The upcoming and past appointments.</returns>
+    public (List<Appointment> Upcoming, List<Appointment> Past) GetAppointmentsForPatient(int patientId)
+    {
+        var now = DateTime.Now;
+
+        var upcoming = this.appointmentDal.GetUpcomingAppointments(patientId, now);
+        var past = this.appointmentDal.GetPastAppointments(patientId, now);
+
+        return (upcoming, past);   
+    }
+
     private static bool isValidSlot(TimeSpan time)
     {
         return time >= FirstSlot && time <= LastSlot && time.Minutes % SlotMinutes == 0 && time.Seconds == 0;
