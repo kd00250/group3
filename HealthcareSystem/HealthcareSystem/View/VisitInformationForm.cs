@@ -38,7 +38,6 @@ namespace HealthcareSystem.View
             if (this.visit.IsFinalized)
             {
                 this.setReadOnly();
-                this.showError("This visit is finalized and can no longer be edited.");
             }
         }
 
@@ -55,6 +54,8 @@ namespace HealthcareSystem.View
             this.nurseLabel.Text = $"Recorded by: {(string.IsNullOrWhiteSpace(this.visit.NurseName) ? "not yet recorded" : this.visit.NurseName)}";
             this.checkedLabel.Text = $"Checked: {(this.visit.CheckDateTime.HasValue ? this.visit.CheckDateTime.Value.ToString("MM/dd/yyyy h:mm tt") : "not yet recorded")}";
             this.finalizedLabel.Text = $"Finalized: {(this.visit.IsFinalized ? "Yes" : "No")}";
+
+            this.validateFields();
         }
 
         private void setReadOnly()
@@ -69,46 +70,59 @@ namespace HealthcareSystem.View
             this.saveButton.Enabled = false;
         }
 
+        private void field_TextChanged(object? sender, EventArgs e)
+        {
+            this.validateFields();
+        }
+
+        /// <summary>
+        /// Checks every field for a missing or non-numeric value, shows the problem next to it, and enables Save only when every field is valid.
+        /// </summary>
+        private void validateFields()
+        {
+            var errors = new[]
+            {
+                this.showFieldError(this.heightErrorLabel, validateDecimal(this.heightTextBox.Text)),
+                this.showFieldError(this.weightErrorLabel, validateDecimal(this.weightTextBox.Text)),
+                this.showFieldError(this.systolicErrorLabel, validateInteger(this.systolicTextBox.Text)),
+                this.showFieldError(this.diastolicErrorLabel, validateInteger(this.diastolicTextBox.Text)),
+                this.showFieldError(this.temperatureErrorLabel, validateDecimal(this.temperatureTextBox.Text)),
+                this.showFieldError(this.pulseErrorLabel, validateInteger(this.pulseTextBox.Text)),
+                this.showFieldError(this.symptomsErrorLabel, string.IsNullOrWhiteSpace(this.symptomsTextBox.Text) ? "Required." : null)
+            };
+
+            this.saveButton.Enabled = !this.visit.IsFinalized && errors.All(error => error == null);
+        }
+
+        private string? showFieldError(Label errorLabel, string? error)
+        {
+            errorLabel.Text = error ?? string.Empty;
+
+            return error;
+        }
+
+        private static string? validateDecimal(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return "Required.";
+            }
+
+            return decimal.TryParse(text.Trim(), NumberStyles.Number, CultureInfo.CurrentCulture, out _) ? null : "Enter a valid number.";
+        }
+
+        private static string? validateInteger(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return "Required.";
+            }
+
+            return int.TryParse(text.Trim(), NumberStyles.Integer, CultureInfo.CurrentCulture, out _) ? null : "Enter a whole number.";
+        }
+
         private void saveButton_Click(object sender, EventArgs e)
         {
-            this.errorLabel.Visible = false;
-
-            if (!tryParseDecimal(this.heightTextBox.Text, out var height))
-            {
-                this.showError("Height (in) must be a number.");
-                return;
-            }
-
-            if (!tryParseDecimal(this.weightTextBox.Text, out var weight))
-            {
-                this.showError("Weight (lb) must be a number.");
-                return;
-            }
-
-            if (!tryParseInt(this.systolicTextBox.Text, out var systolic))
-            {
-                this.showError("Systolic blood pressure (mmHg) must be a whole number.");
-                return;
-            }
-
-            if (!tryParseInt(this.diastolicTextBox.Text, out var diastolic))
-            {
-                this.showError("Diastolic blood pressure (mmHg) must be a whole number.");
-                return;
-            }
-
-            if (!tryParseDecimal(this.temperatureTextBox.Text, out var temperature))
-            {
-                this.showError("Body temperature (°F) must be a number.");
-                return;
-            }
-
-            if (!tryParseInt(this.pulseTextBox.Text, out var pulse))
-            {
-                this.showError("Pulse (bpm) must be a whole number.");
-                return;
-            }
-
             var edited = new Visit
             {
                 VisitId = this.visit.VisitId,
@@ -117,12 +131,12 @@ namespace HealthcareSystem.View
                 PatientId = this.visit.PatientId,
                 DoctorName = this.visit.DoctorName,
                 Reason = this.visit.Reason,
-                Height = height,
-                Weight = weight,
-                Systolic = systolic,
-                Diastolic = diastolic,
-                BodyTemperature = temperature,
-                Pulse = pulse,
+                Height = decimal.Parse(this.heightTextBox.Text.Trim(), NumberStyles.Number, CultureInfo.CurrentCulture),
+                Weight = decimal.Parse(this.weightTextBox.Text.Trim(), NumberStyles.Number, CultureInfo.CurrentCulture),
+                Systolic = int.Parse(this.systolicTextBox.Text.Trim(), NumberStyles.Integer, CultureInfo.CurrentCulture),
+                Diastolic = int.Parse(this.diastolicTextBox.Text.Trim(), NumberStyles.Integer, CultureInfo.CurrentCulture),
+                BodyTemperature = decimal.Parse(this.temperatureTextBox.Text.Trim(), NumberStyles.Number, CultureInfo.CurrentCulture),
+                Pulse = int.Parse(this.pulseTextBox.Text.Trim(), NumberStyles.Integer, CultureInfo.CurrentCulture),
                 Symptoms = this.symptomsTextBox.Text,
                 CheckDateTime = this.visit.CheckDateTime,
                 IsFinalized = this.visit.IsFinalized
@@ -156,6 +170,24 @@ namespace HealthcareSystem.View
             }
         }
 
+        private void decimalTextBox_KeyPress(object? sender, KeyPressEventArgs e)
+        {
+            if (sender is not TextBox textBox || char.IsControl(e.KeyChar) || char.IsDigit(e.KeyChar))
+            {
+                return;
+            }
+
+            var separator = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+            var alreadyHasSeparator = textBox.Text.Remove(textBox.SelectionStart, textBox.SelectionLength).Contains(separator);
+
+            e.Handled = e.KeyChar.ToString() != separator || alreadyHasSeparator;
+        }
+
+        private void integerTextBox_KeyPress(object? sender, KeyPressEventArgs e)
+        {
+            e.Handled = !char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar);
+        }
+
         private void orderTestsButton_Click(object sender, EventArgs e)
         {
         }
@@ -169,46 +201,9 @@ namespace HealthcareSystem.View
             Close();
         }
 
-        private static bool tryParseDecimal(string text, out decimal? value)
-        {
-            value = null;
-
-            if (string.IsNullOrWhiteSpace(text))
-            {
-                return true;
-            }
-
-            if (!decimal.TryParse(text.Trim(), NumberStyles.Number, CultureInfo.CurrentCulture, out var parsed))
-            {
-                return false;
-            }
-
-            value = parsed;
-            return true;
-        }
-
-        private static bool tryParseInt(string text, out int? value)
-        {
-            value = null;
-
-            if (string.IsNullOrWhiteSpace(text))
-            {
-                return true;
-            }
-
-            if (!int.TryParse(text.Trim(), NumberStyles.Integer, CultureInfo.CurrentCulture, out var parsed))
-            {
-                return false;
-            }
-
-            value = parsed;
-            return true;
-        }
-
         private void showError(string message)
         {
-            this.errorLabel.Text = message;
-            this.errorLabel.Visible = true;
+            MessageBox.Show(message, "Unable to Save Visit", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }
