@@ -1,6 +1,6 @@
 ﻿using HealthcareSystem.Controller;
 using HealthcareSystem.Model;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 
 namespace HealthcareSystem.View
 {
@@ -43,9 +43,6 @@ namespace HealthcareSystem.View
 
             this.patientLabel.Text = $"Appointment for {this.patient.FullName} (born {this.patient.DateOfBirth:MM/dd/yyyy})";
 
-            this.appointmentDatePicker.MinDate = DateTime.Today;
-            this.appointmentDatePicker.Value = DateTime.Today;
-
             this.timeComboBox.FormattingEnabled = true;
             this.timeComboBox.FormatString = "h:mm tt";
 
@@ -73,6 +70,7 @@ namespace HealthcareSystem.View
             try
             {
                 this.doctorComboBox.DisplayMember = nameof(Doctor.FullName);
+                this.doctorComboBox.ValueMember = nameof(Doctor.DoctorId);
                 this.doctorComboBox.DataSource = this.appointmentController.GetAllDoctors();
                 this.doctorComboBox.SelectedIndex = -1;
             }
@@ -161,6 +159,11 @@ namespace HealthcareSystem.View
 
         private void refreshAvailableTimes()
         {
+            if (this.mode == AppointmentFormMode.View)
+            {
+                return;
+            }
+
             this.timeComboBox.Items.Clear();
             this.availabilityLabel.Text = string.Empty;
 
@@ -174,7 +177,7 @@ namespace HealthcareSystem.View
             try
             {
                 var date = this.appointmentDatePicker.Value.Date;
-                var availableTimes = this.appointmentController.GetAvailableTimeSlots(doctor.DoctorId, date);
+                var availableTimes = this.appointmentController.GetAvailableTimeSlots(doctor.DoctorId, date, this.appointment?.AppointmentId);
 
                 foreach (var time in availableTimes)
                 {
@@ -224,7 +227,7 @@ namespace HealthcareSystem.View
 
         private void bookNewAppointment(Doctor? doctor, DateTime date, TimeSpan? time, string reason)
         {
-            var appointmentId = this.appointmentController.BookAppointment(this.patient, doctor, date, time.Value, reason);
+            var appointmentId = this.appointmentController.BookAppointment(this.patient, doctor, date, time, reason);
 
             MessageBox.Show(
                 $"Appointment ID:{appointmentId} has been booked for {this.patient.FullName} with Dr. {doctor.FullName} " +
@@ -237,7 +240,7 @@ namespace HealthcareSystem.View
 
         private void saveChanges(Doctor? doctor, DateTime date, TimeSpan? time, string reason)
         {
-            var updated = this.appointmentController.UpdateAppointment(this.patient, this.appointment!, doctor, date, time.Value, reason);
+            var updated = this.appointmentController.UpdateAppointment(this.patient, this.appointment!, doctor, date, time, reason);
 
             if (!updated)
             {

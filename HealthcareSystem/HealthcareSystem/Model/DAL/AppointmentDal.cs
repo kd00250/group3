@@ -22,7 +22,7 @@ public class AppointmentDal
                              SELECT appointment_time
                              FROM appointment
                              WHERE doctor_id = @doctorId 
-                             AND appointment_date = @appointmentDate;
+                             AND appointment_date = @appointmentDate
                              AND (@excludeAppointmentId IS NULL OR appointment_id != @excludeAppointmentId);
                              """;
         using var connection = new MySqlConnection(Connection.ConnectionString());
