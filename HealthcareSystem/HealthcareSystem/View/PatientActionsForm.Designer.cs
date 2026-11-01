@@ -57,9 +57,9 @@
             // 
             // viewEditAppointmentsButton
             // 
-            viewEditAppointmentsButton.Location = new Point(367, 156);
+            viewEditAppointmentsButton.Location = new Point(367, 150);
             viewEditAppointmentsButton.Name = "viewEditAppointmentsButton";
-            viewEditAppointmentsButton.Size = new Size(156, 59);
+            viewEditAppointmentsButton.Size = new Size(178, 79);
             viewEditAppointmentsButton.TabIndex = 2;
             viewEditAppointmentsButton.Text = "View/Edit Appointments";
             viewEditAppointmentsButton.UseVisualStyleBackColor = true;
