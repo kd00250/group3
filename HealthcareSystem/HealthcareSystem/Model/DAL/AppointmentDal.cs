@@ -78,4 +78,88 @@ public class AppointmentDal
         return (int)command.LastInsertedId;
     }
 
+    /// <summary>
+    /// Gets the upcoming appointments for a patient, soonest first.
+    /// </summary>
+    /// <param name="patientId">The patient identifier.</param>
+    /// <param name="now">The current date and time.</param>
+    /// <returns>The upcoming appointments with doctor names.</returns>
+    public List<Appointment> GetUpcomingAppointments(int patientId, DateTime now)
+    {
+        const string query = """
+                             SELECT a.appointment_id, a.appointment_date, a.appointment_time, a.reason,
+                                    a.patient_id, a.doctor_id,
+                                    dp.first_name AS doctor_first_name, dp.last_name AS doctor_last_name
+                             FROM appointment a
+                             JOIN doctor d ON a.doctor_id = d.doctor_id
+                             JOIN person dp ON d.doctor_id = dp.person_id
+                             WHERE a.patient_id = @patientId 
+                                AND TIMESTAMP(a.appointment_date, a.appointment_time) >= @now
+                             ORDER BY a.appointment_date, a.appointment_time;
+                             """;
+
+        return getAppointments(query, patientId, now);
+    }
+
+    /// <summary>
+    /// Gets the past appointments for a patient, most recent first.
+    /// </summary>
+    /// <param name="patientId">The patient identifier.</param>
+    /// <param name="now">The current date and time.</param>
+    /// <returns>The past appointments with doctor names.</returns>
+    public List<Appointment> GetPastAppointments(int patientId, DateTime now)
+    {
+        const string query = """
+                             SELECT a.appointment_id, a.appointment_date, a.appointment_time, a.reason,
+                                    a.patient_id, a.doctor_id,
+                                    dp.first_name AS doctor_first_name, dp.last_name AS doctor_last_name
+                             FROM appointment a
+                             JOIN doctor d ON a.doctor_id = d.doctor_id
+                             JOIN person dp ON d.doctor_id = dp.person_id
+                             WHERE a.patient_id = @patientId 
+                                AND TIMESTAMP(a.appointment_date, a.appointment_time) <= @now
+                             ORDER BY a.appointment_date DESC, a.appointment_time DESC;
+                             """;
+        return getAppointments(query, patientId, now);
+    }
+
+    private List<Appointment> getAppointments(string query, int patientId, DateTime now)
+    {
+        var appointments = new List<Appointment>();
+        using var connection = new MySqlConnection(Connection.ConnectionString());
+        connection.Open();
+
+        using var command = new MySqlCommand(query, connection);
+
+        command.Parameters.Add("@patientId", MySqlDbType.Int32);
+        command.Parameters["@patientId"].Value = patientId;
+
+        command.Parameters.Add("@now", MySqlDbType.DateTime);
+        command.Parameters["@now"].Value = now;
+
+        using var reader = command.ExecuteReader();
+
+        while (reader.Read())
+        {
+            appointments.Add(readAppointment(reader));
+        }
+
+        return appointments;
+    }
+
+    private static Appointment readAppointment(MySqlDataReader reader)
+    {
+        return new Appointment
+        {
+            AppointmentId = reader.GetInt32(reader.GetOrdinal("appointment_id")),
+            AppointmentDate = reader.GetDateTime(reader.GetOrdinal("appointment_date")),
+            AppointmentTime = reader.GetTimeSpan(reader.GetOrdinal("appointment_time")),
+            Reason = reader.GetFieldValueCheckNull<string?>(reader.GetOrdinal("reason")),
+            PatientId = reader.GetInt32(reader.GetOrdinal("patient_id")),
+            DoctorId = reader.GetInt32(reader.GetOrdinal("doctor_id")),
+            DoctorFirstName = reader.GetString(reader.GetOrdinal("doctor_first_name")),
+            DoctorLastName = reader.GetString(reader.GetOrdinal("doctor_last_name"))
+        };
+    }
+
 }
