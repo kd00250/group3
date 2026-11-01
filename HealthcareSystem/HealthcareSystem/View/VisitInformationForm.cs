@@ -28,6 +28,7 @@ namespace HealthcareSystem.View
             this.patient = patient;
             this.visitController = visitController;
             this.loggedInUserControl1.RefreshUser();
+            this.finalDiagnosisTextBox.TextChanged += this.finalDiagnosisTextBox_TextChanged;
 
             this.patientLabel.Text = $"{this.patient.FullName}, born {this.patient.DateOfBirth:MM/dd/yyyy}, Dr. {this.visit.DoctorName}";
             this.visitLabel.Text = $"Visit {this.visit.VisitId} on {this.visit.VisitDateTime:MM/dd/yyyy h:mm tt}" +
@@ -50,12 +51,14 @@ namespace HealthcareSystem.View
             this.temperatureTextBox.Text = this.visit.BodyTemperature?.ToString("0.#", CultureInfo.CurrentCulture) ?? string.Empty;
             this.pulseTextBox.Text = this.visit.Pulse?.ToString(CultureInfo.CurrentCulture) ?? string.Empty;
             this.symptomsTextBox.Text = this.visit.Symptoms ?? string.Empty;
+            this.finalDiagnosisTextBox.Text = this.visit.FinalDiagnosis ?? string.Empty;
 
             this.nurseLabel.Text = $"Recorded by: {(string.IsNullOrWhiteSpace(this.visit.NurseName) ? "not yet recorded" : this.visit.NurseName)}";
             this.checkedLabel.Text = $"Checked: {(this.visit.CheckDateTime.HasValue ? this.visit.CheckDateTime.Value.ToString("MM/dd/yyyy h:mm tt") : "not yet recorded")}";
             this.finalizedLabel.Text = $"Finalized: {(this.visit.IsFinalized ? "Yes" : "No")}";
 
             this.validateFields();
+            this.validateFinalDiagnosis();
         }
 
         private void setReadOnly()
@@ -68,6 +71,8 @@ namespace HealthcareSystem.View
             this.pulseTextBox.ReadOnly = true;
             this.symptomsTextBox.ReadOnly = true;
             this.saveButton.Enabled = false;
+            this.finalDiagnosisTextBox.ReadOnly = true;
+            this.finalizeVisitButton.Enabled = false;
         }
 
         private void field_TextChanged(object? sender, EventArgs e)
@@ -201,9 +206,63 @@ namespace HealthcareSystem.View
             Close();
         }
 
+        private void finalDiagnosisTextBox_TextChanged(object? sender, EventArgs e)
+        {
+            this.validateFinalDiagnosis();
+        }
+
+        private void validateFinalDiagnosis()
+        {
+            this.finalizeVisitButton.Enabled = !this.visit.IsFinalized && !string.IsNullOrWhiteSpace(this.finalDiagnosisTextBox.Text);
+        }
+
         private void showError(string message)
         {
             MessageBox.Show(message, "Unable to Save Visit", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void finalizeVisitButton_Click(object sender, EventArgs e)
+        {
+            var finalDiagnosis = this.finalDiagnosisTextBox.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(finalDiagnosis))
+            {
+                this.showError("Final diagnosis is required.");
+                return;
+            }
+
+            var result = MessageBox.Show(
+                "Make sure all checkup information and tests have been saved. " +
+                "Are you sure you want to finalize this visit? " +
+                "Once finalized, the checkup information, tests, and diagnosis " +
+                "can no longer be edited.",
+                "Confirm Final Diagnosis",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning,
+                MessageBoxDefaultButton.Button2);
+
+            if (result != DialogResult.Yes)
+            {
+                return;
+            }
+
+            try
+            {
+                this.visitController.FinalizeVisit(this.visit, finalDiagnosis);
+
+                this.showVisit();
+                this.setReadOnly();
+
+                MessageBox.Show("The visit has been finalized successfully.", "Visit Finalized", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (ArgumentException ex)
+            {
+                this.showError(ex.Message);
+            }
+            catch (MySqlException)
+            {
+                this.showError("Unable to finalize the visit in the database.");
+            }
         }
     }
 }

@@ -169,4 +169,27 @@ public class VisitDal
 
         return reader.IsDBNull(ordinal) ? null : reader.GetFieldValue<T>(ordinal);
     }
+
+    public bool FinalizeVisit(int visitId, string finalDiagnosis)
+    {
+        const string query = """
+                             UPDATE visit
+                             SET final_diagnosis = @finalDiagnosis,
+                                 is_finalized = TRUE
+                             WHERE visit_id = @visitId
+                             AND is_finalized = FALSE;
+                             """;
+
+        using var connection = new MySqlConnection(Connection.ConnectionString());
+        connection.Open();
+
+        using var command = new MySqlCommand(query, connection);
+        command.Parameters.Add("@finalDiagnosis", MySqlDbType.Text);
+        command.Parameters["@finalDiagnosis"].Value = finalDiagnosis;
+
+        command.Parameters.Add("@visitId", MySqlDbType.Int32);
+        command.Parameters["@visitId"].Value = visitId;
+
+        return command.ExecuteNonQuery() > 0;
+    }
 }

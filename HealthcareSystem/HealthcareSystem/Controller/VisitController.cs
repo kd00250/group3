@@ -100,4 +100,34 @@ public class VisitController
             throw new ArgumentException($"{name} must be greater than 0 and no more than {max}.");
         }
     }
+
+    public void FinalizeVisit(Visit visit, string finalDiagnosis)
+    {
+        if (visit.IsFinalized)
+        {
+            throw new ArgumentException("This visit has already been finalized.");
+        }
+
+        if (string.IsNullOrWhiteSpace(finalDiagnosis))
+        {
+            throw new ArgumentException("Final diagnosis is required.");
+        }
+
+        var user = SessionManager.CurrentUser;
+
+        if (user == null || this.visitDal.GetNurseIdByPersonId(user.PersonId) == null)
+        {
+            throw new ArgumentException("Only a nurse can finalize a visit.");
+        }
+
+        finalDiagnosis = finalDiagnosis.Trim();
+
+        if (!this.visitDal.FinalizeVisit(visit.VisitId, finalDiagnosis))
+        {
+            throw new ArgumentException("The visit could not be finalized. It may already be finalized.");
+        }
+
+        visit.FinalDiagnosis = finalDiagnosis;
+        visit.IsFinalized = true;
+    }
 }
