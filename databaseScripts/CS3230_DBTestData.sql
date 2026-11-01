@@ -125,6 +125,50 @@ SELECT date_add(curdate(), interval 7 day), '09:30:00', 'Follow up visit', pa.pa
 		 doctor d JOIN person dp ON d.person_id = dp.person_id
 	WHERE pe.first_name = 'John' AND pe.last_name = 'Daniels'
 		AND dp.last_name = 'Mitchell';
+
+-- ----------------------------------
+-- Patient Visits
+-- ----------------------------------
+
+-- Visit for Jane Daniels (2001) with Dr. Mitchell: editable, nothing recorded yet
+INSERT INTO visit (visit_datetime, appointment_id)
+SELECT timestamp(a.appointment_date, a.appointment_time), a.appointment_id
+FROM appointment a
+JOIN patient pa ON a.patient_id = pa.patient_id
+JOIN person pe ON pa.person_id = pe.person_id
+WHERE pe.first_name = 'Jane' AND pe.date_of_birth = '2001-11-17'
+  AND a.appointment_time = '09:00:00';
+  
+INSERT INTO visit (visit_datetime, appointment_id, height, weight, systolic, diastolic,
+                   body_temperature, pulse, symptoms, check_datetime,
+                   initial_diagnosis, final_diagnosis, nurse_id, is_finalized)
+SELECT timestamp(a.appointment_date, a.appointment_time), a.appointment_id,
+       70, 180, 120, 80, 98.6, 72, 'Cough', now(),
+       'Possible dislocation', 'Broken Bone',
+       (SELECT n.nurse_id FROM nurse n JOIN person p ON n.person_id = p.person_id
+        WHERE p.last_name = 'Smith'),
+       TRUE
+FROM appointment a
+JOIN patient pa ON a.patient_id = pa.patient_id
+JOIN person pe ON pa.person_id = pe.person_id
+WHERE pe.first_name = 'Jane' AND pe.last_name = 'Daniels'
+  AND a.appointment_time = '10:45:00';
+  
+-- Visit for John Daniels with Dr. Mitchell: finalized, to test the read-only state
+INSERT INTO visit (visit_datetime, appointment_id, height, weight, systolic, diastolic,
+                   body_temperature, pulse, symptoms, check_datetime,
+                   initial_diagnosis, final_diagnosis, nurse_id, is_finalized)
+SELECT timestamp(a.appointment_date, a.appointment_time), a.appointment_id,
+       70, 180, 120, 80, 98.6, 72, 'Cough', now(),
+       'Possible cold', 'Common cold',
+       (SELECT n.nurse_id FROM nurse n JOIN person p ON n.person_id = p.person_id
+        WHERE p.last_name = 'Smith'),
+       TRUE
+FROM appointment a
+JOIN patient pa ON a.patient_id = pa.patient_id
+JOIN person pe ON pa.person_id = pe.person_id
+WHERE pe.first_name = 'John' AND pe.last_name = 'Daniels'
+  AND a.appointment_time = '09:30:00';
         
 -- Past appointments for testing the past appointments list
 -- Jane Daniels (2001) now has two past apointments
