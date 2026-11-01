@@ -136,7 +136,7 @@ public class AppointmentDal
                                     dp.first_name AS doctor_first_name, dp.last_name AS doctor_last_name
                              FROM appointment a
                              JOIN doctor d ON a.doctor_id = d.doctor_id
-                             JOIN person dp ON d.doctor_id = dp.person_id
+                             JOIN person dp ON d.person_id = dp.person_id
                              WHERE a.patient_id = @patientId 
                                 AND TIMESTAMP(a.appointment_date, a.appointment_time) >= @now
                              ORDER BY a.appointment_date, a.appointment_time;
@@ -159,7 +159,7 @@ public class AppointmentDal
                                     dp.first_name AS doctor_first_name, dp.last_name AS doctor_last_name
                              FROM appointment a
                              JOIN doctor d ON a.doctor_id = d.doctor_id
-                             JOIN person dp ON d.doctor_id = dp.person_id
+                             JOIN person dp ON d.person_id = dp.person_id
                              WHERE a.patient_id = @patientId 
                                 AND TIMESTAMP(a.appointment_date, a.appointment_time) <= @now
                              ORDER BY a.appointment_date DESC, a.appointment_time DESC;
