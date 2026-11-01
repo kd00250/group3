@@ -13,6 +13,7 @@ namespace HealthcareSystem.View
         private readonly Visit visit;
         private readonly Patient patient;
         private readonly VisitController visitController;
+        private bool hasUnsavedChanges;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VisitInformationForm"/> class.
@@ -35,6 +36,9 @@ namespace HealthcareSystem.View
                                    (string.IsNullOrWhiteSpace(this.visit.Reason) ? string.Empty : $" - {this.visit.Reason}");
 
             this.showVisit();
+
+            this.hasUnsavedChanges = false;
+            this.validateFinalDiagnosis();
 
             if (this.visit.IsFinalized)
             {
@@ -77,6 +81,7 @@ namespace HealthcareSystem.View
 
         private void field_TextChanged(object? sender, EventArgs e)
         {
+            this.hasUnsavedChanges = true;
             this.validateFields();
         }
 
@@ -96,7 +101,11 @@ namespace HealthcareSystem.View
                 this.showFieldError(this.symptomsErrorLabel, string.IsNullOrWhiteSpace(this.symptomsTextBox.Text) ? "Required." : null)
             };
 
-            this.saveButton.Enabled = !this.visit.IsFinalized && errors.All(error => error == null);
+            var isValid = errors.All(error => error == null);
+
+            this.saveButton.Enabled = !this.visit.IsFinalized && isValid;
+            this.finalDiagnosisTextBox.Enabled = !this.visit.IsFinalized && isValid;
+            this.validateFinalDiagnosis();
         }
 
         private string? showFieldError(Label errorLabel, string? error)
@@ -163,6 +172,9 @@ namespace HealthcareSystem.View
                 this.visit.NurseName = edited.NurseName;
                 this.showVisit();
 
+                this.hasUnsavedChanges = false;
+                this.validateFinalDiagnosis();
+
                 MessageBox.Show("Visit information has been saved.", "Visit Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (ArgumentException ex)
@@ -213,7 +225,18 @@ namespace HealthcareSystem.View
 
         private void validateFinalDiagnosis()
         {
-            this.finalizeVisitButton.Enabled = !this.visit.IsFinalized && !string.IsNullOrWhiteSpace(this.finalDiagnosisTextBox.Text);
+            this.finalizeVisitButton.Enabled =
+                !this.visit.IsFinalized &&
+                !this.hasUnsavedChanges &&
+                this.finalDiagnosisTextBox.Enabled &&
+                !string.IsNullOrWhiteSpace(this.finalDiagnosisTextBox.Text) &&
+                this.visit.Height.HasValue &&
+                this.visit.Weight.HasValue &&
+                this.visit.Systolic.HasValue &&
+                this.visit.Diastolic.HasValue &&
+                this.visit.BodyTemperature.HasValue &&
+                this.visit.Pulse.HasValue &&
+                !string.IsNullOrWhiteSpace(this.visit.Symptoms);
         }
 
         private void showError(string message)
