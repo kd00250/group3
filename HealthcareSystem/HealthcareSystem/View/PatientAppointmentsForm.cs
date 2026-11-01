@@ -48,6 +48,9 @@ namespace HealthcareSystem.View
                 this.errorLabel.Text = "Unable to load appointments from the database.";
                 this.errorLabel.Visible = true;
             }
+
+            this.editAppointmentButton.Enabled = false;
+            this.viewDetailsButton.Enabled = false;
         }
 
         private static void configureGrid(DataGridView grid)
@@ -59,6 +62,7 @@ namespace HealthcareSystem.View
             grid.MultiSelect = false;
             grid.RowHeadersVisible = false;
             grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            grid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
         }
 
         private static void configureColumns(DataGridView grid)
@@ -72,6 +76,10 @@ namespace HealthcareSystem.View
             showColumn(grid, nameof(Appointment.AppointmentDateTime), "Time", "hh:mm tt", 1);
             showColumn(grid, nameof(Appointment.DoctorFullName), "Doctor", null, 2);
             showColumn(grid, nameof(Appointment.Reason), "Reason", null, 3);
+
+            var reasonColumn = grid.Columns[nameof(Appointment.Reason)];
+            reasonColumn.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            reasonColumn.FillWeight = 200;
 
             grid.ClearSelection();
         }
@@ -92,6 +100,95 @@ namespace HealthcareSystem.View
         private void backButton_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void editAppointmentButton_Click(object sender, EventArgs e)
+        {
+            this.editSelectedAppointment();
+        }
+
+        private void viewDetailsButton_Click(object sender, EventArgs e)
+        {
+            this.viewSelectedAppointment();
+        }
+
+        private void upcomingGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            var hasSelection = getSelectedAppointment(this.upcomingGridView) != null;
+            this.editAppointmentButton.Enabled = hasSelection;
+            
+            if (hasSelection)
+            {
+                this.pastGridView.ClearSelection();
+            }
+        }
+
+        private void upcomingGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                this.editSelectedAppointment();
+            }
+        }
+
+        private void pastGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                this.viewSelectedAppointment();
+            }
+        }
+
+        private void pastGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            var hasSelection = getSelectedAppointment(this.pastGridView) != null;
+            this.viewDetailsButton.Enabled = hasSelection;
+            
+            if (hasSelection)
+            {
+                this.upcomingGridView.ClearSelection();
+            }  
+        }
+
+        private void editSelectedAppointment()
+        {
+            var appointment = getSelectedAppointment(this.upcomingGridView);
+
+            if (appointment == null)
+            {
+                return;
+            }
+
+            using var appointmentForm = new AppointmentForm(this.patient, this.appointmentController, appointment, AppointmentFormMode.Edit);
+
+            if (appointmentForm.ShowDialog() == DialogResult.OK)
+            {
+                this.loadAppointments();
+            }
+        }
+
+        private void viewSelectedAppointment()
+        {
+            var appointment = getSelectedAppointment(this.pastGridView);
+
+            if (appointment == null)
+            {
+                return;
+            }
+
+            using var appointmentForm = new AppointmentForm(this.patient, this.appointmentController, appointment, AppointmentFormMode.View);
+
+            appointmentForm.ShowDialog();
+        }
+
+        private static Appointment? getSelectedAppointment(DataGridView grid)
+        {
+            if (grid.SelectedRows.Count == 0)
+            {
+                return null;
+            }
+
+            return grid.SelectedRows[0].DataBoundItem as Appointment;
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace HealthcareSystem.View
 {
-    partial class MakeAppointmentForm
+    partial class AppointmentForm
     {
         /// <summary>
         /// Required designer variable.
@@ -176,7 +176,7 @@
             backButton.UseVisualStyleBackColor = true;
             backButton.Click += backButton_Click;
             // 
-            // MakeAppointmentForm
+            // AppointmentForm
             // 
             AcceptButton = bookButton;
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -198,7 +198,7 @@
             Controls.Add(patientLabel);
             Controls.Add(loggedInUserControl1);
             Margin = new Padding(3, 4, 3, 4);
-            Name = "MakeAppointmentForm";
+            Name = "AppointmentForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Healthcare System - Make Appointment";
             ResumeLayout(false);

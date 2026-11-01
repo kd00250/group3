@@ -34,11 +34,12 @@
             label2 = new Label();
             upcomingGridView = new DataGridView();
             pastGridView = new DataGridView();
-            selectButton = new Button();
+            viewDetailsButton = new Button();
             backButton = new Button();
             upcomingEmptyLabel = new Label();
             pastEmptyLabel = new Label();
             errorLabel = new Label();
+            editAppointmentButton = new Button();
             ((System.ComponentModel.ISupportInitialize)upcomingGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pastGridView).BeginInit();
             SuspendLayout();
@@ -85,6 +86,8 @@
             upcomingGridView.Name = "upcomingGridView";
             upcomingGridView.Size = new Size(400, 245);
             upcomingGridView.TabIndex = 4;
+            upcomingGridView.CellDoubleClick += upcomingGridView_CellDoubleClick;
+            upcomingGridView.SelectionChanged += upcomingGridView_SelectionChanged;
             // 
             // pastGridView
             // 
@@ -93,15 +96,18 @@
             pastGridView.Name = "pastGridView";
             pastGridView.Size = new Size(400, 245);
             pastGridView.TabIndex = 5;
+            pastGridView.CellDoubleClick += pastGridView_CellDoubleClick;
+            pastGridView.SelectionChanged += pastGridView_SelectionChanged;
             // 
-            // selectButton
+            // viewDetailsButton
             // 
-            selectButton.Location = new Point(757, 376);
-            selectButton.Name = "selectButton";
-            selectButton.Size = new Size(75, 23);
-            selectButton.TabIndex = 6;
-            selectButton.Text = "Select";
-            selectButton.UseVisualStyleBackColor = true;
+            viewDetailsButton.Location = new Point(745, 339);
+            viewDetailsButton.Name = "viewDetailsButton";
+            viewDetailsButton.Size = new Size(87, 23);
+            viewDetailsButton.TabIndex = 6;
+            viewDetailsButton.Text = "View Details";
+            viewDetailsButton.UseVisualStyleBackColor = true;
+            viewDetailsButton.Click += viewDetailsButton_Click;
             // 
             // backButton
             // 
@@ -111,6 +117,7 @@
             backButton.TabIndex = 7;
             backButton.Text = "Back";
             backButton.UseVisualStyleBackColor = true;
+            backButton.Click += backButton_Click;
             // 
             // upcomingEmptyLabel
             // 
@@ -140,17 +147,28 @@
             errorLabel.TabIndex = 10;
             errorLabel.Text = "ERROR";
             // 
+            // editAppointmentButton
+            // 
+            editAppointmentButton.Location = new Point(296, 339);
+            editAppointmentButton.Name = "editAppointmentButton";
+            editAppointmentButton.Size = new Size(116, 23);
+            editAppointmentButton.TabIndex = 11;
+            editAppointmentButton.Text = "Edit Appointment";
+            editAppointmentButton.UseVisualStyleBackColor = true;
+            editAppointmentButton.Click += editAppointmentButton_Click;
+            // 
             // PatientAppointmentsForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = backButton;
             ClientSize = new Size(843, 400);
+            Controls.Add(editAppointmentButton);
             Controls.Add(errorLabel);
             Controls.Add(pastEmptyLabel);
             Controls.Add(upcomingEmptyLabel);
             Controls.Add(backButton);
-            Controls.Add(selectButton);
+            Controls.Add(viewDetailsButton);
             Controls.Add(pastGridView);
             Controls.Add(upcomingGridView);
             Controls.Add(label2);
@@ -174,10 +192,11 @@
         private Label label2;
         private DataGridView upcomingGridView;
         private DataGridView pastGridView;
-        private Button selectButton;
+        private Button viewDetailsButton;
         private Button backButton;
         private Label upcomingEmptyLabel;
         private Label pastEmptyLabel;
         private Label errorLabel;
+        private Button editAppointmentButton;
     }
 }

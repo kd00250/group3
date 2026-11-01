@@ -41,8 +41,9 @@ public class AppointmentController
     /// </summary>
     /// <param name="doctorId">The doctor identifier.</param>
     /// <param name="date">The date.</param>
+    /// <param name="excludeAppointmentId">The appointment ID to exclude from the search, if any.</param>
     /// <returns>The available time slots.</returns>
-    public List<TimeSpan> GetAvailableTimeSlots(int doctorId, DateTime date)
+    public List<TimeSpan> GetAvailableTimeSlots(int doctorId, DateTime date, int? excludeAppointmentId = null)
     {
         var availableTimeSlots = new List<TimeSpan>();
 
@@ -51,12 +52,12 @@ public class AppointmentController
             return availableTimeSlots;
         }
 
-        var bookedTimes = this.appointmentDal.GetBookedTimes(doctorId, date);
+        var bookedTimes = this.appointmentDal.GetBookedTimes(doctorId, date, excludeAppointmentId);
 
         for (var time = FirstSlot; time <= LastSlot; time += TimeSpan.FromMinutes(SlotMinutes))
         {
             var isBooked = bookedTimes.Contains(time);
-            var hasPassed = date.Date + time <= DateTime.Today;
+            var hasPassed = date.Date + time <= DateTime.Now;
             if (!isBooked && !hasPassed)
             {
                 availableTimeSlots.Add(time);
@@ -94,45 +95,7 @@ public class AppointmentController
     /// </exception>
     public int BookAppointment(Patient patient, Doctor? doctor, DateTime date, TimeSpan? time, string? reason)
     {
-        if (!patient.IsActive)
-        {
-            throw new ArgumentException("Patient is not active. Make the patient active before booking an appointment.");
-        }
-
-        if (doctor == null)
-        {
-            throw new ArgumentException( "Please select a doctor.");
-        }
-
-        if (time == null)
-        {
-            throw new ArgumentException("Please select a time slot.");
-        }
-
-        if (string.IsNullOrWhiteSpace(reason))
-        {
-            throw new ArgumentException("Please enter a reason for the appointment.");
-        }
-
-        if (reason.Trim().Length > MaxReasonsLength)
-        {
-            throw new ArgumentException($"Reason cannot exceed {MaxReasonsLength} characters.");
-        }
-
-        if (!isValidSlot(time.Value))
-        {
-            throw new ArgumentException("Please select a valid time slot.");
-        }
-
-        if (date.Date + time.Value <= DateTime.Now)
-        {
-            throw new ArgumentException("Please select a future date and time for the appointment.");
-        }
-
-        if (this.appointmentDal.GetBookedTimes(doctor.DoctorId, date).Contains(time.Value))
-        {
-            throw new ArgumentException($"Dr. {doctor.FirstName} {doctor.LastName} is not available at the selected time.");
-        }
+        this.validateAppointmentDetails(patient, doctor, date, time, reason, null);
 
         var appointment = new Appointment
         {
@@ -162,9 +125,85 @@ public class AppointmentController
         return (upcoming, past);   
     }
 
+    /// <summary>
+    /// Updates an existing appointment.
+    /// </summary>
+    /// <param name="patient">The patient.</param>
+    /// <param name="original">The original appointment.</param>
+    /// <param name="doctor">The doctor.</param>
+    /// <param name="date">The date.</param>
+    /// <param name="time">The time.</param>
+    /// <param name="reason">The reason.</param>
+    /// <returns>True if the appointment was updated successfully, false otherwise.</returns>
+    public bool UpdateAppointment(Patient patient, Appointment original, Doctor? doctor, DateTime date, TimeSpan? time, string? reason)
+    {
+        if (original.AppointmentDateTime <= DateTime.Now)
+        {
+            throw new ArgumentException("Cannot update a past appointment.");
+        }
+        
+        this.validateAppointmentDetails(patient, doctor, date, time, reason, original.AppointmentId);
+
+        var updated = new Appointment()
+        {
+            AppointmentId = original.AppointmentId,
+            PatientId = patient.PatientId,
+            DoctorId = doctor!.DoctorId,
+            AppointmentDate = date.Date,
+            AppointmentTime = time!.Value,
+            Reason = reason!.Trim()
+        };
+
+        return this.appointmentDal.UpdateAppointment(updated);
+    }
+
     private static bool isValidSlot(TimeSpan time)
     {
         return time >= FirstSlot && time <= LastSlot && time.Minutes % SlotMinutes == 0 && time.Seconds == 0;
+    }
+
+    private void validateAppointmentDetails(Patient patient, Doctor? doctor, DateTime date, TimeSpan? time,
+        string? reason, int? excludeAppointmentId)
+    {
+        if (!patient.IsActive)
+        {
+            throw new ArgumentException("Patient is not active. Make the patient active before making or changing an appointment.");
+        }
+
+        if (doctor == null)
+        {
+            throw new ArgumentException("Please select a doctor.");
+        }
+
+        if (time == null)
+        {
+            throw new ArgumentException("Please select a time slot.");
+        }
+
+        if (string.IsNullOrWhiteSpace(reason))
+        {
+            throw new ArgumentException("Please enter a reason for the appointment.");
+        }
+
+        if (reason.Trim().Length > MaxReasonsLength)
+        {
+            throw new ArgumentException($"Reason cannot exceed {MaxReasonsLength} characters.");
+        }
+
+        if (!isValidSlot(time.Value))
+        {
+            throw new ArgumentException("Please select a valid time slot.");
+        }
+
+        if (date.Date + time.Value <= DateTime.Now)
+        {
+            throw new ArgumentException("Please select a future date and time for the appointment.");
+        }
+
+        if (this.appointmentDal.GetBookedTimes(doctor.DoctorId, date, excludeAppointmentId).Contains(time.Value))
+        {
+            throw new ArgumentException($"Dr. {doctor.FirstName} {doctor.LastName} is not available at the selected time.");
+        }
     }
 
 }
