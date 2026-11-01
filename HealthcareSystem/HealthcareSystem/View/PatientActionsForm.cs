@@ -48,7 +48,9 @@ namespace HealthcareSystem.View
 
         private void viewVisitsButton_Click(object sender, EventArgs e)
         {
-
+            var visitController = new VisitController(new VisitDal());
+            using var viewVisitsForm = new ViewVisitsForm(this.SelectedPatient, visitController);
+            viewVisitsForm.ShowDialog();
         }
 
         private void backButton_Click(object sender, EventArgs e)
