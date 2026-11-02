@@ -425,6 +425,7 @@
             Controls.Add(loggedInUserControl1);
             Margin = new Padding(3, 4, 3, 4);
             Name = "VisitInformationForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Healthcare System - Visit Information";
             ResumeLayout(false);
             PerformLayout();
