@@ -42,7 +42,7 @@ public class VisitController
     /// or
     /// The logged in user is not a nurse.
     /// or
-    /// A vital sign is not a valid positive value.
+    /// A vital sign or the symptoms are missing, or a vital sign is not a valid positive value.
     /// or
     /// The visit was not found or was finalized in the meantime.
     /// </exception>
@@ -53,6 +53,11 @@ public class VisitController
             throw new ArgumentException("This visit is finalized and can no longer be edited.");
         }
 
+        if (string.IsNullOrWhiteSpace(visit.Symptoms))
+        {
+            throw new ArgumentException("Symptoms are required.");
+        }
+
         validatePositive(visit.Height, MaxHeightOrWeight, "Height");
         validatePositive(visit.Weight, MaxHeightOrWeight, "Weight");
         validatePositive(visit.Systolic, MaxVitalInteger, "Systolic blood pressure");
@@ -60,7 +65,7 @@ public class VisitController
         validatePositive(visit.BodyTemperature, MaxBodyTemperature, "Body temperature");
         validatePositive(visit.Pulse, MaxVitalInteger, "Pulse");
 
-        if (visit.Systolic.HasValue && visit.Diastolic.HasValue && visit.Diastolic >= visit.Systolic)
+        if (visit.Diastolic >= visit.Systolic)
         {
             throw new ArgumentException("Diastolic blood pressure must be lower than systolic blood pressure.");
         }
@@ -87,7 +92,7 @@ public class VisitController
     {
         if (value == null)
         {
-            return;
+            throw new ArgumentException($"{name} is required.");
         }
 
         if (value.Value.CompareTo(default) <= 0 || value.Value.CompareTo(max) > 0)
