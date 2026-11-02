@@ -1,7 +1,8 @@
-﻿using System.Globalization;
-using HealthcareSystem.Controller;
+﻿using HealthcareSystem.Controller;
 using HealthcareSystem.Model;
 using MySqlConnector;
+using Org.BouncyCastle.Pqc.Crypto.Lms;
+using System.Globalization;
 
 namespace HealthcareSystem.View
 {
@@ -190,6 +191,9 @@ namespace HealthcareSystem.View
 
         private void orderTestsButton_Click(object sender, EventArgs e)
         {
+            var orderTestController = new OrderTestController(new Model.DAL.OrderTestDal());
+            var orderTestForm = new OrderTestForm(orderTestController, this.visit.VisitId);
+            orderTestForm.ShowDialog();
         }
 
         private void viewEditTestsButton_Click(object sender, EventArgs e)

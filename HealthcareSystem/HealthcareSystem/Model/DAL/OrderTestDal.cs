@@ -4,18 +4,14 @@ namespace HealthcareSystem.Model.DAL;
 
 public class OrderTestDal
 {
-    private readonly MySqlConnection connection;
-    public OrderTestDal(MySqlConnection connection)
-    {
-        this.connection = connection;
-    }
     public List<Test> GetAllTests()
     {
         var tests = new List<Test>();
+        using var connection = new MySqlConnection(Connection.ConnectionString());
+        connection.Open();
         try
-        {
-            this.connection.Open();
-            var command = new MySqlCommand("SELECT * FROM lab_test", this.connection);
+        {   
+            var command = new MySqlCommand("SELECT * FROM lab_test", connection);
             var reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -36,18 +32,19 @@ public class OrderTestDal
         }
         finally
         {
-            this.connection.Close();
+            connection.Close();
         }
         return tests;
     }
     
     public void OrderTest(int labOrderId, string testCode, DateTime? datetimePerformed, double? testResult, bool isAbnormal)
     {
+        using var connection = new MySqlConnection(Connection.ConnectionString());
+        connection.Open();
         try
         {
-            this.connection.Open();
             var command = new MySqlCommand("INSERT INTO ordered_tests (lab_order_id, test_code, datetime_performed," +
-                "test_result, is_abnormal) VALUES (@labOrderId, @testCode, @datetimePerformed, @testResult, @isAbnormal)", this.connection);
+                "test_result, is_abnormal) VALUES (@labOrderId, @testCode, @datetimePerformed, @testResult, @isAbnormal)", connection);
             command.Parameters.AddWithValue("@labOrderId", labOrderId);
             command.Parameters.AddWithValue("@testCode", testCode);
             command.Parameters.AddWithValue("@datetimePerformed", datetimePerformed);
@@ -61,18 +58,19 @@ public class OrderTestDal
         }
         finally
         {
-            this.connection.Close();
+            connection.Close();
         }
     }
 
     public int LabOrder(DateTime order_datetime, int visit_id)
     {
         int labOrderId = -1;
+        using var connection = new MySqlConnection(Connection.ConnectionString());
+        connection.Open();
         try
         {
-            this.connection.Open();
             var command = new MySqlCommand("INSERT INTO lab_order (order_datetime, visit_id) " +
-                "VALUES (@order_datetime, @visit_id)", this.connection);
+                "VALUES (@order_datetime, @visit_id)", connection);
             command.Parameters.AddWithValue("@order_datetime", order_datetime);
             command.Parameters.AddWithValue("@visit_id", visit_id);
             command.ExecuteNonQuery();
@@ -84,7 +82,7 @@ public class OrderTestDal
         }
         finally
         {
-            this.connection.Close();
+            connection.Close();
         }
         return labOrderId;
     }

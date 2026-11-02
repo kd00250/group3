@@ -185,3 +185,9 @@ SELECT date_sub(curdate(), interval 30 day), '13:30:00', 'Flu symptoms', pa.pati
 		 doctor d JOIN person dp ON d.person_id = dp.person_id
 	WHERE pe.first_name = 'Jane' AND pe.date_of_birth = '2001-11-17'
 		AND dp.last_name = 'Daniels';
+        
+-- Test list
+INSERT INTO lab_test 
+VALUES ('BLD123', 'Complete Blood Count', 4000, 11000, 'µL'),
+('BLD839', 'Platelet Count', 150000, 450000, 'µL'),
+('BLD921', 'Hemoglobin', 12.0, 18.0, 'g/dL');

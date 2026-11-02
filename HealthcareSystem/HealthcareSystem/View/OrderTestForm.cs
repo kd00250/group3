@@ -24,6 +24,7 @@ public partial class OrderTestForm : Form
         this.configureSelectGrid();
         this.configureSelectedGrid();
         this.loggedInUserControl1.RefreshUser();
+        this.loadTests();
     }
 
     #endregion
@@ -62,7 +63,7 @@ public partial class OrderTestForm : Form
         {
             var tests = this.orderTestController.GetAllTests();
             this.testSelectGrid.DataSource = tests;
-            this.testSelectGrid.ClearSelection();
+            this.configureColumns();
         }
         catch (MySqlException)
         {
@@ -74,6 +75,28 @@ public partial class OrderTestForm : Form
 
             Close();
         }
+    }
+
+    private void configureColumns()
+    {
+        foreach (DataGridViewColumn column in this.testSelectGrid.Columns)
+        {
+            column.Visible = false;
+        }
+
+        this.showColumn(nameof(Test.TestName), "Test Name");
+        this.showColumn(nameof(Test.HighValue), "High Value");
+        this.showColumn(nameof(Test.LowValue), "Low Value");
+        this.showColumn(nameof(Test.UnitName), "Unit");
+    }
+
+    private DataGridViewColumn showColumn(string name, string headerText)
+    {
+        var column = this.testSelectGrid.Columns[name]!;
+        column.Visible = true;
+        column.HeaderText = headerText;
+
+        return column;
     }
 
     private void displayTest(Test test)
@@ -101,11 +124,6 @@ public partial class OrderTestForm : Form
     private void backButton_Click(object sender, EventArgs e)
     {
         Close();
-    }
-
-    private void OrderTestForm_Load(object sender, EventArgs e)
-    {
-        this.loadTests();
     }
 
     private void addButton_Click(object sender, EventArgs e)
