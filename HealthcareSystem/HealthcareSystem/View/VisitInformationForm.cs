@@ -192,7 +192,7 @@ namespace HealthcareSystem.View
         private void orderTestsButton_Click(object sender, EventArgs e)
         {
             var orderTestController = new OrderTestController(new Model.DAL.OrderTestDal());
-            var orderTestForm = new OrderTestForm(orderTestController, this.visit.VisitId);
+            var orderTestForm = new OrderTestForm(orderTestController, this.visit, this.patient);
             orderTestForm.ShowDialog();
         }
 

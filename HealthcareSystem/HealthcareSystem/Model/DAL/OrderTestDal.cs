@@ -43,7 +43,7 @@ public class OrderTestDal
         connection.Open();
         try
         {
-            var command = new MySqlCommand("INSERT INTO ordered_tests (lab_order_id, test_code, datetime_performed," +
+            var command = new MySqlCommand("INSERT INTO ordered_test (lab_order_id, test_code, datetime_performed," +
                 "test_result, is_abnormal) VALUES (@labOrderId, @testCode, @datetimePerformed, @testResult, @isAbnormal)", connection);
             command.Parameters.AddWithValue("@labOrderId", labOrderId);
             command.Parameters.AddWithValue("@testCode", testCode);

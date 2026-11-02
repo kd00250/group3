@@ -46,6 +46,7 @@
             selectedLable = new Label();
             addButton = new Button();
             removeButton = new Button();
+            patientInfoLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)testSelectGrid).BeginInit();
             ((System.ComponentModel.ISupportInitialize)selectedTestGrid).BeginInit();
             SuspendLayout();
@@ -223,11 +224,20 @@
             removeButton.UseVisualStyleBackColor = true;
             removeButton.Click += removeButton_Click;
             // 
+            // patientInfoLabel
+            // 
+            patientInfoLabel.AutoSize = true;
+            patientInfoLabel.Location = new Point(463, 0);
+            patientInfoLabel.Name = "patientInfoLabel";
+            patientInfoLabel.Size = new Size(0, 20);
+            patientInfoLabel.TabIndex = 52;
+            // 
             // OrderTestForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(867, 704);
+            Controls.Add(patientInfoLabel);
             Controls.Add(removeButton);
             Controls.Add(addButton);
             Controls.Add(selectedLable);
@@ -275,5 +285,6 @@
         private Label selectedLable;
         private Button addButton;
         private Button removeButton;
+        private Label patientInfoLabel;
     }
 }

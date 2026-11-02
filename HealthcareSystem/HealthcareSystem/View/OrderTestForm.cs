@@ -12,17 +12,24 @@ public partial class OrderTestForm : Form
 
     private BindingList<Test> selectedTests = new BindingList<Test>();
     private readonly OrderTestController orderTestController;
-    private readonly int visitId;
+    private readonly Visit visit;
+    private readonly Patient patient;
 
     #endregion
 
     #region Constructors
 
-    public OrderTestForm(OrderTestController orderTestController, int visitId)
+    public OrderTestForm(OrderTestController orderTestController, Visit visit, Patient patient)
     {
         this.InitializeComponent();
+        this.visit = visit;
+        this.patient = patient;
+        this.patientInfoLabel.Text = $"{this.patient.FullName}, born {this.patient.DateOfBirth:MM/dd/yyyy}, Dr. {this.visit.DoctorName}";
         this.orderTestController = orderTestController;
-        this.visitId = visitId;
+        this.testNameBox.ReadOnly = true;
+        this.unitBox.ReadOnly = true;
+        this.highBox.ReadOnly = true;
+        this.lowBox.ReadOnly = true;
         this.configureSelectGrid();
         this.configureSelectedGrid();
         this.loggedInUserControl1.RefreshUser();
@@ -68,6 +75,8 @@ public partial class OrderTestForm : Form
             this.selectedTestGrid.DataSource = selectedTests;
             this.configureSelectColumns();
             this.configureSelectedColumns();
+            this.testSelectGrid.ClearSelection();
+            this.selectedTestGrid.ClearSelection();
         }
         catch (MySqlException)
         {
@@ -235,7 +244,7 @@ public partial class OrderTestForm : Form
             return;
         }
 
-        int visit_id = this.visitId;
+        int visit_id = this.visit.VisitId;
         try
         {
             this.orderTestController.ConfirmLabOrder(selectedTests, visit_id);

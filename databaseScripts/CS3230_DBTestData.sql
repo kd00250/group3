@@ -191,3 +191,5 @@ INSERT INTO lab_test
 VALUES ('BLD123', 'Complete Blood Count', 4000, 11000, 'µL'),
 ('BLD839', 'Platelet Count', 150000, 450000, 'µL'),
 ('BLD921', 'Hemoglobin', 12.0, 18.0, 'g/dL');
+
+
