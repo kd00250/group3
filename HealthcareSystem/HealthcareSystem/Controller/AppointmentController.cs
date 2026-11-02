@@ -41,8 +41,9 @@ public class AppointmentController
     /// </summary>
     /// <param name="doctorId">The doctor identifier.</param>
     /// <param name="date">The date.</param>
+    /// <param name="excludeAppointmentId">The appointment ID to exclude from the search, if any.</param>
     /// <returns>The available time slots.</returns>
-    public List<TimeSpan> GetAvailableTimeSlots(int doctorId, DateTime date)
+    public List<TimeSpan> GetAvailableTimeSlots(int doctorId, DateTime date, int? excludeAppointmentId = null)
     {
         var availableTimeSlots = new List<TimeSpan>();
 
@@ -51,12 +52,12 @@ public class AppointmentController
             return availableTimeSlots;
         }
 
-        var bookedTimes = this.appointmentDal.GetBookedTimes(doctorId, date);
+        var bookedTimes = this.appointmentDal.GetBookedTimes(doctorId, date, excludeAppointmentId);
 
         for (var time = FirstSlot; time <= LastSlot; time += TimeSpan.FromMinutes(SlotMinutes))
         {
             var isBooked = bookedTimes.Contains(time);
-            var hasPassed = date.Date + time <= DateTime.Today;
+            var hasPassed = date.Date + time <= DateTime.Now;
             if (!isBooked && !hasPassed)
             {
                 availableTimeSlots.Add(time);
@@ -94,14 +95,84 @@ public class AppointmentController
     /// </exception>
     public int BookAppointment(Patient patient, Doctor? doctor, DateTime date, TimeSpan? time, string? reason)
     {
+        this.validateAppointmentDetails(patient, doctor, date, time, reason, null);
+
+        var appointment = new Appointment
+        {
+            PatientId = patient.PatientId,
+            DoctorId = doctor.DoctorId,
+            AppointmentDate = date.Date,
+            AppointmentTime = time.Value,
+            Reason = reason.Trim()
+        };
+
+        return this.appointmentDal.Add(appointment);
+    }
+
+    /// <summary>
+    /// Gets the appointments for patient which are split into upcoming and past appointments
+    /// using the same moment in time so every appointment appears in exactly one of the two lists.
+    /// </summary>
+    /// <param name="patientId">The patient identifier.</param>
+    /// <returns>The upcoming and past appointments.</returns>
+    public (List<Appointment> Upcoming, List<Appointment> Past) GetAppointmentsForPatient(int patientId)
+    {
+        var now = DateTime.Now;
+
+        var upcoming = this.appointmentDal.GetUpcomingAppointments(patientId, now);
+        var past = this.appointmentDal.GetPastAppointments(patientId, now);
+
+        return (upcoming, past);   
+    }
+
+    /// <summary>
+    /// Updates an existing appointment.
+    /// </summary>
+    /// <param name="patient">The patient.</param>
+    /// <param name="original">The original appointment.</param>
+    /// <param name="doctor">The doctor.</param>
+    /// <param name="date">The date.</param>
+    /// <param name="time">The time.</param>
+    /// <param name="reason">The reason.</param>
+    /// <returns>True if the appointment was updated successfully, false otherwise.</returns>
+    public bool UpdateAppointment(Patient patient, Appointment original, Doctor? doctor, DateTime date, TimeSpan? time, string? reason)
+    {
+        if (original.AppointmentDateTime <= DateTime.Now)
+        {
+            throw new ArgumentException("Cannot update a past appointment.");
+        }
+        
+        this.validateAppointmentDetails(patient, doctor, date, time, reason, original.AppointmentId);
+
+        var updated = new Appointment()
+        {
+            AppointmentId = original.AppointmentId,
+            PatientId = patient.PatientId,
+            DoctorId = doctor!.DoctorId,
+            AppointmentDate = date.Date,
+            AppointmentTime = time!.Value,
+            Reason = reason!.Trim()
+        };
+
+        return this.appointmentDal.UpdateAppointment(updated);
+    }
+
+    private static bool isValidSlot(TimeSpan time)
+    {
+        return time >= FirstSlot && time <= LastSlot && time.Minutes % SlotMinutes == 0 && time.Seconds == 0;
+    }
+
+    private void validateAppointmentDetails(Patient patient, Doctor? doctor, DateTime date, TimeSpan? time,
+        string? reason, int? excludeAppointmentId)
+    {
         if (!patient.IsActive)
         {
-            throw new ArgumentException("Patient is not active. Make the patient active before booking an appointment.");
+            throw new ArgumentException("Patient is not active. Make the patient active before making or changing an appointment.");
         }
 
         if (doctor == null)
         {
-            throw new ArgumentException( "Please select a doctor.");
+            throw new ArgumentException("Please select a doctor.");
         }
 
         if (time == null)
@@ -129,26 +200,10 @@ public class AppointmentController
             throw new ArgumentException("Please select a future date and time for the appointment.");
         }
 
-        if (this.appointmentDal.GetBookedTimes(doctor.DoctorId, date).Contains(time.Value))
+        if (this.appointmentDal.GetBookedTimes(doctor.DoctorId, date, excludeAppointmentId).Contains(time.Value))
         {
             throw new ArgumentException($"Dr. {doctor.FirstName} {doctor.LastName} is not available at the selected time.");
         }
-
-        var appointment = new Appointment
-        {
-            PatientId = patient.PatientId,
-            DoctorId = doctor.DoctorId,
-            AppointmentDate = date.Date,
-            AppointmentTime = time.Value,
-            Reason = reason.Trim()
-        };
-
-        return this.appointmentDal.Add(appointment);
-    }
-
-    private static bool isValidSlot(TimeSpan time)
-    {
-        return time >= FirstSlot && time <= LastSlot && time.Minutes % SlotMinutes == 0 && time.Seconds == 0;
     }
 
 }

@@ -30,7 +30,7 @@
         {
             loggedInUserControl1 = new LoggedInUserControl();
             editPatientButton = new Button();
-            viewAppointmentsButton = new Button();
+            viewEditAppointmentsButton = new Button();
             makeAppointmentButton = new Button();
             viewVisitsButton = new Button();
             backButton = new Button();
@@ -54,16 +54,15 @@
             editPatientButton.UseVisualStyleBackColor = true;
             editPatientButton.Click += editPatientButton_Click;
             // 
-            // viewAppointmentsButton
+            // viewEditAppointmentsButton
             // 
-            viewAppointmentsButton.Location = new Point(367, 196);
-            viewAppointmentsButton.Margin = new Padding(3, 4, 3, 4);
-            viewAppointmentsButton.Name = "viewAppointmentsButton";
-            viewAppointmentsButton.Size = new Size(178, 79);
-            viewAppointmentsButton.TabIndex = 2;
-            viewAppointmentsButton.Text = "View Appointments";
-            viewAppointmentsButton.UseVisualStyleBackColor = true;
-            viewAppointmentsButton.Click += viewAppointmentsButton_Click;
+            viewEditAppointmentsButton.Location = new Point(321, 147);
+            viewEditAppointmentsButton.Name = "viewEditAppointmentsButton";
+            viewEditAppointmentsButton.Size = new Size(156, 59);
+            viewEditAppointmentsButton.TabIndex = 2;
+            viewEditAppointmentsButton.Text = "View/Edit Appointments";
+            viewEditAppointmentsButton.UseVisualStyleBackColor = true;
+            viewEditAppointmentsButton.Click += viewAppointmentsButton_Click;
             // 
             // makeAppointmentButton
             // 
@@ -83,7 +82,7 @@
             viewVisitsButton.Name = "viewVisitsButton";
             viewVisitsButton.Size = new Size(178, 79);
             viewVisitsButton.TabIndex = 4;
-            viewVisitsButton.Text = "View Visits";
+            viewVisitsButton.Text = "View/Edit Visits";
             viewVisitsButton.UseVisualStyleBackColor = true;
             viewVisitsButton.Click += viewVisitsButton_Click;
             // 
@@ -107,7 +106,7 @@
             Controls.Add(backButton);
             Controls.Add(viewVisitsButton);
             Controls.Add(makeAppointmentButton);
-            Controls.Add(viewAppointmentsButton);
+            Controls.Add(viewEditAppointmentsButton);
             Controls.Add(editPatientButton);
             Controls.Add(loggedInUserControl1);
             Margin = new Padding(3, 4, 3, 4);
@@ -121,7 +120,7 @@
 
         private LoggedInUserControl loggedInUserControl1;
         private Button editPatientButton;
-        private Button viewAppointmentsButton;
+        private Button viewEditAppointmentsButton;
         private Button makeAppointmentButton;
         private Button viewVisitsButton;
         private Button backButton;
