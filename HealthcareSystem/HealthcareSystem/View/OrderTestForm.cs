@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.ComponentModel;
+using System.Text.RegularExpressions;
 using HealthcareSystem.Controller;
 using HealthcareSystem.Model;
 using MySqlConnector;
@@ -9,6 +10,7 @@ public partial class OrderTestForm : Form
 {
     #region Fields
 
+    private BindingList<Test> selectedTests = new BindingList<Test>();
     private readonly OrderTestController orderTestController;
     private readonly int visitId;
 
@@ -57,13 +59,15 @@ public partial class OrderTestForm : Form
         this.selectedTestGrid.RowHeadersVisible = false;
     }
 
-    private void loadTests() 
+    private void loadTests()
     {
         try
         {
             var tests = this.orderTestController.GetAllTests();
             this.testSelectGrid.DataSource = tests;
-            this.configureColumns();
+            this.selectedTestGrid.DataSource = selectedTests;
+            this.configureSelectColumns();
+            this.configureSelectedColumns();
         }
         catch (MySqlException)
         {
@@ -77,26 +81,80 @@ public partial class OrderTestForm : Form
         }
     }
 
-    private void configureColumns()
+    private void configureSelectColumns()
     {
-        foreach (DataGridViewColumn column in this.testSelectGrid.Columns)
-        {
-            column.Visible = false;
-        }
+        this.testSelectGrid.AutoGenerateColumns = false;
+        this.testSelectGrid.Columns.Clear();
 
-        this.showColumn(nameof(Test.TestName), "Test Name");
-        this.showColumn(nameof(Test.HighValue), "High Value");
-        this.showColumn(nameof(Test.LowValue), "Low Value");
-        this.showColumn(nameof(Test.UnitName), "Unit");
+        DataGridViewTextBoxColumn testNameColumn = new DataGridViewTextBoxColumn
+        {
+            DataPropertyName = "TestName",
+            HeaderText = "Test Name",
+            AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        };
+        this.testSelectGrid.Columns.Add(testNameColumn);
+
+        DataGridViewTextBoxColumn highValueColumn = new DataGridViewTextBoxColumn
+        {
+            DataPropertyName = "HighValue",
+            HeaderText = "High Value",
+            AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        };
+        this.testSelectGrid.Columns.Add(highValueColumn);
+
+        DataGridViewTextBoxColumn lowValueColumn = new DataGridViewTextBoxColumn
+        {
+            DataPropertyName = "LowValue",
+            HeaderText = "Low Value",
+            AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        };
+        this.testSelectGrid.Columns.Add(lowValueColumn);
+
+        DataGridViewTextBoxColumn unitColumn = new DataGridViewTextBoxColumn
+        {
+            DataPropertyName = "UnitName",
+            HeaderText = "Unit",
+            AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        };
+        this.testSelectGrid.Columns.Add(unitColumn);
     }
 
-    private DataGridViewColumn showColumn(string name, string headerText)
+    private void configureSelectedColumns()
     {
-        var column = this.testSelectGrid.Columns[name]!;
-        column.Visible = true;
-        column.HeaderText = headerText;
+        this.selectedTestGrid.AutoGenerateColumns = false;
+        this.selectedTestGrid.Columns.Clear();
 
-        return column;
+        DataGridViewTextBoxColumn testNameColumn = new DataGridViewTextBoxColumn
+        {
+            DataPropertyName = "TestName",
+            HeaderText = "Test Name",
+            AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        };
+        this.selectedTestGrid.Columns.Add(testNameColumn);
+
+        DataGridViewTextBoxColumn highValueColumn = new DataGridViewTextBoxColumn
+        {
+            DataPropertyName = "HighValue",
+            HeaderText = "High Value",
+            AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        };
+        this.selectedTestGrid.Columns.Add(highValueColumn);
+
+        DataGridViewTextBoxColumn lowValueColumn = new DataGridViewTextBoxColumn
+        {
+            DataPropertyName = "LowValue",
+            HeaderText = "Low Value",
+            AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        };
+        this.selectedTestGrid.Columns.Add(lowValueColumn);
+
+        DataGridViewTextBoxColumn unitColumn = new DataGridViewTextBoxColumn
+        {
+            DataPropertyName = "UnitName",
+            HeaderText = "Unit",
+            AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        };
+        this.selectedTestGrid.Columns.Add(unitColumn);
     }
 
     private void displayTest(Test test)
@@ -109,16 +167,13 @@ public partial class OrderTestForm : Form
 
     private void testSelectGrid_CellClick(object sender, DataGridViewCellEventArgs e)
     {
-        if (e.RowIndex < 0)
+        if (e.RowIndex >= 0 && e.RowIndex < this.testSelectGrid.Rows.Count)
         {
-            return;
+            var selectedTest = (Test)this.testSelectGrid.Rows[e.RowIndex].DataBoundItem;
+            this.displayTest(selectedTest);
         }
 
-        if (this.testSelectGrid.Rows[e.RowIndex].DataBoundItem
-            is Test test)
-        {
-            this.displayTest(test);
-        }
+
     }
 
     private void backButton_Click(object sender, EventArgs e)
@@ -139,9 +194,8 @@ public partial class OrderTestForm : Form
             var selectedTests = this.selectedTestGrid.DataSource as IList<Test> ?? new List<Test>();
             if (!selectedTests.Contains(selectedTest))
             {
-                selectedTests.Add(selectedTest);
-                this.selectedTestGrid.DataSource = null;
-                this.selectedTestGrid.DataSource = selectedTests;
+                this.selectedTests.Add(selectedTest);
+                this.selectedTestGrid.Refresh();
                 this.selectedTestGrid.ClearSelection();
             }
             else
@@ -150,7 +204,7 @@ public partial class OrderTestForm : Form
             }
         }
     }
-    
+
     private void removeButton_Click(object sender, EventArgs e)
     {
         if (this.selectedTestGrid.SelectedRows.Count == 0)

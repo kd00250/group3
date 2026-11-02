@@ -35,15 +35,8 @@
             confirmOrderButton = new Button();
             testNameBox = new TextBox();
             highBox = new TextBox();
-            label12 = new Label();
+            informationLabel = new Label();
             loggedInUserControl1 = new LoggedInUserControl();
-            dateOfBirthErrorLabel = new Label();
-            streetAddressErrorLabel = new Label();
-            stateErrorLabel = new Label();
-            phoneNumberErrorLabel = new Label();
-            genderErrorLabel = new Label();
-            cityErrorLabel = new Label();
-            zipCodeErrorLabel = new Label();
             backButton = new Button();
             selectedTestGrid = new DataGridView();
             lowBox = new TextBox();
@@ -124,15 +117,15 @@
             highBox.Size = new Size(103, 27);
             highBox.TabIndex = 17;
             // 
-            // label12
+            // informationLabel
             // 
-            label12.AutoSize = true;
-            label12.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label12.Location = new Point(12, 559);
-            label12.Name = "label12";
-            label12.Size = new Size(169, 28);
-            label12.TabIndex = 25;
-            label12.Text = "Test Information";
+            informationLabel.AutoSize = true;
+            informationLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            informationLabel.Location = new Point(12, 559);
+            informationLabel.Name = "informationLabel";
+            informationLabel.Size = new Size(169, 28);
+            informationLabel.TabIndex = 25;
+            informationLabel.Text = "Test Information";
             // 
             // loggedInUserControl1
             // 
@@ -140,72 +133,6 @@
             loggedInUserControl1.Name = "loggedInUserControl1";
             loggedInUserControl1.Size = new Size(314, 141);
             loggedInUserControl1.TabIndex = 26;
-            // 
-            // dateOfBirthErrorLabel
-            // 
-            dateOfBirthErrorLabel.AutoSize = true;
-            dateOfBirthErrorLabel.ForeColor = Color.Red;
-            dateOfBirthErrorLabel.Location = new Point(355, 602);
-            dateOfBirthErrorLabel.Name = "dateOfBirthErrorLabel";
-            dateOfBirthErrorLabel.Size = new Size(0, 20);
-            dateOfBirthErrorLabel.TabIndex = 28;
-            // 
-            // streetAddressErrorLabel
-            // 
-            streetAddressErrorLabel.AutoSize = true;
-            streetAddressErrorLabel.ForeColor = Color.Red;
-            streetAddressErrorLabel.Location = new Point(161, 707);
-            streetAddressErrorLabel.Name = "streetAddressErrorLabel";
-            streetAddressErrorLabel.Size = new Size(0, 20);
-            streetAddressErrorLabel.TabIndex = 29;
-            // 
-            // stateErrorLabel
-            // 
-            stateErrorLabel.AutoSize = true;
-            stateErrorLabel.ForeColor = Color.Red;
-            stateErrorLabel.Location = new Point(161, 772);
-            stateErrorLabel.Name = "stateErrorLabel";
-            stateErrorLabel.Size = new Size(0, 20);
-            stateErrorLabel.TabIndex = 30;
-            // 
-            // phoneNumberErrorLabel
-            // 
-            phoneNumberErrorLabel.AutoSize = true;
-            phoneNumberErrorLabel.ForeColor = Color.Red;
-            phoneNumberErrorLabel.Location = new Point(161, 827);
-            phoneNumberErrorLabel.Name = "phoneNumberErrorLabel";
-            phoneNumberErrorLabel.Size = new Size(0, 20);
-            phoneNumberErrorLabel.TabIndex = 31;
-            // 
-            // genderErrorLabel
-            // 
-            genderErrorLabel.Anchor = AnchorStyles.Top;
-            genderErrorLabel.AutoSize = true;
-            genderErrorLabel.ForeColor = Color.Red;
-            genderErrorLabel.Location = new Point(550, 602);
-            genderErrorLabel.Name = "genderErrorLabel";
-            genderErrorLabel.Size = new Size(0, 20);
-            genderErrorLabel.TabIndex = 33;
-            // 
-            // cityErrorLabel
-            // 
-            cityErrorLabel.Anchor = AnchorStyles.Top;
-            cityErrorLabel.AutoSize = true;
-            cityErrorLabel.ForeColor = Color.Red;
-            cityErrorLabel.Location = new Point(356, 703);
-            cityErrorLabel.Name = "cityErrorLabel";
-            cityErrorLabel.Size = new Size(0, 20);
-            cityErrorLabel.TabIndex = 34;
-            // 
-            // zipCodeErrorLabel
-            // 
-            zipCodeErrorLabel.Anchor = AnchorStyles.Top;
-            zipCodeErrorLabel.AutoSize = true;
-            zipCodeErrorLabel.ForeColor = Color.Red;
-            zipCodeErrorLabel.Location = new Point(356, 764);
-            zipCodeErrorLabel.Name = "zipCodeErrorLabel";
-            zipCodeErrorLabel.Size = new Size(0, 20);
-            zipCodeErrorLabel.TabIndex = 35;
             // 
             // backButton
             // 
@@ -310,15 +237,8 @@
             Controls.Add(lowBox);
             Controls.Add(selectedTestGrid);
             Controls.Add(backButton);
-            Controls.Add(zipCodeErrorLabel);
-            Controls.Add(cityErrorLabel);
-            Controls.Add(genderErrorLabel);
-            Controls.Add(phoneNumberErrorLabel);
-            Controls.Add(stateErrorLabel);
-            Controls.Add(streetAddressErrorLabel);
-            Controls.Add(dateOfBirthErrorLabel);
             Controls.Add(loggedInUserControl1);
-            Controls.Add(label12);
+            Controls.Add(informationLabel);
             Controls.Add(highBox);
             Controls.Add(testNameBox);
             Controls.Add(confirmOrderButton);
@@ -344,15 +264,8 @@
         private Button confirmOrderButton;
         private TextBox testNameBox;
         private TextBox highBox;
-        private Label label12;
+        private Label informationLabel;
         private LoggedInUserControl loggedInUserControl1;
-        private Label dateOfBirthErrorLabel;
-        private Label streetAddressErrorLabel;
-        private Label stateErrorLabel;
-        private Label phoneNumberErrorLabel;
-        private Label genderErrorLabel;
-        private Label cityErrorLabel;
-        private Label zipCodeErrorLabel;
         private Button backButton;
         private DataGridView selectedTestGrid;
         private TextBox lowBox;
