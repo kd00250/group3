@@ -59,6 +59,9 @@
             saveButton = new Button();
             orderTestsButton = new Button();
             viewEditTestsButton = new Button();
+            label1 = new Label();
+            finalDiagnosisTextBox = new TextBox();
+            finalizeVisitButton = new Button();
             SuspendLayout();
             // 
             // loggedInUserControl1
@@ -350,12 +353,45 @@
             viewEditTestsButton.UseVisualStyleBackColor = true;
             viewEditTestsButton.Click += viewEditTestsButton_Click;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Location = new Point(544, 390);
+            label1.Name = "label1";
+            label1.Size = new Size(114, 20);
+            label1.TabIndex = 32;
+            label1.Text = "Final Diagnosis";
+            // 
+            // finalDiagnosisTextBox
+            // 
+            finalDiagnosisTextBox.Location = new Point(544, 413);
+            finalDiagnosisTextBox.Multiline = true;
+            finalDiagnosisTextBox.Name = "finalDiagnosisTextBox";
+            finalDiagnosisTextBox.ScrollBars = ScrollBars.Vertical;
+            finalDiagnosisTextBox.Size = new Size(327, 75);
+            finalDiagnosisTextBox.TabIndex = 33;
+            // 
+            // finalizeVisitButton
+            // 
+            finalizeVisitButton.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            finalizeVisitButton.Location = new Point(729, 499);
+            finalizeVisitButton.Name = "finalizeVisitButton";
+            finalizeVisitButton.Size = new Size(142, 29);
+            finalizeVisitButton.TabIndex = 34;
+            finalizeVisitButton.Text = "Finalize Visit";
+            finalizeVisitButton.UseVisualStyleBackColor = true;
+            finalizeVisitButton.Click += finalizeVisitButton_Click;
+            // 
             // VisitInformationForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = backButton;
             ClientSize = new Size(914, 664);
+            Controls.Add(finalizeVisitButton);
+            Controls.Add(finalDiagnosisTextBox);
+            Controls.Add(label1);
             Controls.Add(viewEditTestsButton);
             Controls.Add(orderTestsButton);
             Controls.Add(saveButton);
@@ -389,6 +425,7 @@
             Controls.Add(loggedInUserControl1);
             Margin = new Padding(3, 4, 3, 4);
             Name = "VisitInformationForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Healthcare System - Visit Information";
             ResumeLayout(false);
             PerformLayout();
@@ -427,5 +464,8 @@
         private Button saveButton;
         private Button orderTestsButton;
         private Button viewEditTestsButton;
+        private Label label1;
+        private TextBox finalDiagnosisTextBox;
+        private Button finalizeVisitButton;
     }
 }

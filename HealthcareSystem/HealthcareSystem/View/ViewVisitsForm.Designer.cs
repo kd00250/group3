@@ -45,18 +45,17 @@ namespace HealthcareSystem.View
             // loggedInUserControl1
             // 
             loggedInUserControl1.Location = new Point(0, 0);
-            loggedInUserControl1.Margin = new Padding(3, 2, 3, 2);
             loggedInUserControl1.Name = "loggedInUserControl1";
-            loggedInUserControl1.Size = new Size(245, 101);
+            loggedInUserControl1.Size = new Size(280, 135);
             loggedInUserControl1.TabIndex = 0;
             // 
             // patientLabel
             // 
             patientLabel.AutoSize = true;
             patientLabel.Font = new System.Drawing.Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            patientLabel.Location = new Point(300, 20);
+            patientLabel.Location = new Point(343, 27);
             patientLabel.Name = "patientLabel";
-            patientLabel.Size = new Size(0, 15);
+            patientLabel.Size = new Size(0, 20);
             patientLabel.TabIndex = 1;
             // 
             // visitsGridView
@@ -65,13 +64,15 @@ namespace HealthcareSystem.View
             visitsGridView.AllowUserToDeleteRows = false;
             visitsGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             visitsGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            visitsGridView.Location = new Point(30, 130);
+            visitsGridView.Location = new Point(34, 173);
+            visitsGridView.Margin = new Padding(3, 4, 3, 4);
             visitsGridView.MultiSelect = false;
             visitsGridView.Name = "visitsGridView";
             visitsGridView.ReadOnly = true;
             visitsGridView.RowHeadersVisible = false;
+            visitsGridView.RowHeadersWidth = 51;
             visitsGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            visitsGridView.Size = new Size(740, 240);
+            visitsGridView.Size = new Size(846, 320);
             visitsGridView.TabIndex = 2;
             visitsGridView.CellDoubleClick += visitsGridView_CellDoubleClick;
             visitsGridView.SelectionChanged += visitsGridView_SelectionChanged;
@@ -79,26 +80,27 @@ namespace HealthcareSystem.View
             // visitCountLabel
             // 
             visitCountLabel.AutoSize = true;
-            visitCountLabel.Location = new Point(30, 110);
+            visitCountLabel.Location = new Point(34, 147);
             visitCountLabel.Name = "visitCountLabel";
-            visitCountLabel.Size = new Size(0, 15);
+            visitCountLabel.Size = new Size(0, 20);
             visitCountLabel.TabIndex = 3;
             // 
             // errorLabel
             // 
             errorLabel.AutoSize = true;
             errorLabel.ForeColor = Color.Red;
-            errorLabel.Location = new Point(30, 380);
+            errorLabel.Location = new Point(34, 507);
             errorLabel.Name = "errorLabel";
-            errorLabel.Size = new Size(0, 15);
+            errorLabel.Size = new Size(0, 20);
             errorLabel.TabIndex = 4;
             errorLabel.Visible = false;
             // 
             // backButton
             // 
-            backButton.Location = new Point(0, 424);
+            backButton.Location = new Point(0, 565);
+            backButton.Margin = new Padding(3, 4, 3, 4);
             backButton.Name = "backButton";
-            backButton.Size = new Size(104, 27);
+            backButton.Size = new Size(119, 36);
             backButton.TabIndex = 5;
             backButton.Text = "Back";
             backButton.UseVisualStyleBackColor = true;
@@ -107,9 +109,10 @@ namespace HealthcareSystem.View
             // selectButton
             // 
             selectButton.Enabled = false;
-            selectButton.Location = new Point(690, 400);
+            selectButton.Location = new Point(789, 533);
+            selectButton.Margin = new Padding(3, 4, 3, 4);
             selectButton.Name = "selectButton";
-            selectButton.Size = new Size(80, 27);
+            selectButton.Size = new Size(91, 36);
             selectButton.TabIndex = 6;
             selectButton.Text = "Select";
             selectButton.UseVisualStyleBackColor = true;
@@ -118,10 +121,10 @@ namespace HealthcareSystem.View
             // ViewVisitsForm
             // 
             AcceptButton = selectButton;
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = backButton;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(914, 600);
             Controls.Add(selectButton);
             Controls.Add(backButton);
             Controls.Add(errorLabel);
@@ -129,7 +132,9 @@ namespace HealthcareSystem.View
             Controls.Add(visitsGridView);
             Controls.Add(patientLabel);
             Controls.Add(loggedInUserControl1);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "ViewVisitsForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Healthcare System - View/Edit Visits";
             ((System.ComponentModel.ISupportInitialize)visitsGridView).EndInit();
             ResumeLayout(false);

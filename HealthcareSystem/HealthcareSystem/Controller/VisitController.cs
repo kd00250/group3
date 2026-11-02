@@ -100,4 +100,68 @@ public class VisitController
             throw new ArgumentException($"{name} must be greater than 0 and no more than {max}.");
         }
     }
+
+    public void FinalizeVisit(Visit visit, string finalDiagnosis)
+    {
+        if (visit.IsFinalized)
+        {
+            throw new ArgumentException("This visit has already been finalized.");
+        }
+
+        if (string.IsNullOrWhiteSpace(finalDiagnosis))
+        {
+            throw new ArgumentException("Final diagnosis is required.");
+        }
+
+        var user = SessionManager.CurrentUser;
+
+        if (user == null || this.visitDal.GetNurseIdByPersonId(user.PersonId) == null)
+        {
+            throw new ArgumentException("Only a nurse can finalize a visit.");
+        }
+
+        finalDiagnosis = finalDiagnosis.Trim();
+
+        if (!this.visitDal.FinalizeVisit(visit.VisitId, finalDiagnosis))
+        {
+            throw new ArgumentException("The visit could not be finalized. It may already be finalized.");
+        }
+
+        visit.FinalDiagnosis = finalDiagnosis;
+        visit.IsFinalized = true;
+    }
+  
+    /// <summary>
+    /// Gets upcoming appointments that are available for starting a visit.
+    /// </summary>
+    public List<Appointment> GetAvailableAppointments(Patient patient)
+    {
+        return this.visitDal.GetAvailableAppointments(patient.PatientId);
+    }
+
+    /// <summary>
+    /// Starts a new visit for an appointment.
+    /// </summary>
+    public Visit StartVisit(Patient patient, Appointment appointment)
+    {
+        if (patient == null || appointment == null)
+        {
+            throw new ArgumentException("A patient and appointment must be selected.");
+        }
+      
+        var user = SessionManager.CurrentUser;
+        
+        if (user == null ||
+            this.visitDal.GetNurseIdByPersonId(user.PersonId) == null)
+        {
+            throw new ArgumentException("Only a nurse can start a visit.");
+        }
+
+        var visit = this.visitDal.CreateVisit(patient.PatientId, appointment.AppointmentId);
+
+        visit.DoctorName = appointment.DoctorName;
+        visit.Reason = appointment.Reason;
+
+        return visit;
+    }
 }

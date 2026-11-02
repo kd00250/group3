@@ -57,5 +57,13 @@ namespace HealthcareSystem.View
         {
             Close();
         }
+
+        private void startNewVisitButton_Click(object sender, EventArgs e)
+        {
+            var visitController = new VisitController(new VisitDal());
+
+            using var startVisitForm = new StartVisitForm(this.SelectedPatient, visitController);
+            startVisitForm.ShowDialog();
+        }
     }
 }
