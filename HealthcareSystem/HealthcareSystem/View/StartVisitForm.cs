@@ -44,6 +44,9 @@ namespace HealthcareSystem.View
             this.dataGridView1.Columns[nameof(Appointment.AppointmentDate)]!.Visible = false;
             this.dataGridView1.Columns[nameof(Appointment.AppointmentTime)]!.Visible = false;
             this.dataGridView1.Columns[nameof(Appointment.DoctorId)]!.Visible = false;
+            this.dataGridView1.Columns["DoctorFirstName"]!.Visible = false;
+            this.dataGridView1.Columns["DoctorLastName"]!.Visible = false;
+            this.dataGridView1.Columns["DoctorFullName"]!.Visible = false;
             this.dataGridView1.Columns[nameof(Appointment.DoctorName)]!.HeaderText = "Doctor Name";
 
             if (this.dataGridView1.Columns[nameof(Appointment.AppointmentDateTime)] is DataGridViewColumn dateTimeColumn)
