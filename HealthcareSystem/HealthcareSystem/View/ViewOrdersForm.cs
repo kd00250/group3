@@ -27,7 +27,7 @@ public partial class ViewOrdersForm : Form
         this.patientInfoLabel.Text = $"{this.patient.FullName}, born {this.patient.DateOfBirth:MM/dd/yyyy}, Dr. {this.visit.DoctorName}";
         this.viewOrdersController = viewOrdersController;
         this.configureSelectGrid();
-        this.loggedInUserControl1.RefreshUser();
+        this.loggedInUserControl2.RefreshUser();
         this.loadOrders();
     }
 
@@ -116,8 +116,22 @@ public partial class ViewOrdersForm : Form
             this.showMessage("Please select at least one lab order.", "No Lab Orders Selected", MessageBoxIcon.Warning);
             return;
         }
-        var testEditController = new TestEditController(new Model.DAL.TestEditDal);
-        var testEditForm = new TestEditForm(testEditController, this.visit, this.patient, );
+        LabOrder selectedLabOrder = null;
+        try
+        {
+            selectedLabOrder = this.orderSelectGrid.CurrentRow?.DataBoundItem as LabOrder;
+        } catch (Exception ex)
+        {
+            this.showMessage($"An error occurred while selecting the lab order: {ex.Message}", "Error", MessageBoxIcon.Error);
+        }
+
+        if (selectedLabOrder == null)
+        {
+            this.showMessage("Failed to select a lab order.", "Selection Error", MessageBoxIcon.Error);
+            return;
+        }
+        var testEditController = new TestEditController(new Model.DAL.TestEditDal());
+        var testEditForm = new TestEditForm(testEditController, this.visit, this.patient, selectedLabOrder);
         testEditForm.ShowDialog();
 
     }

@@ -32,23 +32,25 @@
             testsLabel = new Label();
             testLabel = new Label();
             highLabel = new Label();
-            confirmOrderButton = new Button();
+            saveButton = new Button();
             testNameBox = new TextBox();
             highBox = new TextBox();
             informationLabel = new Label();
-            loggedInUserControl1 = new LoggedInUserControl();
             backButton = new Button();
-            selectedTestGrid = new DataGridView();
             lowBox = new TextBox();
             lowLabel = new Label();
             unitLabel = new Label();
             unitBox = new TextBox();
-            selectedLable = new Label();
-            addButton = new Button();
-            removeButton = new Button();
             patientInfoLabel = new Label();
+            label2 = new Label();
+            label3 = new Label();
+            textBox3 = new TextBox();
+            resultLabel = new Label();
+            datePerformedLabel = new Label();
+            datePreformedPicker = new DateTimePicker();
+            abnormalCheck = new CheckBox();
+            loggedInUserControl2 = new LoggedInUserControl();
             ((System.ComponentModel.ISupportInitialize)testSelectGrid).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)selectedTestGrid).BeginInit();
             SuspendLayout();
             // 
             // testSelectGrid
@@ -58,7 +60,7 @@
             testSelectGrid.Location = new Point(12, 175);
             testSelectGrid.Name = "testSelectGrid";
             testSelectGrid.RowHeadersWidth = 51;
-            testSelectGrid.Size = new Size(342, 314);
+            testSelectGrid.Size = new Size(798, 314);
             testSelectGrid.TabIndex = 0;
             testSelectGrid.CellClick += testSelectGrid_CellClick;
             // 
@@ -68,14 +70,14 @@
             testsLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             testsLabel.Location = new Point(12, 144);
             testsLabel.Name = "testsLabel";
-            testsLabel.Size = new Size(153, 28);
+            testsLabel.Size = new Size(250, 28);
             testsLabel.TabIndex = 1;
-            testsLabel.Text = "Available Tests";
+            testsLabel.Text = "Select a test to view/edit";
             // 
             // testLabel
             // 
             testLabel.AutoSize = true;
-            testLabel.Location = new Point(30, 602);
+            testLabel.Location = new Point(30, 542);
             testLabel.Name = "testLabel";
             testLabel.Size = new Size(79, 20);
             testLabel.TabIndex = 2;
@@ -85,26 +87,26 @@
             // 
             highLabel.Anchor = AnchorStyles.Top;
             highLabel.AutoSize = true;
-            highLabel.Location = new Point(273, 602);
+            highLabel.Location = new Point(273, 542);
             highLabel.Name = "highLabel";
             highLabel.Size = new Size(81, 20);
             highLabel.TabIndex = 3;
             highLabel.Text = "High Value";
             // 
-            // confirmOrderButton
+            // saveButton
             // 
-            confirmOrderButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            confirmOrderButton.Location = new Point(685, 658);
-            confirmOrderButton.Name = "confirmOrderButton";
-            confirmOrderButton.Size = new Size(125, 40);
-            confirmOrderButton.TabIndex = 14;
-            confirmOrderButton.Text = "Confirm";
-            confirmOrderButton.UseVisualStyleBackColor = true;
-            confirmOrderButton.Click += confirmButton_Click;
+            saveButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            saveButton.Location = new Point(685, 658);
+            saveButton.Name = "saveButton";
+            saveButton.Size = new Size(125, 40);
+            saveButton.TabIndex = 14;
+            saveButton.Text = "Save";
+            saveButton.UseVisualStyleBackColor = true;
+            saveButton.Click += confirmButton_Click;
             // 
             // testNameBox
             // 
-            testNameBox.Location = new Point(115, 599);
+            testNameBox.Location = new Point(115, 539);
             testNameBox.Name = "testNameBox";
             testNameBox.PlaceholderText = "Please select test";
             testNameBox.Size = new Size(145, 27);
@@ -113,7 +115,7 @@
             // highBox
             // 
             highBox.Anchor = AnchorStyles.Top;
-            highBox.Location = new Point(360, 599);
+            highBox.Location = new Point(360, 539);
             highBox.Name = "highBox";
             highBox.Size = new Size(103, 27);
             highBox.TabIndex = 17;
@@ -122,18 +124,11 @@
             // 
             informationLabel.AutoSize = true;
             informationLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            informationLabel.Location = new Point(12, 559);
+            informationLabel.Location = new Point(12, 499);
             informationLabel.Name = "informationLabel";
             informationLabel.Size = new Size(169, 28);
             informationLabel.TabIndex = 25;
             informationLabel.Text = "Test Information";
-            // 
-            // loggedInUserControl1
-            // 
-            loggedInUserControl1.Location = new Point(0, 0);
-            loggedInUserControl1.Name = "loggedInUserControl1";
-            loggedInUserControl1.Size = new Size(314, 141);
-            loggedInUserControl1.TabIndex = 26;
             // 
             // backButton
             // 
@@ -146,20 +141,10 @@
             backButton.UseVisualStyleBackColor = true;
             backButton.Click += backButton_Click;
             // 
-            // selectedTestGrid
-            // 
-            selectedTestGrid.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            selectedTestGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            selectedTestGrid.Location = new Point(446, 175);
-            selectedTestGrid.Name = "selectedTestGrid";
-            selectedTestGrid.RowHeadersWidth = 51;
-            selectedTestGrid.Size = new Size(364, 314);
-            selectedTestGrid.TabIndex = 44;
-            // 
             // lowBox
             // 
             lowBox.Anchor = AnchorStyles.Top;
-            lowBox.Location = new Point(551, 599);
+            lowBox.Location = new Point(551, 539);
             lowBox.Name = "lowBox";
             lowBox.Size = new Size(103, 27);
             lowBox.TabIndex = 45;
@@ -168,7 +153,7 @@
             // 
             lowLabel.Anchor = AnchorStyles.Top;
             lowLabel.AutoSize = true;
-            lowLabel.Location = new Point(469, 602);
+            lowLabel.Location = new Point(469, 542);
             lowLabel.Name = "lowLabel";
             lowLabel.Size = new Size(76, 20);
             lowLabel.TabIndex = 46;
@@ -178,7 +163,7 @@
             // 
             unitLabel.Anchor = AnchorStyles.Top;
             unitLabel.AutoSize = true;
-            unitLabel.Location = new Point(665, 602);
+            unitLabel.Location = new Point(665, 542);
             unitLabel.Name = "unitLabel";
             unitLabel.Size = new Size(36, 20);
             unitLabel.TabIndex = 47;
@@ -187,42 +172,10 @@
             // unitBox
             // 
             unitBox.Anchor = AnchorStyles.Top;
-            unitBox.Location = new Point(707, 599);
+            unitBox.Location = new Point(707, 539);
             unitBox.Name = "unitBox";
             unitBox.Size = new Size(103, 27);
             unitBox.TabIndex = 48;
-            // 
-            // selectedLable
-            // 
-            selectedLable.AutoSize = true;
-            selectedLable.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            selectedLable.Location = new Point(446, 144);
-            selectedLable.Name = "selectedLable";
-            selectedLable.Size = new Size(145, 28);
-            selectedLable.TabIndex = 49;
-            selectedLable.Text = "Selected Tests";
-            // 
-            // addButton
-            // 
-            addButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            addButton.Location = new Point(12, 495);
-            addButton.Name = "addButton";
-            addButton.Size = new Size(125, 40);
-            addButton.TabIndex = 50;
-            addButton.Text = "Add";
-            addButton.UseVisualStyleBackColor = true;
-            addButton.Click += addButton_Click;
-            // 
-            // removeButton
-            // 
-            removeButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            removeButton.Location = new Point(446, 495);
-            removeButton.Name = "removeButton";
-            removeButton.Size = new Size(125, 40);
-            removeButton.TabIndex = 51;
-            removeButton.Text = "Remove";
-            removeButton.UseVisualStyleBackColor = true;
-            removeButton.Click += removeButton_Click;
             // 
             // patientInfoLabel
             // 
@@ -232,35 +185,113 @@
             patientInfoLabel.Size = new Size(0, 20);
             patientInfoLabel.TabIndex = 52;
             // 
-            // OrderTestForm
+            // label2
+            // 
+            label2.Anchor = AnchorStyles.Top;
+            label2.AutoSize = true;
+            label2.Location = new Point(496, 620);
+            label2.Name = "label2";
+            label2.Size = new Size(89, 20);
+            label2.TabIndex = 59;
+            label2.Text = "Is Abnormal";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label3.Location = new Point(12, 577);
+            label3.Name = "label3";
+            label3.Size = new Size(169, 28);
+            label3.TabIndex = 57;
+            label3.Text = "Test Information";
+            // 
+            // textBox3
+            // 
+            textBox3.Anchor = AnchorStyles.Top;
+            textBox3.Location = new Point(360, 617);
+            textBox3.Name = "textBox3";
+            textBox3.Size = new Size(103, 27);
+            textBox3.TabIndex = 56;
+            // 
+            // resultLabel
+            // 
+            resultLabel.Anchor = AnchorStyles.Top;
+            resultLabel.AutoSize = true;
+            resultLabel.Location = new Point(305, 620);
+            resultLabel.Name = "resultLabel";
+            resultLabel.Size = new Size(49, 20);
+            resultLabel.TabIndex = 54;
+            resultLabel.Text = "Result";
+            // 
+            // datePerformedLabel
+            // 
+            datePerformedLabel.AutoSize = true;
+            datePerformedLabel.Location = new Point(12, 620);
+            datePerformedLabel.Name = "datePerformedLabel";
+            datePerformedLabel.Size = new Size(114, 20);
+            datePerformedLabel.TabIndex = 53;
+            datePerformedLabel.Text = "Date Performed";
+            // 
+            // datePreformedPicker
+            // 
+            datePreformedPicker.Checked = false;
+            datePreformedPicker.Format = DateTimePickerFormat.Short;
+            datePreformedPicker.Location = new Point(127, 615);
+            datePreformedPicker.Margin = new Padding(3, 4, 3, 4);
+            datePreformedPicker.MaxDate = new DateTime(2099, 12, 31, 0, 0, 0, 0);
+            datePreformedPicker.Name = "datePreformedPicker";
+            datePreformedPicker.ShowCheckBox = true;
+            datePreformedPicker.Size = new Size(140, 27);
+            datePreformedPicker.TabIndex = 62;
+            datePreformedPicker.Value = new DateTime(2026, 10, 10, 0, 0, 0, 0);
+            // 
+            // abnormalCheck
+            // 
+            abnormalCheck.AutoSize = true;
+            abnormalCheck.Location = new Point(591, 623);
+            abnormalCheck.Name = "abnormalCheck";
+            abnormalCheck.Size = new Size(18, 17);
+            abnormalCheck.TabIndex = 63;
+            abnormalCheck.UseVisualStyleBackColor = true;
+            // 
+            // loggedInUserControl2
+            // 
+            loggedInUserControl2.Location = new Point(0, 0);
+            loggedInUserControl2.Name = "loggedInUserControl2";
+            loggedInUserControl2.Size = new Size(350, 169);
+            loggedInUserControl2.TabIndex = 64;
+            // 
+            // TestEditForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(867, 704);
+            Controls.Add(loggedInUserControl2);
+            Controls.Add(abnormalCheck);
+            Controls.Add(datePreformedPicker);
+            Controls.Add(label2);
+            Controls.Add(label3);
+            Controls.Add(textBox3);
+            Controls.Add(resultLabel);
+            Controls.Add(datePerformedLabel);
             Controls.Add(patientInfoLabel);
-            Controls.Add(removeButton);
-            Controls.Add(addButton);
-            Controls.Add(selectedLable);
             Controls.Add(unitBox);
             Controls.Add(unitLabel);
             Controls.Add(lowLabel);
             Controls.Add(lowBox);
-            Controls.Add(selectedTestGrid);
             Controls.Add(backButton);
-            Controls.Add(loggedInUserControl1);
             Controls.Add(informationLabel);
             Controls.Add(highBox);
             Controls.Add(testNameBox);
-            Controls.Add(confirmOrderButton);
+            Controls.Add(saveButton);
             Controls.Add(highLabel);
             Controls.Add(testLabel);
             Controls.Add(testsLabel);
             Controls.Add(testSelectGrid);
-            Name = "OrderTestForm";
+            Name = "TestEditForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "NurseManagement";
+            Text = "View/Edit Tests";
             ((System.ComponentModel.ISupportInitialize)testSelectGrid).EndInit();
-            ((System.ComponentModel.ISupportInitialize)selectedTestGrid).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -271,20 +302,24 @@
         private Label testsLabel;
         private Label testLabel;
         private Label highLabel;
-        private Button confirmOrderButton;
+        private Button saveButton;
         private TextBox testNameBox;
         private TextBox highBox;
         private Label informationLabel;
         private LoggedInUserControl loggedInUserControl1;
         private Button backButton;
-        private DataGridView selectedTestGrid;
         private TextBox lowBox;
         private Label lowLabel;
         private Label unitLabel;
         private TextBox unitBox;
-        private Label selectedLable;
-        private Button addButton;
-        private Button removeButton;
         private Label patientInfoLabel;
+        private Label label2;
+        private Label label3;
+        private TextBox textBox3;
+        private Label resultLabel;
+        private Label datePerformedLabel;
+        private DateTimePicker datePreformedPicker;
+        private CheckBox abnormalCheck;
+        private LoggedInUserControl loggedInUserControl2;
     }
 }

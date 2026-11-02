@@ -215,6 +215,9 @@ namespace HealthcareSystem.View
 
         private void viewEditTestsButton_Click(object sender, EventArgs e)
         {
+            var viewOrdersController = new ViewOrdersController(new Model.DAL.ViewOrdersDal());
+            var orderTestForm = new ViewOrdersForm(viewOrdersController, this.visit, this.patient);
+            orderTestForm.ShowDialog();
         }
 
         private void backButton_Click(object sender, EventArgs e)

@@ -33,6 +33,7 @@
             backButton = new Button();
             patientInfoLabel = new Label();
             ordersLabel = new Label();
+            loggedInUserControl2 = new LoggedInUserControl();
             ((System.ComponentModel.ISupportInitialize)orderSelectGrid).BeginInit();
             SuspendLayout();
             // 
@@ -40,7 +41,7 @@
             // 
             orderSelectGrid.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             orderSelectGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            orderSelectGrid.Location = new Point(12, 175);
+            orderSelectGrid.Location = new Point(12, 233);
             orderSelectGrid.Name = "orderSelectGrid";
             orderSelectGrid.RowHeadersWidth = 51;
             orderSelectGrid.Size = new Size(798, 391);
@@ -80,17 +81,25 @@
             // 
             ordersLabel.AutoSize = true;
             ordersLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            ordersLabel.Location = new Point(12, 144);
+            ordersLabel.Location = new Point(12, 202);
             ordersLabel.Name = "ordersLabel";
             ordersLabel.Size = new Size(155, 28);
             ordersLabel.TabIndex = 1;
             ordersLabel.Text = "Select an order";
+            // 
+            // loggedInUserControl2
+            // 
+            loggedInUserControl2.Location = new Point(12, 12);
+            loggedInUserControl2.Name = "loggedInUserControl2";
+            loggedInUserControl2.Size = new Size(350, 169);
+            loggedInUserControl2.TabIndex = 53;
             // 
             // ViewOrdersForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(867, 704);
+            Controls.Add(loggedInUserControl2);
             Controls.Add(patientInfoLabel);
             Controls.Add(backButton);
             Controls.Add(selectOrderButton);
@@ -112,5 +121,6 @@
         private Button backButton;
         private Label patientInfoLabel;
         private Label ordersLabel;
+        private LoggedInUserControl loggedInUserControl2;
     }
 }

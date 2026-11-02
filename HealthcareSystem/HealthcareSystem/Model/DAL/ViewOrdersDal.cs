@@ -21,7 +21,7 @@ public class ViewOrdersDal
                     {
                         LabOrderId = reader.GetInt32("LabOrderId"),
                         DateTimeOrdered = reader.GetDateTime("DateTimeOrdered"),
-                        visitId = reader.GetString("VisitId")
+                        visitId = reader.GetInt32("VisitId")
                     };
                     orders.Add(order);
                 }
