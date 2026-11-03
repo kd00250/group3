@@ -58,10 +58,8 @@ public partial class TestEditForm: Form
         try
         {
             var tests = this.testEditController.GetAllOrderedTests(this.labOrder.LabOrderId);
-            this.testSelectGrid.DataSource = tests;
-            this.testSelectGrid.DataSource = selectedTests;
             this.configureSelectColumns();
-            this.testSelectGrid.ClearSelection();
+            this.testSelectGrid.DataSource = tests;
             this.testSelectGrid.ClearSelection();
         }
         catch (MySqlException)
