@@ -34,5 +34,9 @@ public class TestEditController
     {
         return this.testOrderDAL.getTestById(testCode);
     }
+    public void UpdateOrderedTests(OrderedTest selectedTest)
+    {
+        this.testOrderDAL.updateOrderedTest(selectedTest.labOrderId, selectedTest.testCode, selectedTest.dateTimePreformed, selectedTest.testResult, selectedTest.isAbnormal);
+    }
     #endregion
 }

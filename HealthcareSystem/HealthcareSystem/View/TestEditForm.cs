@@ -151,25 +151,27 @@ public partial class TestEditForm: Form
         Close();
     }
 
-    // Change to serve as save button for the test results
-    private void confirmButton_Click(object sender, EventArgs e)
+    private void saveButton_Click(object sender, EventArgs e)
     {
-        var selectedTests = this.testSelectGrid.DataSource as IList<Test>;
-        if (selectedTests == null || selectedTests.Count == 0)
+        var selectedTest = this.testSelectGrid.SelectedRows[0].DataBoundItem as OrderedTest;
+        if (selectedTest == null)
         {
-            this.showMessage("Please select at least one test to order.", "No Tests Selected", MessageBoxIcon.Warning);
+            this.showMessage("Please select a test to save.", "No Test Selected", MessageBoxIcon.Warning);
             return;
         }
-
-        int visit_id = this.visit.VisitId;
         try
         {
-            this.showMessage("Lab order confirmed successfully.", "Success", MessageBoxIcon.Information);
+            selectedTest.testResult = (double?)double.Parse(this.resultBox.Text);
+            selectedTest.dateTimePreformed = this.datePreformedPicker.Value;
+            selectedTest.isAbnormal = this.abnormalCheck.Checked;
+            this.testEditController.UpdateOrderedTests(selectedTest);
             this.testSelectGrid.DataSource = null;
+            this.testSelectGrid.DataSource = this.testEditController.GetAllOrderedTests(this.labOrder.LabOrderId);
+            this.showMessage("Ordered test saved successfully.", "Success", MessageBoxIcon.Information);
         }
         catch (MySqlException)
         {
-            this.showMessage("Unable to confirm lab order due to a database error.", "Database Error", MessageBoxIcon.Error);
+            this.showMessage("Unable to update ordered test due to a database error.", "Database Error", MessageBoxIcon.Error);
         }
         catch (UnauthorizedAccessException ex)
         {

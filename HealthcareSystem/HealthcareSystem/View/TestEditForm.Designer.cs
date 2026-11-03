@@ -102,7 +102,7 @@
             saveButton.TabIndex = 14;
             saveButton.Text = "Save";
             saveButton.UseVisualStyleBackColor = true;
-            saveButton.Click += confirmButton_Click;
+            saveButton.Click += saveButton_Click;
             // 
             // testNameBox
             // 
@@ -306,7 +306,6 @@
         private TextBox testNameBox;
         private TextBox highBox;
         private Label informationLabel;
-        private LoggedInUserControl loggedInUserControl1;
         private Button backButton;
         private TextBox lowBox;
         private Label lowLabel;

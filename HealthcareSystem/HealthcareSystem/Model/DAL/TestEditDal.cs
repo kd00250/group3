@@ -56,7 +56,7 @@ public class TestEditDal
         connection.Open();
         try
         {
-            var command = new MySqlCommand("SELECT * FROM test WHERE test_code = @testCode", connection);
+            var command = new MySqlCommand("SELECT * FROM lab_test WHERE test_code = @testCode", connection);
             command.Parameters.AddWithValue("@testCode", testCode);
             var reader = command.ExecuteReader();
             if (reader.Read())
@@ -83,10 +83,9 @@ public class TestEditDal
         {
             connection.Close();
         }
-        return null;
     }
 
-    public void OrderTest(int labOrderId, string testCode, DateTime? datetimePerformed, double? testResult, bool isAbnormal)
+    public void updateOrderedTest(int labOrderId, string testCode, DateTime? datetimePerformed, double? testResult, bool isAbnormal)
     {
         using var connection = new MySqlConnection(Connection.ConnectionString());
         connection.Open();
@@ -102,7 +101,7 @@ public class TestEditDal
         }
         catch (MySqlException ex)
         {
-            throw new Exception("Database error occurred while ordering the test.", ex);
+            throw new Exception("Database error occurred while updating the ordered test.", ex);
         }
         finally
         {

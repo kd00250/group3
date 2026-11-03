@@ -154,6 +154,7 @@ namespace HealthcareSystem.View
                 Pulse = int.Parse(this.pulseTextBox.Text.Trim(), NumberStyles.Integer, CultureInfo.CurrentCulture),
                 Symptoms = this.symptomsTextBox.Text,
                 CheckDateTime = this.visit.CheckDateTime,
+                InitialDiagnosis = this.initalDiagnosisBox.Text,
                 IsFinalized = this.visit.IsFinalized
             };
 
@@ -171,6 +172,7 @@ namespace HealthcareSystem.View
                 this.visit.CheckDateTime = edited.CheckDateTime;
                 this.visit.NurseId = edited.NurseId;
                 this.visit.NurseName = edited.NurseName;
+                this.visit.InitialDiagnosis = edited.InitialDiagnosis;
                 this.showVisit();
 
                 this.hasUnsavedChanges = false;

@@ -57,6 +57,7 @@
             phoneNumberErrorLabel = new Label();
             streetAddressErrorLabel = new Label();
             activeCheck = new CheckBox();
+            loggedInUserControl1 = new HealthcareSystem.View.LoggedInUserControl();
             SuspendLayout();
             // 
             // submitButton
@@ -315,11 +316,19 @@
             activeCheck.TabIndex = 27;
             activeCheck.UseVisualStyleBackColor = true;
             // 
+            // loggedInUserControl1
+            // 
+            loggedInUserControl1.Location = new Point(0, 0);
+            loggedInUserControl1.Name = "loggedInUserControl1";
+            loggedInUserControl1.Size = new Size(350, 83);
+            loggedInUserControl1.TabIndex = 36;
+            // 
             // PatientEditForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(826, 470);
+            Controls.Add(loggedInUserControl1);
             Controls.Add(streetAddressErrorLabel);
             Controls.Add(phoneNumberErrorLabel);
             Controls.Add(zipCodeErrorLabel);
@@ -377,7 +386,6 @@
         private DateTimePicker dateOfBirthPicker;
         private ComboBox genderCombo;
         private ComboBox stateCombo;
-        private View.LoggedInUserControl loggedInUserControl1;
         private Label activeLabel;
         private Label firstNameErrorLabel;
         private Label lastNameErrorLabel;
@@ -387,5 +395,6 @@
         private Label phoneNumberErrorLabel;
         private Label streetAddressErrorLabel;
         private CheckBox activeCheck;
+        private View.LoggedInUserControl loggedInUserControl1;
     }
 }

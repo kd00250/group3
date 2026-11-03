@@ -275,7 +275,6 @@
         private TextBox testNameBox;
         private TextBox highBox;
         private Label informationLabel;
-        private LoggedInUserControl loggedInUserControl1;
         private Button backButton;
         private DataGridView selectedTestGrid;
         private TextBox lowBox;

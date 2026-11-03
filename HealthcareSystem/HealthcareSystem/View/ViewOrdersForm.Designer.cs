@@ -117,7 +117,6 @@
 
         private DataGridView orderSelectGrid;
         private Button selectOrderButton;
-        private LoggedInUserControl loggedInUserControl1;
         private Button backButton;
         private Label patientInfoLabel;
         private Label ordersLabel;
