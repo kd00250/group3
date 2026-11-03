@@ -76,7 +76,7 @@ namespace HealthcareSystem.View
             }
             catch (MySqlException e)
             {
-                this.showError("Unable to load doctors from the database.");
+                this.showError(this.errorLabel, "Unable to load doctors from the database.");
                 this.bookButton.Enabled = false;
             }
         }
@@ -130,7 +130,7 @@ namespace HealthcareSystem.View
         {
             if (!this.patient.IsActive)
             {
-                this.showError("This patient is not active. Make the patient active before making or changing an appointment.");
+                this.showError(this.errorLabel, "This patient is not active. Make the patient active before making or changing an appointment.");
                 this.bookButton.Enabled = false;
             }
         }
@@ -187,17 +187,23 @@ namespace HealthcareSystem.View
                 if (availableTimes.Count == 0)
                 {
                     this.availabilityLabel.Text = $"Dr. {doctor.FullName} has no available times for {date:MM/dd/yyyy}.";
+                    this.timeErrorLabel.Visible = false;
                 }
             }
             catch (MySqlException e)
             {
-                this.showError("Unable to fetch available times from the database.");
+                this.showError(this.errorLabel, "Unable to fetch available times from the database.");
             }
         }
 
         private void bookButton_Click(object sender, EventArgs e)
         {
-            this.errorLabel.Visible = false;
+            this.clearFieldErrors();
+
+            if (!this.validateInputs())
+            {
+                return;
+            }
 
             var doctor = this.doctorComboBox.SelectedItem as Doctor;
             var date = this.appointmentDatePicker.Value.Date;
@@ -217,11 +223,11 @@ namespace HealthcareSystem.View
             }
             catch (ArgumentException ex)
             {
-                this.showError(ex.Message);
+                this.showError(this.errorLabel, ex.Message);
             }
             catch (MySqlException ex)
             {
-                this.showError("Unable to book the appointment in the database.");
+                this.showError(this.errorLabel, "Unable to book the appointment in the database.");
             }
         }
 
@@ -244,7 +250,7 @@ namespace HealthcareSystem.View
 
             if (!updated)
             {
-                this.showError("Failed to update the appointment.");
+                this.showError(this.errorLabel, "Failed to update the appointment.");
                 return;
             }
 
@@ -256,15 +262,52 @@ namespace HealthcareSystem.View
             Close();
         }
 
+        private void clearFieldErrors()
+        {
+            this.doctorErrorLabel.Visible = false;
+            this.reasonErrorLabel.Visible = false;
+            this.timeErrorLabel.Visible = false;
+            this.errorLabel.Visible = false;
+        }
+
+        private bool validateInputs()
+        {
+            var isValid = true;
+
+            if (this.doctorComboBox.SelectedItem == null)
+            {
+                this.showError(this.doctorErrorLabel, "Please select a doctor.");
+                isValid = false;
+            }
+
+            if (this.timeComboBox.SelectedItem == null)
+            {
+                if (string.IsNullOrEmpty(this.availabilityLabel.Text))
+                {
+                    this.showError(this.timeErrorLabel, "Please select a time.");
+                }
+
+                isValid = false;
+            }
+
+            if (string.IsNullOrWhiteSpace(this.reasonTextBox.Text))
+            {
+                this.showError(this.reasonErrorLabel, "Please enter a reason for the appointment.");
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
         private void backButton_Click(object sender, EventArgs e)
         {
             Close();
         }
 
-        private void showError(string message)
+        private void showError(Label errorLabel, string message)
         {
-            this.errorLabel.Text = message;
-            this.errorLabel.Visible = true;
+            errorLabel.Text = message;
+            errorLabel.Visible = true;
         }
     }
 }
