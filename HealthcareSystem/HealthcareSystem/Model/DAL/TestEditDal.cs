@@ -4,24 +4,37 @@ namespace HealthcareSystem.Model.DAL;
 
 public class TestEditDal
 {
-    public List<Test> GetAllTests()
+    public List<OrderedTest> GetAllOrderedTests(int labOrderId)
     {
-        var tests = new List<Test>();
+        var tests = new List<OrderedTest>();
         using var connection = new MySqlConnection(Connection.ConnectionString());
         connection.Open();
         try
         {   
-            var command = new MySqlCommand("SELECT * FROM lab_test", connection);
+            var command = new MySqlCommand("SELECT * FROM ordered_test WHERE lab_order_id = @labOrderId", connection);
+            command.Parameters.AddWithValue("@labOrderId", labOrderId);
             var reader = command.ExecuteReader();
             while (reader.Read())
             {
-                var test = new Test
+                int dateTimeOrderedOrdinal = reader.GetOrdinal("datetime_performed");
+                int testResultOrdinal = reader.GetOrdinal("test_result");
+                DateTime? dateTimePreformed = null;
+                double? testResult = null;
+                if (!reader.IsDBNull(dateTimeOrderedOrdinal))
                 {
-                    TestCode = reader.GetString("test_code"),
-                    TestName = reader.GetString("test_name"),
-                    UnitName = reader.GetString("unit_name"),
-                    LowValue = reader.GetDouble("low_value"),
-                    HighValue = reader.GetDouble("high_value")
+                    dateTimePreformed = reader.GetDateTime(dateTimeOrderedOrdinal);
+                }
+                if (!reader.IsDBNull(testResultOrdinal))
+                {
+                    testResult = reader.GetDouble(testResultOrdinal);
+                }
+                var test = new OrderedTest
+                {
+                    labOrderId = reader.GetInt32("lab_order_id"),
+                    testCode = reader.GetString("test_code"),
+                    dateTimePreformed = dateTimePreformed,
+                    testResult = testResult,
+                    isAbnormal = reader.GetBoolean("is_abnormal")
                 };
                 tests.Add(test);
             }
@@ -36,15 +49,50 @@ public class TestEditDal
         }
         return tests;
     }
-    
+
+    public Test getTestById(string testCode)
+    {
+        using var connection = new MySqlConnection(Connection.ConnectionString());
+        connection.Open();
+        try
+        {
+            var command = new MySqlCommand("SELECT * FROM test WHERE test_code = @testCode", connection);
+            command.Parameters.AddWithValue("@testCode", testCode);
+            var reader = command.ExecuteReader();
+            if (reader.Read())
+            {
+                return new Test
+                {
+                    TestCode = reader.GetString("test_code"),
+                    TestName = reader.GetString("test_name"),
+                    LowValue = reader.GetDouble("low_value"),
+                    HighValue = reader.GetDouble("high_value"),
+                    UnitName = reader.GetString("unit_name")
+                };
+            }
+            else
+            {
+                throw new Exception($"Test with code {testCode} not found.");
+            }
+        }
+        catch (MySqlException ex)
+        {
+            throw new Exception("Database error occurred while retrieving the test.", ex);
+        }
+        finally
+        {
+            connection.Close();
+        }
+        return null;
+    }
+
     public void OrderTest(int labOrderId, string testCode, DateTime? datetimePerformed, double? testResult, bool isAbnormal)
     {
         using var connection = new MySqlConnection(Connection.ConnectionString());
         connection.Open();
         try
         {
-            var command = new MySqlCommand("INSERT INTO ordered_test (lab_order_id, test_code, datetime_performed," +
-                "test_result, is_abnormal) VALUES (@labOrderId, @testCode, @datetimePerformed, @testResult, @isAbnormal)", connection);
+            var command = new MySqlCommand("UPDATE ordered_test SET datetime_performed = @datetimePerformed, test_result = @testResult, is_abnormal = @isAbnormal WHERE lab_order_id = @labOrderId AND test_code = @testCode", connection);
             command.Parameters.AddWithValue("@labOrderId", labOrderId);
             command.Parameters.AddWithValue("@testCode", testCode);
             command.Parameters.AddWithValue("@datetimePerformed", datetimePerformed);
@@ -62,28 +110,4 @@ public class TestEditDal
         }
     }
 
-    public int LabOrder(DateTime order_datetime, int visit_id)
-    {
-        int labOrderId = -1;
-        using var connection = new MySqlConnection(Connection.ConnectionString());
-        connection.Open();
-        try
-        {
-            var command = new MySqlCommand("INSERT INTO lab_order (order_datetime, visit_id) " +
-                "VALUES (@order_datetime, @visit_id)", connection);
-            command.Parameters.AddWithValue("@order_datetime", order_datetime);
-            command.Parameters.AddWithValue("@visit_id", visit_id);
-            command.ExecuteNonQuery();
-            labOrderId = (int)command.LastInsertedId;
-        }
-        catch (MySqlException ex)
-        {
-            throw new Exception("Database error occurred while creating the lab order.", ex);
-        }
-        finally
-        {
-            connection.Close();
-        }
-        return labOrderId;
-    }
 }

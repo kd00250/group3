@@ -23,21 +23,16 @@ public class TestEditController
 
     #region Methods
     /// <summary>
-    ///     Retrieves all tests.
+    ///     Retrieves all ordered tests.
     /// </summary>
-    public IList<Test> GetAllTests()
+    public IList<OrderedTest> GetAllOrderedTests(int labOrderId)
     {
-        return this.testOrderDAL.GetAllTests();
+        return this.testOrderDAL.GetAllOrderedTests(labOrderId);
     }
 
-    public void ConfirmLabOrder(IList<Test> tests, int visit_id)
+    public Test getTestById(string testCode)
     {
-        int orderId = this.testOrderDAL.LabOrder(DateTime.Now, visit_id);
-        foreach (Test test in tests)
-        {
-            this.testOrderDAL.OrderTest(orderId, test.TestCode, null, null, false);
-        }
-
+        return this.testOrderDAL.getTestById(testCode);
     }
     #endregion
 }

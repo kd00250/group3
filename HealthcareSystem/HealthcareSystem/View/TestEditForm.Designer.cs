@@ -44,7 +44,7 @@
             patientInfoLabel = new Label();
             label2 = new Label();
             label3 = new Label();
-            textBox3 = new TextBox();
+            resultBox = new TextBox();
             resultLabel = new Label();
             datePerformedLabel = new Label();
             datePreformedPicker = new DateTimePicker();
@@ -205,13 +205,13 @@
             label3.TabIndex = 57;
             label3.Text = "Test Information";
             // 
-            // textBox3
+            // resultBox
             // 
-            textBox3.Anchor = AnchorStyles.Top;
-            textBox3.Location = new Point(360, 617);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(103, 27);
-            textBox3.TabIndex = 56;
+            resultBox.Anchor = AnchorStyles.Top;
+            resultBox.Location = new Point(360, 617);
+            resultBox.Name = "resultBox";
+            resultBox.Size = new Size(103, 27);
+            resultBox.TabIndex = 56;
             // 
             // resultLabel
             // 
@@ -271,7 +271,7 @@
             Controls.Add(datePreformedPicker);
             Controls.Add(label2);
             Controls.Add(label3);
-            Controls.Add(textBox3);
+            Controls.Add(resultBox);
             Controls.Add(resultLabel);
             Controls.Add(datePerformedLabel);
             Controls.Add(patientInfoLabel);
@@ -315,7 +315,7 @@
         private Label patientInfoLabel;
         private Label label2;
         private Label label3;
-        private TextBox textBox3;
+        private TextBox resultBox;
         private Label resultLabel;
         private Label datePerformedLabel;
         private DateTimePicker datePreformedPicker;
