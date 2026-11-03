@@ -48,19 +48,18 @@ public partial class ViewOrdersForm : Form
         this.orderSelectGrid.RowHeadersVisible = false;
     }
 
-    // should load orders for the visit instead of tests.
     private void loadOrders()
     {
         try
         {
             var orders = this.viewOrdersController.GetOrdersByVisitId(this.visit.VisitId);
-            this.orderSelectGrid.DataSource = orders;
             this.configureSelectColumns();
+            this.orderSelectGrid.DataSource = orders;
             this.orderSelectGrid.ClearSelection();
         }
         catch (MySqlException)
         {
-            this.showMessage("Unable to retrieve tests from the database.", "Database Error", MessageBoxIcon.Error);
+            this.showMessage("Unable to retrieve orders from the database.", "Database Error", MessageBoxIcon.Error);
         }
         catch (UnauthorizedAccessException ex)
         {
@@ -77,7 +76,7 @@ public partial class ViewOrdersForm : Form
 
         DataGridViewTextBoxColumn labIdColumn = new DataGridViewTextBoxColumn
         {
-            DataPropertyName = "LabId",
+            DataPropertyName = "LabOrderId",
             HeaderText = "Lab ID",
             AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
         };
@@ -85,7 +84,7 @@ public partial class ViewOrdersForm : Form
 
         DataGridViewTextBoxColumn orderDateColumn = new DataGridViewTextBoxColumn
         {
-            DataPropertyName = "OrderDate",
+            DataPropertyName = "DateTimeOrdered",
             HeaderText = "Order Date",
             AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
         };
@@ -106,34 +105,20 @@ public partial class ViewOrdersForm : Form
         Close();
     }
 
-    // Update this method to handle the order submission logic
     private void selectButton_Click(object sender, EventArgs e)
     {
-        
-        var selectedOrder = this.orderSelectGrid.DataSource as IList<LabOrder>;
-        if (selectedTests == null || selectedTests.Count == 0)
+        if (this.orderSelectGrid.SelectedRows.Count == 0)
         {
-            this.showMessage("Please select at least one lab order.", "No Lab Orders Selected", MessageBoxIcon.Warning);
+            this.showMessage("Please select an order to view.", "No Order Selected", MessageBoxIcon.Warning);
             return;
         }
-        LabOrder selectedLabOrder = null;
-        try
+        var selectedOrder = (LabOrder)this.orderSelectGrid.SelectedRows[0].DataBoundItem;
+        if (selectedOrder != null)
         {
-            selectedLabOrder = this.orderSelectGrid.CurrentRow?.DataBoundItem as LabOrder;
-        } catch (Exception ex)
-        {
-            this.showMessage($"An error occurred while selecting the lab order: {ex.Message}", "Error", MessageBoxIcon.Error);
+            var testEditController = new TestEditController(new Model.DAL.TestEditDal());
+            var testEditForm = new TestEditForm(testEditController, this.visit, this.patient, selectedOrder);
+            testEditForm.ShowDialog();
         }
-
-        if (selectedLabOrder == null)
-        {
-            this.showMessage("Failed to select a lab order.", "Selection Error", MessageBoxIcon.Error);
-            return;
-        }
-        var testEditController = new TestEditController(new Model.DAL.TestEditDal());
-        var testEditForm = new TestEditForm(testEditController, this.visit, this.patient, selectedLabOrder);
-        testEditForm.ShowDialog();
-
     }
 
     private void showMessage(string message, string title, MessageBoxIcon icon)

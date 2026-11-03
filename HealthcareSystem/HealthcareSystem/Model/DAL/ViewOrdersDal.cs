@@ -9,7 +9,7 @@ public class ViewOrdersDal
         var orders = new List<LabOrder>();
         using var connection = new MySqlConnection(Connection.ConnectionString());
         connection.Open();
-        string query = "SELECT * FROM lab_order WHERE VisitId = @VisitId";
+        string query = "SELECT * FROM lab_order WHERE visit_id = @VisitId";
         using (MySqlCommand command = new MySqlCommand(query, connection))
         {
             command.Parameters.AddWithValue("@VisitId", visitId);
@@ -19,9 +19,9 @@ public class ViewOrdersDal
                 {
                     LabOrder order = new LabOrder
                     {
-                        LabOrderId = reader.GetInt32("LabOrderId"),
-                        DateTimeOrdered = reader.GetDateTime("DateTimeOrdered"),
-                        visitId = reader.GetInt32("VisitId")
+                        LabOrderId = reader.GetInt32("lab_order_id"),
+                        DateTimeOrdered = reader.GetDateTime("order_datetime"),
+                        visitId = reader.GetInt32("visit_id")
                     };
                     orders.Add(order);
                 }
