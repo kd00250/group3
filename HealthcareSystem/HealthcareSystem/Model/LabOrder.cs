@@ -22,5 +22,5 @@ public class LabOrder
     /// <value>
     /// The visit identifier.
     /// </value>
-    public String visitId { get; set; } = string.Empty;
+    public int visitId { get; set; }
 }

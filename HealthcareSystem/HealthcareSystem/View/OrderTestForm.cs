@@ -32,7 +32,7 @@ public partial class OrderTestForm : Form
         this.lowBox.ReadOnly = true;
         this.configureSelectGrid();
         this.configureSelectedGrid();
-        this.loggedInUserControl1.RefreshUser();
+        this.loggedInUserControl2.RefreshUser();
         this.loadTests();
     }
 
