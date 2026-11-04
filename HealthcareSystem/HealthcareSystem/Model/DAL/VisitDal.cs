@@ -257,17 +257,18 @@ public class VisitDal
         const string query = """
                              INSERT INTO visit
                                  (appointment_id, visit_datetime, is_finalized)
-                             SELECT a.appointment_id, NOW(), FALSE
+                             SELECT a.appointment_id, @now, FALSE
                              FROM appointment a
                              WHERE a.appointment_id = @appointmentId
                              AND a.patient_id = @patientId
-                             AND TIMESTAMP(a.appointment_date, a.appointment_time) >= NOW()
+                             AND TIMESTAMP(a.appointment_date, a.appointment_time) >= @now
                              AND NOT EXISTS (
                                  SELECT 1
                                  FROM visit v
                                  WHERE v.appointment_id = a.appointment_id
                              );
                              """;
+        var now = DateTime.Now;
 
         using var connection = new MySqlConnection(Connection.ConnectionString());
         connection.Open();
@@ -278,6 +279,9 @@ public class VisitDal
 
         command.Parameters.Add("@appointmentId", MySqlDbType.Int32);
         command.Parameters["@appointmentId"].Value = appointmentId;
+
+        command.Parameters.Add("@now", MySqlDbType.DateTime);
+        command.Parameters["@now"].Value = now;
 
         var rowsAffected = command.ExecuteNonQuery();
 
@@ -293,7 +297,7 @@ public class VisitDal
             VisitId = visitId,
             AppointmentId = appointmentId,
             PatientId = patientId,
-            VisitDateTime = DateTime.Now,
+            VisitDateTime = now,
             IsFinalized = false
         };
     }
