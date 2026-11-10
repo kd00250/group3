@@ -139,6 +139,10 @@ public class AppointmentDal
                              JOIN person dp ON d.person_id = dp.person_id
                              WHERE a.patient_id = @patientId 
                                 AND TIMESTAMP(a.appointment_date, a.appointment_time) >= @now
+                                AND NOT EXISTS (
+                                 SELECT 1
+                                 FROM visit v
+                                 WHERE v.appointment_id = a.appointment_id)
                              ORDER BY a.appointment_date, a.appointment_time;
                              """;
 
@@ -161,7 +165,11 @@ public class AppointmentDal
                              JOIN doctor d ON a.doctor_id = d.doctor_id
                              JOIN person dp ON d.person_id = dp.person_id
                              WHERE a.patient_id = @patientId 
-                                AND TIMESTAMP(a.appointment_date, a.appointment_time) <= @now
+                                AND (TIMESTAMP(a.appointment_date, a.appointment_time) <= @now
+                                OR EXISTS (
+                                 SELECT 1
+                                 FROM visit v
+                                 WHERE v.appointment_id = a.appointment_id))
                              ORDER BY a.appointment_date DESC, a.appointment_time DESC;
                              """;
         return getAppointments(query, patientId, now);
