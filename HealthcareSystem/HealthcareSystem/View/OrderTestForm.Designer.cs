@@ -36,7 +36,6 @@
             testNameBox = new TextBox();
             highBox = new TextBox();
             informationLabel = new Label();
-            loggedInUserControl1 = new LoggedInUserControl();
             backButton = new Button();
             selectedTestGrid = new DataGridView();
             lowBox = new TextBox();
@@ -47,6 +46,7 @@
             addButton = new Button();
             removeButton = new Button();
             patientInfoLabel = new Label();
+            loggedInUserControl2 = new LoggedInUserControl();
             ((System.ComponentModel.ISupportInitialize)testSelectGrid).BeginInit();
             ((System.ComponentModel.ISupportInitialize)selectedTestGrid).BeginInit();
             SuspendLayout();
@@ -127,13 +127,6 @@
             informationLabel.Size = new Size(169, 28);
             informationLabel.TabIndex = 25;
             informationLabel.Text = "Test Information";
-            // 
-            // loggedInUserControl1
-            // 
-            loggedInUserControl1.Location = new Point(0, 0);
-            loggedInUserControl1.Name = "loggedInUserControl1";
-            loggedInUserControl1.Size = new Size(314, 141);
-            loggedInUserControl1.TabIndex = 26;
             // 
             // backButton
             // 
@@ -232,11 +225,19 @@
             patientInfoLabel.Size = new Size(0, 20);
             patientInfoLabel.TabIndex = 52;
             // 
+            // loggedInUserControl2
+            // 
+            loggedInUserControl2.Location = new Point(0, 0);
+            loggedInUserControl2.Name = "loggedInUserControl2";
+            loggedInUserControl2.Size = new Size(350, 141);
+            loggedInUserControl2.TabIndex = 53;
+            // 
             // OrderTestForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(867, 704);
+            Controls.Add(loggedInUserControl2);
             Controls.Add(patientInfoLabel);
             Controls.Add(removeButton);
             Controls.Add(addButton);
@@ -247,7 +248,6 @@
             Controls.Add(lowBox);
             Controls.Add(selectedTestGrid);
             Controls.Add(backButton);
-            Controls.Add(loggedInUserControl1);
             Controls.Add(informationLabel);
             Controls.Add(highBox);
             Controls.Add(testNameBox);
@@ -258,7 +258,7 @@
             Controls.Add(testSelectGrid);
             Name = "OrderTestForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "NurseManagement";
+            Text = "Order Test";
             ((System.ComponentModel.ISupportInitialize)testSelectGrid).EndInit();
             ((System.ComponentModel.ISupportInitialize)selectedTestGrid).EndInit();
             ResumeLayout(false);
@@ -275,7 +275,6 @@
         private TextBox testNameBox;
         private TextBox highBox;
         private Label informationLabel;
-        private LoggedInUserControl loggedInUserControl1;
         private Button backButton;
         private DataGridView selectedTestGrid;
         private TextBox lowBox;
@@ -286,5 +285,6 @@
         private Button addButton;
         private Button removeButton;
         private Label patientInfoLabel;
+        private LoggedInUserControl loggedInUserControl2;
     }
 }
