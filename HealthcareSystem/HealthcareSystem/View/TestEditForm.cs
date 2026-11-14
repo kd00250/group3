@@ -34,6 +34,7 @@ public partial class TestEditForm: Form
         this.configureSelectGrid();
         this.loggedInUserControl2.RefreshUser();
         this.loadOrderedTests();
+        this.checkFinalization();
     }
 
     #endregion
@@ -129,7 +130,6 @@ public partial class TestEditForm: Form
         var selectedTest = this.testSelectGrid.SelectedRows[0].DataBoundItem as OrderedTest;
         this.datePreformedPicker.Value = selectedTest.dateTimePreformed ?? DateTime.Now;
         this.resultBox.Text = selectedTest.testResult.ToString();
-        this.abnormalCheck.Checked = selectedTest.isAbnormal;
     }
 
     private void testSelectGrid_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -167,11 +167,12 @@ public partial class TestEditForm: Form
         {
             selectedTest.testResult = (double?)double.Parse(this.resultBox.Text);
             selectedTest.dateTimePreformed = this.datePreformedPicker.Value;
-            selectedTest.isAbnormal = this.abnormalCheck.Checked;
+            selectedTest.isAbnormal = this.checkAbnormality;
             this.testEditController.UpdateOrderedTests(selectedTest);
             this.testSelectGrid.DataSource = null;
             this.testSelectGrid.DataSource = this.testEditController.GetAllOrderedTests(this.labOrder.LabOrderId);
             this.showMessage("Ordered test saved successfully.", "Success", MessageBoxIcon.Information);
+            this.resultErrorLabel.Text = string.Empty;
         }
         catch (MySqlException)
         {
@@ -224,6 +225,31 @@ public partial class TestEditForm: Form
             return false;
         }
         return true;
+    }
+
+    private void checkFinalization()
+    {
+        if (this.visit.IsFinalized)
+        {
+            this.resultBox.ReadOnly = true;
+            this.datePreformedPicker.Enabled = false;
+            this.saveButton.Enabled = false;
+        }
+    }
+
+    private bool checkAbnormality
+    {
+        get
+        {
+            if (double.TryParse(this.resultBox.Text, out double result))
+            {
+                if (double.TryParse(this.highBox.Text, out double high) && double.TryParse(this.lowBox.Text, out double low))
+                {
+                    return result > high || result < low;
+                }
+            }
+            return false;
+        }
     }
 
     #endregion

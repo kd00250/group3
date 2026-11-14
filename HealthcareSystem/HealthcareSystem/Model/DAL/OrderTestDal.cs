@@ -1,4 +1,5 @@
 ﻿using MySqlConnector;
+using System.Data.SqlTypes;
 
 namespace HealthcareSystem.Model.DAL;
 
@@ -30,36 +31,43 @@ public class OrderTestDal
         {
             throw new Exception("Database error occurred while retrieving tests.", ex);
         }
-        finally
-        {
-            connection.Close();
-        }
+        connection.Close();
         return tests;
     }
     
-    public void OrderTest(int labOrderId, string testCode, DateTime? datetimePerformed, double? testResult, bool isAbnormal)
+    public void CompleteLabOrder(IList<Test> tests, int visit_id)
     {
         using var connection = new MySqlConnection(Connection.ConnectionString());
         connection.Open();
+        using var transaction = connection.BeginTransaction();
         try
         {
-            var command = new MySqlCommand("INSERT INTO ordered_test (lab_order_id, test_code, datetime_performed," +
-                "test_result, is_abnormal) VALUES (@labOrderId, @testCode, @datetimePerformed, @testResult, @isAbnormal)", connection);
-            command.Parameters.AddWithValue("@labOrderId", labOrderId);
-            command.Parameters.AddWithValue("@testCode", testCode);
-            command.Parameters.AddWithValue("@datetimePerformed", datetimePerformed);
-            command.Parameters.AddWithValue("@testResult", testResult);
-            command.Parameters.AddWithValue("@isAbnormal", isAbnormal);
-            command.ExecuteNonQuery();
+            const string insertLabOrderQuery = "INSERT INTO lab_order (order_datetime, visit_id) VALUES (@order_datetime, @visit_id)";
+            const string insertOrderTestQuery = "INSERT INTO ordered_test (lab_order_id, test_code, datetime_performed, test_result, is_abnormal) VALUES (@lab_order_id, @test_code, @datetime_performed, @test_result, @is_abnormal)";
+            var labCommand = new MySqlCommand(insertLabOrderQuery, connection, transaction);
+            labCommand.Parameters.AddWithValue("@order_datetime", DateTime.Now);
+            labCommand.Parameters.AddWithValue("@visit_id", visit_id);
+            labCommand.ExecuteNonQuery();
+            var labOrderId = (int)labCommand.LastInsertedId;
+
+            foreach (Test test in tests)
+            {
+                var orderedTestCommand = new MySqlCommand(insertOrderTestQuery, connection, transaction);
+                orderedTestCommand.Parameters.AddWithValue("@lab_order_id", labOrderId);
+                orderedTestCommand.Parameters.AddWithValue("@test_code", test.TestCode);
+                orderedTestCommand.Parameters.AddWithValue("@datetime_performed", null);
+                orderedTestCommand.Parameters.AddWithValue("@test_result", null);
+                orderedTestCommand.Parameters.AddWithValue("@is_abnormal", false);
+                orderedTestCommand.ExecuteNonQuery();
+            }
+            transaction.Commit();
         }
         catch (MySqlException ex)
         {
+            transaction.Rollback();
             throw new Exception("Database error occurred while ordering the test.", ex);
         }
-        finally
-        {
-            connection.Close();
-        }
+        connection.Close();
     }
 
     public int LabOrder(DateTime order_datetime, int visit_id)
@@ -80,10 +88,7 @@ public class OrderTestDal
         {
             throw new Exception("Database error occurred while creating the lab order.", ex);
         }
-        finally
-        {
-            connection.Close();
-        }
+        connection.Close();
         return labOrderId;
     }
 }

@@ -81,7 +81,6 @@ namespace HealthcareSystem.View
             this.finalDiagnosisTextBox.ReadOnly = true;
             this.finalizeVisitButton.Enabled = false;
             this.orderTestsButton.Enabled = false;
-            this.viewEditTestsButton.Enabled = false;
         }
 
         private void field_TextChanged(object? sender, EventArgs e)

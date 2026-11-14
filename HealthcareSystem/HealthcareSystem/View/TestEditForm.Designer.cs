@@ -42,13 +42,11 @@
             unitLabel = new Label();
             unitBox = new TextBox();
             patientInfoLabel = new Label();
-            label2 = new Label();
             label3 = new Label();
             resultBox = new TextBox();
             resultLabel = new Label();
             datePerformedLabel = new Label();
             datePreformedPicker = new DateTimePicker();
-            abnormalCheck = new CheckBox();
             loggedInUserControl2 = new LoggedInUserControl();
             resultErrorLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)testSelectGrid).BeginInit();
@@ -186,16 +184,6 @@
             patientInfoLabel.Size = new Size(0, 20);
             patientInfoLabel.TabIndex = 52;
             // 
-            // label2
-            // 
-            label2.Anchor = AnchorStyles.Top;
-            label2.AutoSize = true;
-            label2.Location = new Point(496, 620);
-            label2.Name = "label2";
-            label2.Size = new Size(89, 20);
-            label2.TabIndex = 59;
-            label2.Text = "Is Abnormal";
-            // 
             // label3
             // 
             label3.AutoSize = true;
@@ -246,15 +234,6 @@
             datePreformedPicker.TabIndex = 62;
             datePreformedPicker.Value = new DateTime(2026, 10, 10, 0, 0, 0, 0);
             // 
-            // abnormalCheck
-            // 
-            abnormalCheck.AutoSize = true;
-            abnormalCheck.Location = new Point(591, 623);
-            abnormalCheck.Name = "abnormalCheck";
-            abnormalCheck.Size = new Size(18, 17);
-            abnormalCheck.TabIndex = 63;
-            abnormalCheck.UseVisualStyleBackColor = true;
-            // 
             // loggedInUserControl2
             // 
             loggedInUserControl2.Location = new Point(0, 0);
@@ -278,9 +257,7 @@
             ClientSize = new Size(867, 704);
             Controls.Add(resultErrorLabel);
             Controls.Add(loggedInUserControl2);
-            Controls.Add(abnormalCheck);
             Controls.Add(datePreformedPicker);
-            Controls.Add(label2);
             Controls.Add(label3);
             Controls.Add(resultBox);
             Controls.Add(resultLabel);
@@ -323,13 +300,11 @@
         private Label unitLabel;
         private TextBox unitBox;
         private Label patientInfoLabel;
-        private Label label2;
         private Label label3;
         private TextBox resultBox;
         private Label resultLabel;
         private Label datePerformedLabel;
         private DateTimePicker datePreformedPicker;
-        private CheckBox abnormalCheck;
         private LoggedInUserControl loggedInUserControl2;
         private Label resultErrorLabel;
     }
