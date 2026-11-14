@@ -4,6 +4,10 @@ namespace HealthcareSystem.Model;
 
 /// <summary>
 ///     The password hasher class
+///     uses the PBKDF2 hashing algorithm. We choose this as the implementation seemed easy and it was already built into .NET
+///     uses the System.Security.Cryptography package. 
+///     Sources We used to help implement this class:
+///     https://www.youtube.com/watch?v=ydUxs-1HHB8 and https://cryptobook.nakov.com/mac-and-key-derivation/pbkdf2 
 /// </summary>
 public static class PasswordHasher
 {
@@ -15,7 +19,7 @@ public static class PasswordHasher
     ///     Hashes the password using the SHA256 algorithm.
     /// </summary>
     /// <param name="password">The password.</param>
-    /// <returns></returns>
+    /// <returns>The iterations, encoded password, hash, and salt together in a string</returns>
     /// <exception cref="ArgumentNullException"></exception>
     public static string HashPassword(string password)
     {
@@ -32,7 +36,7 @@ public static class PasswordHasher
     /// </summary>
     /// <param name="password">The password.</param>
     /// <param name="storedHash">The stored hash.</param>
-    /// <returns></returns>
+    /// <returns>true if the hash values are equal, false if otherwise</returns>
     public static bool VerifyPassword(string password, string storedHash)
     {
         if (string.IsNullOrEmpty(password) || string.IsNullOrEmpty(storedHash))
