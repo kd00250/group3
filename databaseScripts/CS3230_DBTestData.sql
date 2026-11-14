@@ -217,9 +217,78 @@ WHERE pe.first_name = 'John' AND pe.last_name = 'Daniels'
 INSERT INTO lab_test 
 VALUES ('BLD123', 'Complete Blood Count', 4000, 11000, 'µL'),
 ('BLD839', 'Platelet Count', 150000, 450000, 'µL'),
-('BLD921', 'Hemoglobin', 12.0, 18.0, 'g/dL');
+('BLD921', 'Hemoglobin', 12.0, 18.0, 'g/dL'),
+('GLU450', 'Glucose', 70, 100, 'mg/dL');
+
+-- ----------------------------------
+-- Old visits with ordered tests
+-- ----------------------------------
+
+SELECT v.visit_id, v.visit_datetime
+INTO @oldVisitId, @oldVisitDateTime
+FROM visit v
+JOIN appointment a ON v.appointment_id = a.appointment_id
+JOIN patient pa ON a.patient_id = pa.patient_id
+JOIN person pe ON pa.person_id = pe.person_id
+WHERE pe.first_name = 'Jane' AND pe.date_of_birth = '2001-11-17'
+	AND a.appointment_date = date_sub(curdate(), interval 30 day);
+    
+INSERT INTO lab_order (order_datetime, visit_id)
+VALUES (@oldVisitDatetime, @oldVisitId);
+SET @orderId = last_insert_id();
+
+INSERT INTO ordered_test (lab_order_id, test_code, datetime_performed, test_result, is_abnormal)
+VALUES (@orderId, 'BLD123', @oldVisitDatetime + interval 1 day, 6500, false),
+	(@orderId, 'BLD921', @oldVisitDatetime + interval 1 day, 10.5, true),
+    (@orderId, 'BLD839', @oldVisitDatetime + interval 1 day, 200000, false),
+    (@orderId, 'GLU450', @oldVisitDatetime + interval 1 day, 85, false);
 
 
+SELECT v.visit_id, v.visit_datetime
+INTO @recentVisitId, @recentVisitDatetime
+FROM visit v
+JOIN appointment a ON v.appointment_id = a.appointment_id
+JOIN patient pa ON a.patient_id = pa.patient_id
+JOIN person pe ON pa.person_id = pe.person_id
+WHERE pe.first_name = 'Jane' AND pe.date_of_birth = '2001-11-17'
+  AND a.appointment_date = date_sub(curdate(), interval 14 day);
+
+INSERT INTO lab_order (order_datetime, visit_id)
+VALUES (@recentVisitDatetime, @recentVisitId);
+SET @orderId = last_insert_id();
+
+INSERT INTO ordered_test (lab_order_id, test_code, datetime_performed, test_result, is_abnormal)
+VALUES (@orderId, 'BLD123', @recentVisitDatetime + interval 1 day, 12000, true),
+	(@orderId, 'BLD921', @recentVisitDatetime + interval 1 day, 14.0, false),
+	(@orderId, 'BLD839', @recentVisitDatetime + interval 1 day, 250000, false);
 
 
+INSERT INTO appointment (appointment_date, appointment_time, reason, patient_id, doctor_id)
+SELECT date_sub(curdate(), interval 21 day), '10:00:00', 'Fatigue', pa.patient_id, d.doctor_id
+	FROM patient pa JOIN person pe ON pa.person_id = pe.person_id,
+		 doctor d JOIN person dp ON d.person_id = dp.person_id
+	WHERE pe.first_name = 'Mark' AND pe.last_name = 'Gray'
+		AND dp.last_name = 'Owen';
 
+INSERT INTO visit (visit_datetime, appointment_id)
+SELECT timestamp(a.appointment_date, a.appointment_time), a.appointment_id
+FROM appointment a
+JOIN patient pa ON a.patient_id = pa.patient_id
+JOIN person pe ON pa.person_id = pe.person_id
+WHERE pe.first_name = 'Mark' AND pe.last_name = 'Gray'
+  AND a.appointment_date = date_sub(curdate(), interval 21 day);
+
+SET @markVisitId = last_insert_id();
+
+INSERT INTO lab_order (order_datetime, visit_id)
+SELECT visit_datetime, visit_id
+FROM visit
+WHERE visit_id = @markVisitId;
+SET @orderId = last_insert_id();
+
+INSERT INTO ordered_test (lab_order_id, test_code, datetime_performed, test_result, is_abnormal)
+SELECT @orderId, 'BLD123', visit_datetime + interval 1 day, 7000, false
+FROM visit WHERE visit_id = @markVisitId
+UNION ALL
+SELECT @orderId, 'BLD921', NULL, NULL, false
+FROM visit WHERE visit_id = @markVisitId;
