@@ -211,7 +211,7 @@ public class VisitDal
                          JOIN doctor d ON a.doctor_id = d.doctor_id
                          JOIN person dp ON d.person_id = dp.person_id
                          WHERE a.patient_id = @patientId
-                         AND TIMESTAMP(a.appointment_date, a.appointment_time) >= NOW()
+                         AND TIMESTAMP(a.appointment_date, a.appointment_time) >= @now
                          AND NOT EXISTS (
                              SELECT 1
                              FROM visit v
@@ -226,6 +226,8 @@ public class VisitDal
         using var command = new MySqlCommand(query, connection);
         command.Parameters.Add("@patientId", MySqlDbType.Int32);
         command.Parameters["@patientId"].Value = patientId;
+        command.Parameters.Add("@now", MySqlDbType.DateTime);
+        command.Parameters["@now"].Value = DateTime.Now;
 
         using var reader = command.ExecuteReader();
 
