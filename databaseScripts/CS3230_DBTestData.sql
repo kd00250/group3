@@ -12,7 +12,7 @@ SET @personId = last_insert_id();
 INSERT INTO nurse (person_id)
 VALUES (@personId);
 INSERT INTO user_account (username, password, account_role, person_id)
-VALUES ('esmith', 'nurse123', 'nurse', @personId);
+VALUES ('esmith', '600000:6wweLGCD+QlFVHCgvpr+KA==:ykupLgjHllYVeMeTNSQWfNveAucMQHMcO0Pd4EiJdrs=', 'nurse', @personId);
 
 -- Nurse: David Rogers (username: drogers, password: nurse456)
 INSERT INTO person (first_name, last_name, date_of_birth, gender, street_address, city, state, zip_code, phone_number)
@@ -21,7 +21,7 @@ SET @personId = last_insert_id();
 INSERT INTO nurse (person_id)
 VALUES (@personId);
 INSERT INTO user_account (username, password, account_role, person_id)
-VALUES ('drogers', 'nurse456', 'nurse', @personId);
+VALUES ('drogers', '600000:dELUrUER27wo9558SIwJxw==:EVQXOcVchWrA6GJ0qs3Ro/7oh0fCbHJhhCVSNxI8oFA=', 'nurse', @personId);
 
 -- Admin Donna Grace (username: dgrace, password: admin123)
 INSERT INTO person (first_name, last_name, date_of_birth, gender, street_address, city, state, zip_code, phone_number)
@@ -30,7 +30,7 @@ SET @personId = last_insert_id();
 INSERT INTO administrator (person_id)
 VALUES (@personId);
 INSERT INTO user_account (username, password, account_role, person_id)
-VALUES ('dgrace', 'admin123', 'administrator', @personId);
+VALUES ('dgrace', '600000:GqoBfKQhTgZq8uoWlZEfwA==:++mmMNIwey+rSh5ouIRX5S7BxsqcyJT4CBdjzlne6RY=', 'administrator', @personId);
 
 
 -- ----------------------------------

@@ -10,20 +10,26 @@ public class UserAccountDal
         connection.Open();
 
         const string query = """
-                             SELECT ua.account_id, ua.username, ua.account_role, ua.person_id, p.first_name, p.last_name
+                             SELECT
+                                 ua.account_id, ua.username, ua.password, ua.account_role, ua.person_id, p.first_name, p.last_name
                              FROM user_account ua
-                             INNER JOIN person p 
-                                ON ua.person_id = p.person_id
-                             WHERE BINARY ua.username = @username
-                             AND BINARY ua.password = @password;
+                             INNER JOIN person p
+                                 ON ua.person_id = p.person_id
+                             WHERE BINARY ua.username = @username;
                              """;
         using var command = new MySqlCommand(query, connection);
         command.Parameters.AddWithValue("@username", username);
-        command.Parameters.AddWithValue("@password", password);
 
         using var reader = command.ExecuteReader();
 
         if (!reader.Read())
+        {
+            return null;
+        }
+
+        var storedHash = reader.GetString(reader.GetOrdinal("password"));
+
+        if (!PasswordHasher.VerifyPassword(password, storedHash))
         {
             return null;
         }
