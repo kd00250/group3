@@ -50,6 +50,7 @@
             datePreformedPicker = new DateTimePicker();
             abnormalCheck = new CheckBox();
             loggedInUserControl2 = new LoggedInUserControl();
+            resultErrorLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)testSelectGrid).BeginInit();
             SuspendLayout();
             // 
@@ -261,11 +262,21 @@
             loggedInUserControl2.Size = new Size(350, 169);
             loggedInUserControl2.TabIndex = 64;
             // 
+            // resultErrorLabel
+            // 
+            resultErrorLabel.AutoSize = true;
+            resultErrorLabel.ForeColor = Color.Red;
+            resultErrorLabel.Location = new Point(305, 658);
+            resultErrorLabel.Name = "resultErrorLabel";
+            resultErrorLabel.Size = new Size(0, 20);
+            resultErrorLabel.TabIndex = 65;
+            // 
             // TestEditForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(867, 704);
+            Controls.Add(resultErrorLabel);
             Controls.Add(loggedInUserControl2);
             Controls.Add(abnormalCheck);
             Controls.Add(datePreformedPicker);
@@ -320,5 +331,6 @@
         private DateTimePicker datePreformedPicker;
         private CheckBox abnormalCheck;
         private LoggedInUserControl loggedInUserControl2;
+        private Label resultErrorLabel;
     }
 }

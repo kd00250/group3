@@ -56,6 +56,7 @@ namespace HealthcareSystem.View
             this.temperatureTextBox.Text = this.visit.BodyTemperature?.ToString("0.#", CultureInfo.CurrentCulture) ?? string.Empty;
             this.pulseTextBox.Text = this.visit.Pulse?.ToString(CultureInfo.CurrentCulture) ?? string.Empty;
             this.symptomsTextBox.Text = this.visit.Symptoms ?? string.Empty;
+            this.initalDiagnosisBox.Text = this.visit.InitialDiagnosis ?? string.Empty;
             this.finalDiagnosisTextBox.Text = this.visit.FinalDiagnosis ?? string.Empty;
 
             this.nurseLabel.Text = $"Recorded by: {(string.IsNullOrWhiteSpace(this.visit.NurseName) ? "not yet recorded" : this.visit.NurseName)}";
@@ -73,11 +74,14 @@ namespace HealthcareSystem.View
             this.systolicTextBox.ReadOnly = true;
             this.diastolicTextBox.ReadOnly = true;
             this.temperatureTextBox.ReadOnly = true;
+            this.initalDiagnosisBox.ReadOnly = true;
             this.pulseTextBox.ReadOnly = true;
             this.symptomsTextBox.ReadOnly = true;
             this.saveButton.Enabled = false;
             this.finalDiagnosisTextBox.ReadOnly = true;
             this.finalizeVisitButton.Enabled = false;
+            this.orderTestsButton.Enabled = false;
+            this.viewEditTestsButton.Enabled = false;
         }
 
         private void field_TextChanged(object? sender, EventArgs e)

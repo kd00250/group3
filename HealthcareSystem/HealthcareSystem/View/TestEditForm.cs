@@ -159,6 +159,10 @@ public partial class TestEditForm: Form
             this.showMessage("Please select a test to save.", "No Test Selected", MessageBoxIcon.Warning);
             return;
         }
+        if (!this.validateFields())
+        {
+            return;
+        }
         try
         {
             selectedTest.testResult = (double?)double.Parse(this.resultBox.Text);
@@ -183,6 +187,43 @@ public partial class TestEditForm: Form
     private void showMessage(string message, string title, MessageBoxIcon icon)
     {
         MessageBox.Show(message, title, MessageBoxButtons.OK, icon);
+    }
+
+    private bool validateFields()
+    {
+        if (!this.validateResultBox())
+        {
+            return false;
+        }
+        return true;
+    }
+
+    private bool validateResultBox()
+    {
+        if (string.IsNullOrWhiteSpace(this.resultBox.Text))
+        {
+            this.resultErrorLabel.Text = "Result field cannot be empty.";
+            return false;
+        }
+        if (double.TryParse(this.resultBox.Text, out double result))
+        {
+            if (result < 0)
+            {
+                this.resultErrorLabel.Text = "Result cannot be negative.";
+                return false;
+            }
+            if (result > 99999999)
+            {
+                this.resultErrorLabel.Text = "Result is too large.";
+                return false;
+            }
+        }
+        else
+        {
+            this.resultErrorLabel.Text = "Result must be a valid number.";
+            return false;
+        }
+        return true;
     }
 
     #endregion
