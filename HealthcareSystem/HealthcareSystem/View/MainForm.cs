@@ -47,6 +47,8 @@ namespace HealthcareSystem.View
             this.findPatientButton.Visible = SessionManager.IsNurse;
 
             this.registerPatientButton.Visible = SessionManager.IsNurse;
+
+            this.testStatisticsButton.Visible = SessionManager.IsAdmin;
         }
 
         private void logoutButton_Click(object sender, EventArgs e)
@@ -83,6 +85,23 @@ namespace HealthcareSystem.View
         {
             using var registrationForm = new PatientRegistrationForm(new PatientController(new PatientDal()));
             registrationForm.ShowDialog();
+        }
+
+        private void testStatisticsButton_Click(object sender, EventArgs e)
+        {
+            var orderTestDal = new OrderTestDal();
+            var testStatisticsController = new TestStatisticsController(orderTestDal);
+            using var testStatisticsForm = new TestStatisticsForm(testStatisticsController);
+            this.Hide();
+
+            try
+            {
+                testStatisticsForm.ShowDialog(this);
+            }
+            finally
+            {
+                this.Show();
+            }
         }
     }
 }

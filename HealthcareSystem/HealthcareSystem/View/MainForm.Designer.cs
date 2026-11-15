@@ -34,13 +34,15 @@
             loggedInUserControl1 = new LoggedInUserControl();
             findPatientButton = new Button();
             registerPatientButton = new Button();
+            testStatisticsButton = new Button();
             SuspendLayout();
             // 
             // logoutButton
             // 
-            logoutButton.Location = new Point(233, 403);
+            logoutButton.Location = new Point(204, 302);
+            logoutButton.Margin = new Padding(3, 2, 3, 2);
             logoutButton.Name = "logoutButton";
-            logoutButton.Size = new Size(174, 45);
+            logoutButton.Size = new Size(152, 34);
             logoutButton.TabIndex = 0;
             logoutButton.Text = "Logout";
             logoutButton.UseVisualStyleBackColor = true;
@@ -50,18 +52,19 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(221, 23);
+            label1.Location = new Point(193, 17);
             label1.Name = "label1";
-            label1.Size = new Size(215, 31);
+            label1.Size = new Size(178, 25);
             label1.TabIndex = 1;
             label1.Text = "HealthCare System";
             // 
             // manageNursesButton
             // 
             manageNursesButton.Font = new Font("Segoe UI Semibold", 9F);
-            manageNursesButton.Location = new Point(233, 105);
+            manageNursesButton.Location = new Point(204, 79);
+            manageNursesButton.Margin = new Padding(3, 2, 3, 2);
             manageNursesButton.Name = "manageNursesButton";
-            manageNursesButton.Size = new Size(174, 45);
+            manageNursesButton.Size = new Size(152, 34);
             manageNursesButton.TabIndex = 2;
             manageNursesButton.Text = "Manage Nurses";
             manageNursesButton.UseVisualStyleBackColor = true;
@@ -69,17 +72,19 @@
             // 
             // loggedInUserControl1
             // 
-            loggedInUserControl1.Location = new Point(-1, -3);
+            loggedInUserControl1.Location = new Point(-1, -2);
+            loggedInUserControl1.Margin = new Padding(3, 2, 3, 2);
             loggedInUserControl1.Name = "loggedInUserControl1";
-            loggedInUserControl1.Size = new Size(216, 91);
+            loggedInUserControl1.Size = new Size(189, 68);
             loggedInUserControl1.TabIndex = 3;
             // 
             // findPatientButton
             // 
             findPatientButton.Font = new Font("Segoe UI Semibold", 9F);
-            findPatientButton.Location = new Point(233, 169);
+            findPatientButton.Location = new Point(204, 157);
+            findPatientButton.Margin = new Padding(3, 2, 3, 2);
             findPatientButton.Name = "findPatientButton";
-            findPatientButton.Size = new Size(174, 45);
+            findPatientButton.Size = new Size(152, 34);
             findPatientButton.TabIndex = 4;
             findPatientButton.Text = "Find Existing Patient";
             findPatientButton.UseVisualStyleBackColor = true;
@@ -88,26 +93,39 @@
             // registerPatientButton
             // 
             registerPatientButton.Font = new Font("Segoe UI Semibold", 9F);
-            registerPatientButton.Location = new Point(233, 241);
+            registerPatientButton.Location = new Point(204, 195);
             registerPatientButton.Margin = new Padding(3, 2, 3, 2);
             registerPatientButton.Name = "registerPatientButton";
-            registerPatientButton.Size = new Size(174, 34);
+            registerPatientButton.Size = new Size(152, 34);
             registerPatientButton.TabIndex = 5;
             registerPatientButton.Text = "Register New Patient";
             registerPatientButton.UseVisualStyleBackColor = true;
             registerPatientButton.Click += registerPatientButton_Click;
             // 
+            // testStatisticsButton
+            // 
+            testStatisticsButton.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            testStatisticsButton.Location = new Point(204, 118);
+            testStatisticsButton.Name = "testStatisticsButton";
+            testStatisticsButton.Size = new Size(152, 34);
+            testStatisticsButton.TabIndex = 6;
+            testStatisticsButton.Text = "Test Statistics";
+            testStatisticsButton.UseVisualStyleBackColor = true;
+            testStatisticsButton.Click += testStatisticsButton_Click;
+            // 
             // MainForm
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(681, 480);
+            ClientSize = new Size(596, 360);
+            Controls.Add(testStatisticsButton);
             Controls.Add(findPatientButton);
             Controls.Add(registerPatientButton);
             Controls.Add(loggedInUserControl1);
             Controls.Add(manageNursesButton);
             Controls.Add(label1);
             Controls.Add(logoutButton);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "MainForm";
@@ -123,5 +141,6 @@
         private LoggedInUserControl loggedInUserControl1;
         private Button findPatientButton;
         private Button registerPatientButton;
+        private Button testStatisticsButton;
     }
 }
