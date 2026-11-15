@@ -12,7 +12,7 @@ SET @personId = last_insert_id();
 INSERT INTO nurse (person_id)
 VALUES (@personId);
 INSERT INTO user_account (username, password, account_role, person_id)
-VALUES ('esmith', 'nurse123', 'nurse', @personId);
+VALUES ('esmith', '600000:6wweLGCD+QlFVHCgvpr+KA==:ykupLgjHllYVeMeTNSQWfNveAucMQHMcO0Pd4EiJdrs=', 'nurse', @personId);
 
 -- Nurse: David Rogers (username: drogers, password: nurse456)
 INSERT INTO person (first_name, last_name, date_of_birth, gender, street_address, city, state, zip_code, phone_number)
@@ -21,7 +21,7 @@ SET @personId = last_insert_id();
 INSERT INTO nurse (person_id)
 VALUES (@personId);
 INSERT INTO user_account (username, password, account_role, person_id)
-VALUES ('drogers', 'nurse456', 'nurse', @personId);
+VALUES ('drogers', '600000:dELUrUER27wo9558SIwJxw==:EVQXOcVchWrA6GJ0qs3Ro/7oh0fCbHJhhCVSNxI8oFA=', 'nurse', @personId);
 
 -- Admin Donna Grace (username: dgrace, password: admin123)
 INSERT INTO person (first_name, last_name, date_of_birth, gender, street_address, city, state, zip_code, phone_number)
@@ -30,7 +30,7 @@ SET @personId = last_insert_id();
 INSERT INTO administrator (person_id)
 VALUES (@personId);
 INSERT INTO user_account (username, password, account_role, person_id)
-VALUES ('dgrace', 'admin123', 'administrator', @personId);
+VALUES ('dgrace', '600000:GqoBfKQhTgZq8uoWlZEfwA==:++mmMNIwey+rSh5ouIRX5S7BxsqcyJT4CBdjzlne6RY=', 'administrator', @personId);
 
 
 -- ----------------------------------
@@ -106,7 +106,7 @@ INSERT INTO doctor_specialty (doctor_id, specialty_id)
 SELECT @doctorId, specialty_id
 	FROM specialty
     WHERE specialty_name = 'Pediatrics';
-    
+
 -- ----------------------------------
 -- Existing appointments for testing available slots and double booking
 -- ----------------------------------
@@ -118,13 +118,53 @@ SELECT date_add(curdate(), interval 7 day), '09:00:00', 'Annual checkup', pa.pat
 		 doctor d JOIN person dp ON d.person_id = dp.person_id
 	WHERE pe.first_name = 'Jane' AND pe.date_of_birth = '2001-11-17'
 		AND dp.last_name = 'Mitchell';
-        
+
 INSERT INTO appointment (appointment_date, appointment_time, reason, patient_id, doctor_id)
 SELECT date_add(curdate(), interval 7 day), '09:30:00', 'Follow up visit', pa.patient_id, d.doctor_id
 	FROM patient pa JOIN person pe ON pa.person_id = pe.person_id,
 		 doctor d JOIN person dp ON d.person_id = dp.person_id
 	WHERE pe.first_name = 'John' AND pe.last_name = 'Daniels'
 		AND dp.last_name = 'Mitchell';
+
+INSERT INTO appointment (appointment_date, appointment_time, reason, patient_id, doctor_id)
+SELECT date_add(curdate(), interval 1 day), '09:00:00', 'Persistent cough', pa.patient_id, d.doctor_id
+	FROM patient pa JOIN person pe ON pa.person_id = pe.person_id,
+		 doctor d JOIN person dp ON d.person_id = dp.person_id
+	WHERE pe.first_name = 'Mark' AND pe.last_name = 'Gray'
+		AND dp.last_name = 'Owen';
+
+INSERT INTO appointment (appointment_date, appointment_time, reason, patient_id, doctor_id)
+SELECT date_add(curdate(), interval 2 day), '11:15:00', 'Back pain', pa.patient_id, d.doctor_id
+	FROM patient pa JOIN person pe ON pa.person_id = pe.person_id,
+		 doctor d JOIN person dp ON d.person_id = dp.person_id
+	WHERE pe.first_name = 'Jane' AND pe.date_of_birth = '1997-05-06'
+		AND dp.last_name = 'Mitchell';
+
+INSERT INTO appointment (appointment_date, appointment_time, reason, patient_id, doctor_id)
+SELECT date_add(curdate(), interval 3 day), '14:00:00', 'Allergy consultation', pa.patient_id, d.doctor_id
+	FROM patient pa JOIN person pe ON pa.person_id = pe.person_id,
+		 doctor d JOIN person dp ON d.person_id = dp.person_id
+	WHERE pe.first_name = 'Robert' AND pe.last_name = 'Lee'
+		AND dp.last_name = 'Daniels';
+
+-- ----------------------------------
+-- Past appointments for testing the past appointments list
+-- ----------------------------------
+
+-- Jane Daniels (2001) now has two past apointments
+INSERT INTO appointment (appointment_date, appointment_time, reason, patient_id, doctor_id)
+SELECT date_sub(curdate(), interval 14 day), '10:00:00', 'Annual checkup', pa.patient_id, d.doctor_id
+	FROM patient pa JOIN person pe ON pa.person_id = pe.person_id,
+		 doctor d JOIN person dp ON d.person_id = dp.person_id
+	WHERE pe.first_name = 'Jane' AND pe.date_of_birth = '2001-11-17'
+		AND dp.last_name = 'Owen';
+
+INSERT INTO appointment (appointment_date, appointment_time, reason, patient_id, doctor_id)
+SELECT date_sub(curdate(), interval 30 day), '13:30:00', 'Flu symptoms', pa.patient_id, d.doctor_id
+	FROM patient pa JOIN person pe ON pa.person_id = pe.person_id,
+		 doctor d JOIN person dp ON d.person_id = dp.person_id
+	WHERE pe.first_name = 'Jane' AND pe.date_of_birth = '2001-11-17'
+		AND dp.last_name = 'Daniels';
 
 -- ----------------------------------
 -- Patient Visits
@@ -137,23 +177,23 @@ FROM appointment a
 JOIN patient pa ON a.patient_id = pa.patient_id
 JOIN person pe ON pa.person_id = pe.person_id
 WHERE pe.first_name = 'Jane' AND pe.date_of_birth = '2001-11-17'
-  AND a.appointment_time = '09:00:00';
-  
+  AND a.appointment_date = date_sub(curdate(), interval 14 day);
+
 INSERT INTO visit (visit_datetime, appointment_id, height, weight, systolic, diastolic,
                    body_temperature, pulse, symptoms, check_datetime,
                    initial_diagnosis, final_diagnosis, nurse_id, is_finalized)
 SELECT timestamp(a.appointment_date, a.appointment_time), a.appointment_id,
-       70, 180, 120, 80, 98.6, 72, 'Cough', now(),
+       70, 180, 120, 80, 98.6, 72, 'Cough', timestamp(a.appointment_date, a.appointment_time) + interval 10 minute,
        'Possible dislocation', 'Broken Bone',
        (SELECT n.nurse_id FROM nurse n JOIN person p ON n.person_id = p.person_id
-        WHERE p.last_name = 'Smith'),
+		WHERE p.last_name = 'Smith'),
        TRUE
 FROM appointment a
 JOIN patient pa ON a.patient_id = pa.patient_id
 JOIN person pe ON pa.person_id = pe.person_id
-WHERE pe.first_name = 'Jane' AND pe.last_name = 'Daniels'
-  AND a.appointment_time = '10:45:00';
-  
+WHERE pe.first_name = 'Jane' AND pe.date_of_birth = '2001-11-17'
+  AND a.appointment_date = date_sub(curdate(), interval 30 day);
+
 -- Visit for John Daniels with Dr. Mitchell: finalized, to test the read-only state
 INSERT INTO visit (visit_datetime, appointment_id, height, weight, systolic, diastolic,
                    body_temperature, pulse, symptoms, check_datetime,
@@ -169,27 +209,86 @@ JOIN patient pa ON a.patient_id = pa.patient_id
 JOIN person pe ON pa.person_id = pe.person_id
 WHERE pe.first_name = 'John' AND pe.last_name = 'Daniels'
   AND a.appointment_time = '09:30:00';
-        
--- Past appointments for testing the past appointments list
--- Jane Daniels (2001) now has two past apointments
-INSERT INTO appointment (appointment_date, appointment_time, reason, patient_id, doctor_id)
-SELECT date_sub(curdate(), interval 14 day), '10:00:00', 'Annual checkup', pa.patient_id, d.doctor_id
-	FROM patient pa JOIN person pe ON pa.person_id = pe.person_id,
-		 doctor d JOIN person dp ON d.person_id = dp.person_id
-	WHERE pe.first_name = 'Jane' AND pe.date_of_birth = '2001-11-17'
-		AND dp.last_name = 'Owen';
-        
-INSERT INTO appointment (appointment_date, appointment_time, reason, patient_id, doctor_id)
-SELECT date_sub(curdate(), interval 30 day), '13:30:00', 'Flu symptoms', pa.patient_id, d.doctor_id
-	FROM patient pa JOIN person pe ON pa.person_id = pe.person_id,
-		 doctor d JOIN person dp ON d.person_id = dp.person_id
-	WHERE pe.first_name = 'Jane' AND pe.date_of_birth = '2001-11-17'
-		AND dp.last_name = 'Daniels';
-        
--- Test list
+
+-- ----------------------------------
+-- Lab Tests
+-- ----------------------------------
+
 INSERT INTO lab_test 
 VALUES ('BLD123', 'Complete Blood Count', 4000, 11000, 'µL'),
 ('BLD839', 'Platelet Count', 150000, 450000, 'µL'),
-('BLD921', 'Hemoglobin', 12.0, 18.0, 'g/dL');
+('BLD921', 'Hemoglobin', 12.0, 18.0, 'g/dL'),
+('GLU450', 'Glucose', 70, 100, 'mg/dL');
+
+-- ----------------------------------
+-- Old visits with ordered tests
+-- ----------------------------------
+
+SELECT v.visit_id, v.visit_datetime
+INTO @oldVisitId, @oldVisitDateTime
+FROM visit v
+JOIN appointment a ON v.appointment_id = a.appointment_id
+JOIN patient pa ON a.patient_id = pa.patient_id
+JOIN person pe ON pa.person_id = pe.person_id
+WHERE pe.first_name = 'Jane' AND pe.date_of_birth = '2001-11-17'
+	AND a.appointment_date = date_sub(curdate(), interval 30 day);
+    
+INSERT INTO lab_order (order_datetime, visit_id)
+VALUES (@oldVisitDatetime, @oldVisitId);
+SET @orderId = last_insert_id();
+
+INSERT INTO ordered_test (lab_order_id, test_code, datetime_performed, test_result, is_abnormal)
+VALUES (@orderId, 'BLD123', @oldVisitDatetime + interval 1 day, 6500, false),
+	(@orderId, 'BLD921', @oldVisitDatetime + interval 1 day, 10.5, true),
+    (@orderId, 'BLD839', @oldVisitDatetime + interval 1 day, 200000, false),
+    (@orderId, 'GLU450', @oldVisitDatetime + interval 1 day, 85, false);
 
 
+SELECT v.visit_id, v.visit_datetime
+INTO @recentVisitId, @recentVisitDatetime
+FROM visit v
+JOIN appointment a ON v.appointment_id = a.appointment_id
+JOIN patient pa ON a.patient_id = pa.patient_id
+JOIN person pe ON pa.person_id = pe.person_id
+WHERE pe.first_name = 'Jane' AND pe.date_of_birth = '2001-11-17'
+  AND a.appointment_date = date_sub(curdate(), interval 14 day);
+
+INSERT INTO lab_order (order_datetime, visit_id)
+VALUES (@recentVisitDatetime, @recentVisitId);
+SET @orderId = last_insert_id();
+
+INSERT INTO ordered_test (lab_order_id, test_code, datetime_performed, test_result, is_abnormal)
+VALUES (@orderId, 'BLD123', @recentVisitDatetime + interval 1 day, 12000, true),
+	(@orderId, 'BLD921', @recentVisitDatetime + interval 1 day, 14.0, false),
+	(@orderId, 'BLD839', @recentVisitDatetime + interval 1 day, 250000, false);
+
+
+INSERT INTO appointment (appointment_date, appointment_time, reason, patient_id, doctor_id)
+SELECT date_sub(curdate(), interval 21 day), '10:00:00', 'Fatigue', pa.patient_id, d.doctor_id
+	FROM patient pa JOIN person pe ON pa.person_id = pe.person_id,
+		 doctor d JOIN person dp ON d.person_id = dp.person_id
+	WHERE pe.first_name = 'Mark' AND pe.last_name = 'Gray'
+		AND dp.last_name = 'Owen';
+
+INSERT INTO visit (visit_datetime, appointment_id)
+SELECT timestamp(a.appointment_date, a.appointment_time), a.appointment_id
+FROM appointment a
+JOIN patient pa ON a.patient_id = pa.patient_id
+JOIN person pe ON pa.person_id = pe.person_id
+WHERE pe.first_name = 'Mark' AND pe.last_name = 'Gray'
+  AND a.appointment_date = date_sub(curdate(), interval 21 day);
+
+SET @markVisitId = last_insert_id();
+
+INSERT INTO lab_order (order_datetime, visit_id)
+SELECT visit_datetime, visit_id
+FROM visit
+WHERE visit_id = @markVisitId;
+SET @orderId = last_insert_id();
+
+INSERT INTO ordered_test (lab_order_id, test_code, datetime_performed, test_result, is_abnormal)
+SELECT @orderId, 'BLD123', visit_datetime + interval 1 day, 7000, false
+FROM visit WHERE visit_id = @markVisitId
+UNION ALL
+SELECT @orderId, 'BLD921', NULL, NULL, false
+FROM visit WHERE visit_id = @markVisitId;

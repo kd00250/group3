@@ -73,7 +73,7 @@ public class NurseDal
             accountCommand.Parameters["@username"].Value = credentials.Username.Trim();
 
             accountCommand.Parameters.Add("@password", MySqlDbType.VarChar);
-            accountCommand.Parameters["@password"].Value = credentials.Password;
+            accountCommand.Parameters["@password"].Value = PasswordHasher.HashPassword(credentials.Password);
 
             accountCommand.Parameters.Add("@accountRole", MySqlDbType.VarChar);
             accountCommand.Parameters["@accountRole"].Value = AccountRole.Nurse.ToString().ToLowerInvariant();
