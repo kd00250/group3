@@ -8,7 +8,7 @@ namespace HealthcareSystem.Model.DAL;
 /// </summary>
 public class VisitDal
 {
-    private const string createVisitProcedure = "create_visit";
+    private const string CreateVisitProcedure = "create_visit";
 
     /// <summary>
     /// Gets all visits for a patient, newest first.
@@ -268,7 +268,7 @@ public class VisitDal
         using var connection = new MySqlConnection(Connection.ConnectionString());
         connection.Open();
 
-        using var command = new MySqlCommand(createVisitProcedure, connection);
+        using var command = new MySqlCommand(CreateVisitProcedure, connection);
         command.CommandType = CommandType.StoredProcedure;
 
         command.Parameters.Add("@p_patient_id", MySqlDbType.Int32);
