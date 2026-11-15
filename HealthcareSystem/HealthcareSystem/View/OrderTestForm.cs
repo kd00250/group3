@@ -32,7 +32,7 @@ public partial class OrderTestForm : Form
         this.lowBox.ReadOnly = true;
         this.configureSelectGrid();
         this.configureSelectedGrid();
-        this.loggedInUserControl1.RefreshUser();
+        this.loggedInUserControl2.RefreshUser();
         this.loadTests();
     }
 
@@ -250,6 +250,7 @@ public partial class OrderTestForm : Form
             this.orderTestController.ConfirmLabOrder(selectedTests, visit_id);
             this.showMessage("Lab order confirmed successfully.", "Success", MessageBoxIcon.Information);
             this.selectedTestGrid.DataSource = null;
+            Close();
         }
         catch (MySqlException)
         {

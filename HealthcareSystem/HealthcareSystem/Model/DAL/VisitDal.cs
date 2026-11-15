@@ -65,7 +65,8 @@ public class VisitDal
                                  pulse = @pulse,
                                  symptoms = @symptoms,
                                  check_datetime = @checkDateTime,
-                                 nurse_id = @nurseId
+                                 nurse_id = @nurseId,
+                                 initial_diagnosis = @initialDiagnosis
                              WHERE visit_id = @visitId
                              AND is_finalized = FALSE;
                              """;
@@ -103,6 +104,9 @@ public class VisitDal
 
         command.Parameters.Add("@visitId", MySqlDbType.Int32);
         command.Parameters["@visitId"].Value = visit.VisitId;
+
+        command.Parameters.Add("@initialDiagnosis", MySqlDbType.Text);
+        command.Parameters["@initialDiagnosis"].Value = string.IsNullOrWhiteSpace(visit.InitialDiagnosis) ? DBNull.Value : visit.InitialDiagnosis.Trim();
 
         return command.ExecuteNonQuery() > 0;
     }

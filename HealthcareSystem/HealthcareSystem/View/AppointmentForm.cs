@@ -74,7 +74,7 @@ namespace HealthcareSystem.View
                 this.doctorComboBox.DataSource = this.appointmentController.GetAllDoctors();
                 this.doctorComboBox.SelectedIndex = -1;
             }
-            catch (MySqlException e)
+            catch (MySqlException)
             {
                 this.showError(this.errorLabel, "Unable to load doctors from the database.");
                 this.bookButton.Enabled = false;
@@ -190,7 +190,7 @@ namespace HealthcareSystem.View
                     this.timeErrorLabel.Visible = false;
                 }
             }
-            catch (MySqlException e)
+            catch (MySqlException)
             {
                 this.showError(this.errorLabel, "Unable to fetch available times from the database.");
             }
@@ -225,7 +225,7 @@ namespace HealthcareSystem.View
             {
                 this.showError(this.errorLabel, ex.Message);
             }
-            catch (MySqlException ex)
+            catch (MySqlException)
             {
                 this.showError(this.errorLabel, "Unable to book the appointment in the database.");
             }

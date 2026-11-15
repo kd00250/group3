@@ -62,6 +62,8 @@
             label1 = new Label();
             finalDiagnosisTextBox = new TextBox();
             finalizeVisitButton = new Button();
+            initalDiagnosisBox = new TextBox();
+            initalDiagnosisLabel = new Label();
             SuspendLayout();
             // 
             // loggedInUserControl1
@@ -357,7 +359,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(544, 390);
+            label1.Location = new Point(544, 442);
             label1.Name = "label1";
             label1.Size = new Size(114, 20);
             label1.TabIndex = 32;
@@ -365,7 +367,7 @@
             // 
             // finalDiagnosisTextBox
             // 
-            finalDiagnosisTextBox.Location = new Point(544, 413);
+            finalDiagnosisTextBox.Location = new Point(544, 465);
             finalDiagnosisTextBox.Multiline = true;
             finalDiagnosisTextBox.Name = "finalDiagnosisTextBox";
             finalDiagnosisTextBox.ScrollBars = ScrollBars.Vertical;
@@ -375,7 +377,7 @@
             // finalizeVisitButton
             // 
             finalizeVisitButton.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            finalizeVisitButton.Location = new Point(729, 499);
+            finalizeVisitButton.Location = new Point(729, 551);
             finalizeVisitButton.Name = "finalizeVisitButton";
             finalizeVisitButton.Size = new Size(142, 29);
             finalizeVisitButton.TabIndex = 34;
@@ -383,12 +385,32 @@
             finalizeVisitButton.UseVisualStyleBackColor = true;
             finalizeVisitButton.Click += finalizeVisitButton_Click;
             // 
+            // initalDiagnosisBox
+            // 
+            initalDiagnosisBox.Location = new Point(544, 348);
+            initalDiagnosisBox.Multiline = true;
+            initalDiagnosisBox.Name = "initalDiagnosisBox";
+            initalDiagnosisBox.ScrollBars = ScrollBars.Vertical;
+            initalDiagnosisBox.Size = new Size(327, 75);
+            initalDiagnosisBox.TabIndex = 36;
+            // 
+            // initalDiagnosisLabel
+            // 
+            initalDiagnosisLabel.AutoSize = true;
+            initalDiagnosisLabel.Location = new Point(550, 325);
+            initalDiagnosisLabel.Name = "initalDiagnosisLabel";
+            initalDiagnosisLabel.Size = new Size(111, 20);
+            initalDiagnosisLabel.TabIndex = 37;
+            initalDiagnosisLabel.Text = "Inital Diagnosis";
+            // 
             // VisitInformationForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = backButton;
             ClientSize = new Size(914, 664);
+            Controls.Add(initalDiagnosisLabel);
+            Controls.Add(initalDiagnosisBox);
             Controls.Add(finalizeVisitButton);
             Controls.Add(finalDiagnosisTextBox);
             Controls.Add(label1);
@@ -467,5 +489,7 @@
         private Label label1;
         private TextBox finalDiagnosisTextBox;
         private Button finalizeVisitButton;
+        private TextBox initalDiagnosisBox;
+        private Label initalDiagnosisLabel;
     }
 }

@@ -32,12 +32,7 @@ public class OrderTestController
 
     public void ConfirmLabOrder(IList<Test> tests, int visit_id)
     {
-        int orderId = this.orderTestDal.LabOrder(DateTime.Now, visit_id);
-        foreach (Test test in tests)
-        {
-            this.orderTestDal.OrderTest(orderId, test.TestCode, null, null, false);
-        }
-
+        this.orderTestDal.CompleteLabOrder(tests, visit_id);
     }
     #endregion
 }
