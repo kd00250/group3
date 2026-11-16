@@ -1,4 +1,5 @@
 ﻿using MySqlConnector;
+using System.Data;
 
 namespace HealthcareSystem.Model.DAL;
 
@@ -7,6 +8,8 @@ namespace HealthcareSystem.Model.DAL;
 /// </summary>
 public class VisitDal
 {
+    private const string CreateVisitProcedure = "create_visit";
+
     /// <summary>
     /// Gets all visits for a patient, newest first.
     /// </summary>
@@ -253,50 +256,31 @@ public class VisitDal
     }
 
     /// <summary>
-    ///     Creates a visit for an available appointment.
+    ///     Creates a visit for an available appointment by calling the create_visit stored procedure.
     /// </summary>
     /// <param name="patientId">The patient identifier.</param>
     /// <param name="appointmentId">The appointment identifier.</param>
     /// <returns>The newly created visit identifier.</returns>
     public Visit CreateVisit(int patientId, int appointmentId)
     {
-        const string query = """
-                             INSERT INTO visit
-                                 (appointment_id, visit_datetime, is_finalized)
-                             SELECT a.appointment_id, @now, FALSE
-                             FROM appointment a
-                             WHERE a.appointment_id = @appointmentId
-                             AND a.patient_id = @patientId
-                             AND TIMESTAMP(a.appointment_date, a.appointment_time) >= @now
-                             AND NOT EXISTS (
-                                 SELECT 1
-                                 FROM visit v
-                                 WHERE v.appointment_id = a.appointment_id
-                             );
-                             """;
         var now = DateTime.Now;
 
         using var connection = new MySqlConnection(Connection.ConnectionString());
         connection.Open();
 
-        using var command = new MySqlCommand(query, connection);
-        command.Parameters.Add("@patientId", MySqlDbType.Int32);
-        command.Parameters["@patientId"].Value = patientId;
+        using var command = new MySqlCommand(CreateVisitProcedure, connection);
+        command.CommandType = CommandType.StoredProcedure;
 
-        command.Parameters.Add("@appointmentId", MySqlDbType.Int32);
-        command.Parameters["@appointmentId"].Value = appointmentId;
+        command.Parameters.Add("@p_patient_id", MySqlDbType.Int32);
+        command.Parameters["@p_patient_id"].Value = patientId;
 
-        command.Parameters.Add("@now", MySqlDbType.DateTime);
-        command.Parameters["@now"].Value = now;
+        command.Parameters.Add("@p_appointment_id", MySqlDbType.Int32);
+        command.Parameters["@p_appointment_id"].Value = appointmentId;
 
-        var rowsAffected = command.ExecuteNonQuery();
+        command.Parameters.Add("@p_now", MySqlDbType.DateTime);
+        command.Parameters["@p_now"].Value = now;
 
-        if (rowsAffected == 0)
-        {
-            throw new ArgumentException(
-                "The appointment is no longer available for starting a visit.");
-        }
-        var visitId = Convert.ToInt32(command.LastInsertedId);
+        var visitId = Convert.ToInt32(command.ExecuteScalar());
 
         return new Visit
         {
