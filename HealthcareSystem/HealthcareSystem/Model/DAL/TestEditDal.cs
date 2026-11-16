@@ -19,14 +19,14 @@ public class TestEditDal
                 int dateTimeOrderedOrdinal = reader.GetOrdinal("datetime_performed");
                 int testResultOrdinal = reader.GetOrdinal("test_result");
                 DateTime? dateTimePreformed = null;
-                double? testResult = null;
+                string? testResult = null;
                 if (!reader.IsDBNull(dateTimeOrderedOrdinal))
                 {
                     dateTimePreformed = reader.GetDateTime(dateTimeOrderedOrdinal);
                 }
                 if (!reader.IsDBNull(testResultOrdinal))
                 {
-                    testResult = reader.GetDouble(testResultOrdinal);
+                    testResult = reader.GetString(testResultOrdinal);
                 }
                 var test = new OrderedTest
                 {
@@ -65,8 +65,8 @@ public class TestEditDal
                 {
                     TestCode = reader.GetString("test_code"),
                     TestName = reader.GetString("test_name"),
-                    LowValue = reader.GetDouble("low_value"),
-                    HighValue = reader.GetDouble("high_value"),
+                    LowValue = reader.GetString("low_value"),
+                    HighValue = reader.GetString("high_value"),
                     UnitName = reader.GetString("unit_name")
                 };
             }
@@ -85,7 +85,7 @@ public class TestEditDal
         }
     }
 
-    public void updateOrderedTest(int labOrderId, string testCode, DateTime? datetimePerformed, double? testResult, bool isAbnormal)
+    public void updateOrderedTest(int labOrderId, string testCode, DateTime? datetimePerformed, string? testResult, bool isAbnormal)
     {
         using var connection = new MySqlConnection(Connection.ConnectionString());
         connection.Open();

@@ -259,6 +259,7 @@
             Name = "OrderTestForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Order Test";
+            Shown += onOrderTest_Shown;
             ((System.ComponentModel.ISupportInitialize)testSelectGrid).EndInit();
             ((System.ComponentModel.ISupportInitialize)selectedTestGrid).EndInit();
             ResumeLayout(false);

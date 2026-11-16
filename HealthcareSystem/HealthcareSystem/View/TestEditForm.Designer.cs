@@ -47,8 +47,10 @@
             resultLabel = new Label();
             datePerformedLabel = new Label();
             datePreformedPicker = new DateTimePicker();
-            loggedInUserControl2 = new LoggedInUserControl();
             resultErrorLabel = new Label();
+            abnormalCheckbox = new CheckBox();
+            abnormalLabel = new Label();
+            loggedInUserControl1 = new LoggedInUserControl();
             ((System.ComponentModel.ISupportInitialize)testSelectGrid).BeginInit();
             SuspendLayout();
             // 
@@ -234,13 +236,6 @@
             datePreformedPicker.TabIndex = 62;
             datePreformedPicker.Value = new DateTime(2026, 10, 10, 0, 0, 0, 0);
             // 
-            // loggedInUserControl2
-            // 
-            loggedInUserControl2.Location = new Point(0, 0);
-            loggedInUserControl2.Name = "loggedInUserControl2";
-            loggedInUserControl2.Size = new Size(350, 169);
-            loggedInUserControl2.TabIndex = 64;
-            // 
             // resultErrorLabel
             // 
             resultErrorLabel.AutoSize = true;
@@ -250,13 +245,41 @@
             resultErrorLabel.Size = new Size(0, 20);
             resultErrorLabel.TabIndex = 65;
             // 
+            // abnormalCheckbox
+            // 
+            abnormalCheckbox.AutoSize = true;
+            abnormalCheckbox.Location = new Point(596, 623);
+            abnormalCheckbox.Name = "abnormalCheckbox";
+            abnormalCheckbox.Size = new Size(18, 17);
+            abnormalCheckbox.TabIndex = 66;
+            abnormalCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // abnormalLabel
+            // 
+            abnormalLabel.Anchor = AnchorStyles.Top;
+            abnormalLabel.AutoSize = true;
+            abnormalLabel.Location = new Point(484, 620);
+            abnormalLabel.Name = "abnormalLabel";
+            abnormalLabel.Size = new Size(96, 20);
+            abnormalLabel.TabIndex = 67;
+            abnormalLabel.Text = "Is Abnormal?";
+            // 
+            // loggedInUserControl1
+            // 
+            loggedInUserControl1.Location = new Point(0, 0);
+            loggedInUserControl1.Name = "loggedInUserControl1";
+            loggedInUserControl1.Size = new Size(350, 169);
+            loggedInUserControl1.TabIndex = 68;
+            // 
             // TestEditForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(867, 704);
+            Controls.Add(loggedInUserControl1);
+            Controls.Add(abnormalLabel);
+            Controls.Add(abnormalCheckbox);
             Controls.Add(resultErrorLabel);
-            Controls.Add(loggedInUserControl2);
             Controls.Add(datePreformedPicker);
             Controls.Add(label3);
             Controls.Add(resultBox);
@@ -279,6 +302,7 @@
             Name = "TestEditForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "View/Edit Tests";
+            Shown += TestEditForm_Shown;
             ((System.ComponentModel.ISupportInitialize)testSelectGrid).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -305,7 +329,9 @@
         private Label resultLabel;
         private Label datePerformedLabel;
         private DateTimePicker datePreformedPicker;
-        private LoggedInUserControl loggedInUserControl2;
         private Label resultErrorLabel;
+        private CheckBox abnormalCheckbox;
+        private Label abnormalLabel;
+        private LoggedInUserControl loggedInUserControl1;
     }
 }
