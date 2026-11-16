@@ -133,17 +133,16 @@ public partial class TestEditForm : Form
         if (double.TryParse(test.HighValue.ToString(), out double highValue) && double.TryParse(test.LowValue.ToString(), out double lowValue))
         {
             this.abnormalCheckbox.Enabled = false;
-            this.resultBox.Enabled = true;
             this.resultBox.Text = selectedTest.testResult;
         }
         else
         {
             this.abnormalCheckbox.Enabled = true;
-            this.resultBox.Enabled = false;
-            this.resultBox.Text = "";
         }
+        this.resultBox.Text = selectedTest.testResult;
         this.abnormalCheckbox.Checked = selectedTest.isAbnormal;
         this.datePreformedPicker.Value = selectedTest.dateTimePreformed ?? DateTime.Now;
+        this.checkFinalization();
     }
 
     private void testSelectGrid_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -252,6 +251,7 @@ public partial class TestEditForm : Form
             this.resultBox.ReadOnly = true;
             this.datePreformedPicker.Enabled = false;
             this.saveButton.Enabled = false;
+            this.abnormalCheckbox.Enabled = false;
         }
     }
 

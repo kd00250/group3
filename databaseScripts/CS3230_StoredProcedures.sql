@@ -79,6 +79,33 @@ CREATE PROCEDURE create_visit(
 		END$$
 DELIMITER ;
 
+-- ------------------------------------------------------------------------------------
+-- Author: Jareth Batty
+-- Does a thing
+-- -------------------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS get_test_by_code;
+
+DELIMITER $$
+
+CREATE PROCEDURE get_test_by_code(
+	IN t_test_code varchar(20),
+    OUT test_code varchar(20),
+    OUT test_name varchar(100),
+    OUT low_value varchar(20),
+    OUT high_value varchar(20),
+    OUT unit_name varchar(30))
+    BEGIN
+		SELECT test_code = l.test_code, 
+        test_name = l.test_name,
+        low_value = l.low_value,
+        high_value = l.high_value,
+        unit_name = l.unit_name
+        FROM lab_test as l 
+        WHERE l.test_code = t_test_code;
+	END$$
+DELIMITER ;
+
 
 
 
