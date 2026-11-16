@@ -87,7 +87,7 @@ DELIMITER ;
 DELIMITER $
 CREATE PROCEDURE search_patients(IN p_first_name VARCHAR(50), IN p_last_name VARCHAR(50), IN p_dob DATE)
 BEGIN 
-SELECT pa.patient_id, pa.person_id, pa.is_active, pa.first_name, 
+SELECT pa.patient_id, pa.person_id, pa.is_active, 
 	pe.first_name, pe.last_name, pe.gender, pe.date_of_birth, pe.street_address, pe.city, pe.state, pe.zip_code, pe.phone_number
 FROM patient pa
 JOIN person pe ON pa.person_id = pe.person_id
