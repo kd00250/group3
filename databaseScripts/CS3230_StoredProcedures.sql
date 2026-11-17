@@ -108,7 +108,7 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS avaliable_appontments;
 
 DELIMITER $
-CREATE PROCEDURE available_appontments(IN p_patient_id int, IN p_now datetime)
+CREATE PROCEDURE available_appointments(IN p_patient_id int, IN p_now datetime)
 BEGIN 
 SELECT a.appointment_id, a.patient_id, a.doctor_id,
        a.appointment_date, a.appointment_time, a.reason,
