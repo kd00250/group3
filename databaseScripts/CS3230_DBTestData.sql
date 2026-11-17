@@ -23,6 +23,39 @@ VALUES (@personId);
 INSERT INTO user_account (username, password, account_role, person_id)
 VALUES ('drogers', '600000:dELUrUER27wo9558SIwJxw==:EVQXOcVchWrA6GJ0qs3Ro/7oh0fCbHJhhCVSNxI8oFA=', 'nurse', @personId);
 
+-- Nurse: Maria Lopez (username: mlopez, password: nurse789)
+INSERT INTO person (first_name, last_name, date_of_birth, gender, street_address, city, state, zip_code, phone_number)
+VALUES ('Maria', 'Lopez', '1993-06-18', 'Female', '45 Cedar Ln', 'Carrollton', 'GA', '30117', '770-555-2184');
+SET @personId = last_insert_id();
+INSERT INTO nurse (person_id)
+VALUES (@personId);
+INSERT INTO user_account (username, password, account_role, person_id)
+VALUES ('mlopez', '600000:pNzIDppMgEaeKrSygOPpuw==:hufX5GwYqoEfktBkx0iVA++uVZXWPRGnb7B0JQBtkC4=', 'nurse', @personId);
+
+
+-- Nurse: Andrew Wilson (username: awilson, password: nurse101)
+INSERT INTO person (first_name, last_name, date_of_birth, gender, street_address, city, state, zip_code, phone_number)
+VALUES ('Andrew', 'Wilson', '1989-03-25', 'Male', '82 Pine Ridge Dr', 'Newnan', 'GA', '30263', '770-555-3291');
+SET @personId = last_insert_id();
+INSERT INTO nurse (person_id)
+VALUES (@personId);
+INSERT INTO user_account (username, password, account_role, person_id)
+VALUES ('awilson', '600000:N7U8RZM1e01CNazv8HiFcw==:st50sdLg5m3GHwc5OZtEKd3CSQFRRemU9TvA3DbO81A=', 'nurse', @personId);
+
+
+-- Nurse: Taylor Green (username: tgreen, password: nurse202)
+INSERT INTO person (first_name, last_name, date_of_birth, gender, street_address, city, state, zip_code, phone_number)
+VALUES ('Taylor', 'Green', '1997-09-12', 'Female', '17 Magnolia St', 'Carrollton', 'GA', '30116', '770-555-4176');
+SET @personId = last_insert_id();
+INSERT INTO nurse (person_id)
+VALUES (@personId);
+INSERT INTO user_account (username, password, account_role, person_id)
+VALUES ('tgreen', '600000:4MK4MXXm5FcMjvpZm5CJjQ==:7lN9l8FUGBwahxSt+lNq9wvBNW/YcsGrEu8q3TRJMdE=', 'nurse', @personId);
+
+-- ----------------------------------
+-- Admin Users
+-- ----------------------------------
+
 -- Admin Donna Grace (username: dgrace, password: admin123)
 INSERT INTO person (first_name, last_name, date_of_birth, gender, street_address, city, state, zip_code, phone_number)
 VALUES ('Donna', 'Grace', '1985-12-04', 'Female', '5 Spruce Ct', 'Carrollton', 'GA', '30116', '770-555-7421');
@@ -31,6 +64,42 @@ INSERT INTO administrator (person_id)
 VALUES (@personId);
 INSERT INTO user_account (username, password, account_role, person_id)
 VALUES ('dgrace', '600000:GqoBfKQhTgZq8uoWlZEfwA==:++mmMNIwey+rSh5ouIRX5S7BxsqcyJT4CBdjzlne6RY=', 'administrator', @personId);
+
+-- Admin Jon Snow (username: jsnow, password: admin456)
+INSERT INTO person (first_name, last_name, date_of_birth, gender, street_address, city, state, zip_code, phone_number)
+VALUES ('Jon', 'Snow', '1990-09-05', 'Male', 'Winterfell lane', 'Carrollton', 'GA', '30115', '770-595-7423');
+SET @personId = last_insert_id();
+INSERT INTO administrator (person_id)
+VALUES (@personId);
+INSERT INTO user_account (username, password, account_role, person_id)
+VALUES ('jsnow', '600000:iWLAYohBUwjRNQ7rZKoWbw==:0O9xso8HAkj0TXUd/mhUiQ6NsW3G2gmER9XCIy1pD4w', 'administrator', @personId);
+
+-- Admin Sansa Stark (username: sstark, password: admin789)
+INSERT INTO person (first_name, last_name, date_of_birth, gender, street_address, city, state, zip_code, phone_number)
+VALUES ('Sansa', 'Stark', '1990-09-05', 'Female', 'Winterfell lane', 'Carrollton', 'GA', '30115', '404-991-7423');
+SET @personId = last_insert_id();
+INSERT INTO administrator (person_id)
+VALUES (@personId);
+INSERT INTO user_account (username, password, account_role, person_id)
+VALUES ('sstark', '600000:wFeDq1IIDS0XxL/cDwTF2g==:8vVniLKys4SiFXCg5xOwDOgWK+Z7Hp3+VW/Yo2kscsA=', 'administrator', @personId);
+
+-- Admin Kevin Craft (username: kcraft, password: admin1011)
+INSERT INTO person (first_name, last_name, date_of_birth, gender, street_address, city, state, zip_code, phone_number)
+VALUES ('Kevin', 'Craft', '1995-11-09', 'Male', 'PeachTree Lane', 'Atlanta', 'GA', '30215', '404-777-7483');
+SET @personId = last_insert_id();
+INSERT INTO administrator (person_id)
+VALUES (@personId);
+INSERT INTO user_account (username, password, account_role, person_id)
+VALUES ('kcraft', '600000:ffwY7SzoVgyl9eg0v4sFlw==:UP07sEVkdLgp2Yj7qln/KQR+Y3ql+ePWpcm7OVZ0cvE=', 'administrator', @personId);
+
+-- Admin Olive Craft (username: ocraft, password: admin99)
+INSERT INTO person (first_name, last_name, date_of_birth, gender, street_address, city, state, zip_code, phone_number)
+VALUES ('Olive', 'Craft', '2000-11-10', 'Female', 'PeachTree Lane', 'Atlanta', 'GA', '30215', '404-998-7401');
+SET @personId = last_insert_id();
+INSERT INTO administrator (person_id)
+VALUES (@personId);
+INSERT INTO user_account (username, password, account_role, person_id)
+VALUES ('ocraft', '600000:iMQDgpOgMxVnq5ThKxbSpg==:qWuhHtt9V5ipNfmY2+AaznZbJLTyreIfCkWv+ER/Rp0=', 'administrator', @personId);
 
 
 -- ----------------------------------
@@ -72,7 +141,7 @@ VALUES (last_insert_id(), false);
 -- ----------------------------------
 
 INSERT INTO specialty (specialty_name)
-VALUES ('Family Medicine'), ('Cardiology'), ('Pediatrics');
+VALUES ('Family Medicine'), ('Cardiology'), ('Pediatrics'), ('Dermatology'), ('Neurology');
 
 -- Dr. Sarah Mitchell: Family Medicine
 INSERT INTO person (first_name, last_name, date_of_birth, gender, street_address, city, state, zip_code, phone_number)
@@ -106,6 +175,28 @@ INSERT INTO doctor_specialty (doctor_id, specialty_id)
 SELECT @doctorId, specialty_id
 	FROM specialty
     WHERE specialty_name = 'Pediatrics';
+    
+-- Dr. Daniel Reed: Dermatology
+INSERT INTO person (first_name, last_name, date_of_birth, gender, street_address, city, state, zip_code, phone_number)
+VALUES ('Daniel', 'Reed', '1978-04-05', 'Male', '15 Pine St', 'Carrollton', 'GA', '30117', '770-555-3301');
+INSERT INTO doctor (person_id)
+VALUES (last_insert_id());
+SET @doctorId = last_insert_id();
+INSERT INTO doctor_specialty (doctor_id, specialty_id)
+SELECT @doctorId, specialty_id
+    FROM specialty
+    WHERE specialty_name = 'Dermatology';
+
+-- Dr. Priya Shah: Neurology
+INSERT INTO person (first_name, last_name, date_of_birth, gender, street_address, city, state, zip_code, phone_number)
+VALUES ('Priya', 'Shah', '1983-12-11', 'Female', '28 Magnolia Ave', 'Newnan', 'GA', '30263', '770-555-3302');
+INSERT INTO doctor (person_id)
+VALUES (last_insert_id());
+SET @doctorId = last_insert_id();
+INSERT INTO doctor_specialty (doctor_id, specialty_id)
+SELECT @doctorId, specialty_id
+    FROM specialty
+    WHERE specialty_name = 'Neurology';
 
 -- ----------------------------------
 -- Existing appointments for testing available slots and double booking
@@ -146,6 +237,59 @@ SELECT date_add(curdate(), interval 3 day), '14:00:00', 'Allergy consultation', 
 		 doctor d JOIN person dp ON d.person_id = dp.person_id
 	WHERE pe.first_name = 'Robert' AND pe.last_name = 'Lee'
 		AND dp.last_name = 'Daniels';
+        
+        
+-- ----------------------------------
+-- Additional future appointments
+-- ----------------------------------
+
+-- Jane Daniels (2001) with Dr. Reed: Skin rash examination
+INSERT INTO appointment (appointment_date, appointment_time, reason, patient_id, doctor_id)
+SELECT date_add(curdate(), interval 4 day), '10:15:00', 'Skin rash examination', pa.patient_id, d.doctor_id
+    FROM patient pa JOIN person pe ON pa.person_id = pe.person_id,
+         doctor d JOIN person dp ON d.person_id = dp.person_id
+    WHERE pe.first_name = 'Jane' AND pe.date_of_birth = '2001-11-17'
+        AND dp.last_name = 'Reed';
+
+-- John Daniels with Dr. Shah: Migraine consultation
+INSERT INTO appointment (appointment_date, appointment_time, reason, patient_id, doctor_id)
+SELECT date_add(curdate(), interval 5 day), '13:00:00', 'Migraine consultation', pa.patient_id, d.doctor_id
+    FROM patient pa JOIN person pe ON pa.person_id = pe.person_id,
+         doctor d JOIN person dp ON d.person_id = dp.person_id
+    WHERE pe.first_name = 'John' AND pe.last_name = 'Daniels'
+        AND dp.last_name = 'Shah';
+
+-- Mark Gray with Dr. Mitchell: Annual physical
+INSERT INTO appointment (appointment_date, appointment_time, reason, patient_id, doctor_id)
+SELECT date_add(curdate(), interval 6 day), '08:30:00', 'Annual physical', pa.patient_id, d.doctor_id
+    FROM patient pa JOIN person pe ON pa.person_id = pe.person_id,
+         doctor d JOIN person dp ON d.person_id = dp.person_id
+    WHERE pe.first_name = 'Mark' AND pe.last_name = 'Gray'
+        AND dp.last_name = 'Mitchell';
+
+-- Jane Daniels (1997) with Dr. Owen: Blood pressure check
+INSERT INTO appointment (appointment_date, appointment_time, reason, patient_id, doctor_id)
+SELECT date_add(curdate(), interval 8 day), '11:45:00', 'Blood pressure check', pa.patient_id, d.doctor_id
+    FROM patient pa JOIN person pe ON pa.person_id = pe.person_id,
+         doctor d JOIN person dp ON d.person_id = dp.person_id
+    WHERE pe.first_name = 'Jane' AND pe.date_of_birth = '1997-05-06'
+        AND dp.last_name = 'Owen';
+
+-- John Daniels with Dr. Reed: Acne consultation
+INSERT INTO appointment (appointment_date, appointment_time, reason, patient_id, doctor_id)
+SELECT date_add(curdate(), interval 9 day), '14:30:00', 'Acne consultation', pa.patient_id, d.doctor_id
+    FROM patient pa JOIN person pe ON pa.person_id = pe.person_id,
+         doctor d JOIN person dp ON d.person_id = dp.person_id
+    WHERE pe.first_name = 'John' AND pe.last_name = 'Daniels'
+        AND dp.last_name = 'Reed';
+
+-- Mark Gray with Dr. Shah: Recurring headaches
+INSERT INTO appointment (appointment_date, appointment_time, reason, patient_id, doctor_id)
+SELECT date_add(curdate(), interval 10 day), '09:45:00', 'Recurring headaches', pa.patient_id, d.doctor_id
+    FROM patient pa JOIN person pe ON pa.person_id = pe.person_id,
+         doctor d JOIN person dp ON d.person_id = dp.person_id
+    WHERE pe.first_name = 'Mark' AND pe.last_name = 'Gray'
+        AND dp.last_name = 'Shah';
 
 -- ----------------------------------
 -- Past appointments for testing the past appointments list
@@ -165,6 +309,30 @@ SELECT date_sub(curdate(), interval 30 day), '13:30:00', 'Flu symptoms', pa.pati
 		 doctor d JOIN person dp ON d.person_id = dp.person_id
 	WHERE pe.first_name = 'Jane' AND pe.date_of_birth = '2001-11-17'
 		AND dp.last_name = 'Daniels';
+        
+-- John Daniels with Dr. Reed: Skin irritation
+INSERT INTO appointment (appointment_date, appointment_time, reason, patient_id, doctor_id)
+SELECT date_sub(curdate(), interval 12 day), '11:00:00', 'Skin irritation', pa.patient_id, d.doctor_id
+    FROM patient pa JOIN person pe ON pa.person_id = pe.person_id,
+         doctor d JOIN person dp ON d.person_id = dp.person_id
+    WHERE pe.first_name = 'John' AND pe.last_name = 'Daniels'
+        AND dp.last_name = 'Reed';
+
+-- Mark Gray with Dr. Owen: Fatigue and dizziness
+INSERT INTO appointment (appointment_date, appointment_time, reason, patient_id, doctor_id)
+SELECT date_sub(curdate(), interval 22 day), '13:15:00', 'Fatigue and dizziness', pa.patient_id, d.doctor_id
+    FROM patient pa JOIN person pe ON pa.person_id = pe.person_id,
+         doctor d JOIN person dp ON d.person_id = dp.person_id
+    WHERE pe.first_name = 'Mark' AND pe.last_name = 'Gray'
+        AND dp.last_name = 'Owen';
+
+-- Jane Daniels (1997) with Dr. Mitchell: Sore throat
+INSERT INTO appointment (appointment_date, appointment_time, reason, patient_id, doctor_id)
+SELECT date_sub(curdate(), interval 8 day), '10:30:00', 'Sore throat', pa.patient_id, d.doctor_id
+    FROM patient pa JOIN person pe ON pa.person_id = pe.person_id,
+         doctor d JOIN person dp ON d.person_id = dp.person_id
+    WHERE pe.first_name = 'Jane' AND pe.date_of_birth = '1997-05-06'
+        AND dp.last_name = 'Mitchell';
 
 -- ----------------------------------
 -- Patient Visits
@@ -209,6 +377,69 @@ JOIN patient pa ON a.patient_id = pa.patient_id
 JOIN person pe ON pa.person_id = pe.person_id
 WHERE pe.first_name = 'John' AND pe.last_name = 'Daniels'
   AND a.appointment_time = '09:30:00';
+  
+  
+-- Visit for John Daniels with Dr. Reed: finalized, skin irritation
+INSERT INTO visit (visit_datetime, appointment_id, height, weight, systolic, diastolic,
+                   body_temperature, pulse, symptoms, check_datetime,
+                   initial_diagnosis, final_diagnosis, nurse_id, is_finalized)
+SELECT timestamp(a.appointment_date, a.appointment_time), a.appointment_id,
+       71, 175, 118, 78, 98.4, 70, 'Redness and itching on arms',
+       timestamp(a.appointment_date, a.appointment_time) + interval 10 minute,
+       'Possible allergic reaction', 'Contact dermatitis',
+       (SELECT n.nurse_id FROM nurse n JOIN person p ON n.person_id = p.person_id
+        WHERE p.last_name = 'Lopez'),
+       TRUE
+FROM appointment a
+JOIN patient pa ON a.patient_id = pa.patient_id
+JOIN person pe ON pa.person_id = pe.person_id
+JOIN doctor d ON a.doctor_id = d.doctor_id
+JOIN person dp ON d.person_id = dp.person_id
+WHERE pe.first_name = 'John' AND pe.last_name = 'Daniels'
+  AND dp.last_name = 'Reed'
+  AND a.appointment_date = date_sub(curdate(), interval 12 day);
+
+
+-- Visit for Mark Gray with Dr. Owen: finalized, fatigue and dizziness
+INSERT INTO visit (visit_datetime, appointment_id, height, weight, systolic, diastolic,
+                   body_temperature, pulse, symptoms, check_datetime,
+                   initial_diagnosis, final_diagnosis, nurse_id, is_finalized)
+SELECT timestamp(a.appointment_date, a.appointment_time), a.appointment_id,
+       69, 165, 110, 72, 98.2, 76, 'Fatigue, dizziness, and occasional headaches',
+       timestamp(a.appointment_date, a.appointment_time) + interval 15 minute,
+       'Possible anemia', 'Iron deficiency anemia',
+       (SELECT n.nurse_id FROM nurse n JOIN person p ON n.person_id = p.person_id
+        WHERE p.last_name = 'Wilson'),
+       TRUE
+FROM appointment a
+JOIN patient pa ON a.patient_id = pa.patient_id
+JOIN person pe ON pa.person_id = pe.person_id
+JOIN doctor d ON a.doctor_id = d.doctor_id
+JOIN person dp ON d.person_id = dp.person_id
+WHERE pe.first_name = 'Mark' AND pe.last_name = 'Gray'
+  AND dp.last_name = 'Owen'
+  AND a.appointment_date = date_sub(curdate(), interval 22 day);
+
+
+-- Visit for Jane Daniels (1997) with Dr. Mitchell: editable, not finalized
+INSERT INTO visit (visit_datetime, appointment_id, height, weight, systolic, diastolic,
+                   body_temperature, pulse, symptoms, check_datetime,
+                   initial_diagnosis, final_diagnosis, nurse_id, is_finalized)
+SELECT timestamp(a.appointment_date, a.appointment_time), a.appointment_id,
+       65, 140, 116, 74, 99.1, 82, 'Sore throat and mild fever',
+       timestamp(a.appointment_date, a.appointment_time) + interval 10 minute,
+       'Possible strep throat', NULL,
+       (SELECT n.nurse_id FROM nurse n JOIN person p ON n.person_id = p.person_id
+        WHERE p.last_name = 'Green'),
+       FALSE
+FROM appointment a
+JOIN patient pa ON a.patient_id = pa.patient_id
+JOIN person pe ON pa.person_id = pe.person_id
+JOIN doctor d ON a.doctor_id = d.doctor_id
+JOIN person dp ON d.person_id = dp.person_id
+WHERE pe.first_name = 'Jane' AND pe.date_of_birth = '1997-05-06'
+  AND dp.last_name = 'Mitchell'
+  AND a.appointment_date = date_sub(curdate(), interval 8 day);
 
 -- ----------------------------------
 -- Lab Tests
@@ -219,7 +450,11 @@ VALUES ('BLD123', 'Complete Blood Count', 4000, 11000, 'µL'),
 ('BLD839', 'Platelet Count', 150000, 450000, 'µL'),
 ('BLD921', 'Hemoglobin', 12.0, 18.0, 'g/dL'),
 ('GLU450', 'Glucose', 70, 100, 'mg/dL'),
-('FLU219', 'Flu test', 'Negative', 'Positive', 'N/a');
+('FLU219', 'Flu test', 'Negative', 'Positive', 'N/a'),
+('LDL100', 'Low Density Lipoproteins', '100', '160', 'mg/dL'),
+('WBC220', 'White Blood Cell', 4000, 11000, 'µL'),
+('HEPA22', 'Hepatitis A (HAV)', '0.80', '1.20', 'S/CO Index'),
+('HEPB23', 'Hepatitis B (HBV)', '5', '10', 'mIU/mL');
 
 -- ----------------------------------
 -- Old visits with ordered tests
