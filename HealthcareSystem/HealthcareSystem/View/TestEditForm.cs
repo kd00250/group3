@@ -2,11 +2,13 @@
 using HealthcareSystem.Model;
 using MySqlConnector;
 using System.ComponentModel;
-using System.Text.RegularExpressions;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace HealthcareSystem.View;
 
+/// <summary>
+///     The form for the edit test page.
+/// </summary>
+/// <seealso cref="System.Windows.Forms.Form" />
 public partial class TestEditForm : Form
 {
     #region Fields
@@ -20,6 +22,13 @@ public partial class TestEditForm : Form
 
     #region Constructors
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="TestEditForm"/> class.
+    /// </summary>
+    /// <param name="testEditController">The test edit controller.</param>
+    /// <param name="visit">The visit.</param>
+    /// <param name="patient">The patient.</param>
+    /// <param name="labOrder">The lab order.</param>
     public TestEditForm(TestEditController testEditController, Visit visit, Patient patient, LabOrder labOrder)
     {
         this.InitializeComponent();

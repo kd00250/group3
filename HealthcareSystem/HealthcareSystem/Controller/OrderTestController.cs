@@ -3,6 +3,9 @@ using HealthcareSystem.Model.DAL;
 
 namespace HealthcareSystem.Controller;
 
+/// <summary>
+///     The order test controller class responsible for managing ordering tests.
+/// </summary>
 public class OrderTestController
 {
     #region Fields

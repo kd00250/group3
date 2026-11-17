@@ -4,6 +4,9 @@ using System.Text.RegularExpressions;
 
 namespace HealthcareSystem.Controller;
 
+/// <summary>
+///     The patient edit controller class that manages editting a patient.
+/// </summary>
 public class PatientEditController
 {
     /// <summary>

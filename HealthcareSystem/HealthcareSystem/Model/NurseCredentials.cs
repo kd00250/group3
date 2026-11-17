@@ -1,5 +1,8 @@
 ﻿namespace HealthcareSystem.Model;
 
+/// <summary>
+///     The nurse credentials class that contains the nurse username and password.
+/// </summary>
 public class NurseCredentials
 {
     /// <summary>

@@ -1,5 +1,8 @@
 ﻿namespace HealthcareSystem.Model;
 
+/// <summary>
+///     The session manager class that stores the current user info.
+/// </summary>
 public class SessionManager
 {
     /// <summary>
@@ -43,6 +46,9 @@ public class SessionManager
         CurrentUser = user;
     }
 
+    /// <summary>
+    ///     Logouts this instance.
+    /// </summary>
     public static void Logout()
     {
         CurrentUser = null;

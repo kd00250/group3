@@ -3,6 +3,9 @@ using HealthcareSystem.Model.DAL;
 
 namespace HealthcareSystem.Controller;
 
+/// <summary>
+///     The login controller class responsible for managing logging a user in.
+/// </summary>
 public class LoginController
 {
     private readonly UserAccountDal userAccountDal;

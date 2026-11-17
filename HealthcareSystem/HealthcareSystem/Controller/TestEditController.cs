@@ -3,6 +3,9 @@ using HealthcareSystem.Model.DAL;
 
 namespace HealthcareSystem.Controller;
 
+/// <summary>
+///     The test edit controller class responsible for managing editting tests.
+/// </summary>
 public class TestEditController
 {
     #region Fields
@@ -42,6 +45,11 @@ public class TestEditController
     {
         return this.testOrderDAL.getTestById(testCode);
     }
+
+    /// <summary>
+    ///     Updates the ordered tests.
+    /// </summary>
+    /// <param name="selectedTest">The selected test.</param>
     public void UpdateOrderedTests(OrderedTest selectedTest)
     {
         this.testOrderDAL.updateOrderedTest(selectedTest.labOrderId, selectedTest.testCode, selectedTest.dateTimePreformed, selectedTest.testResult, selectedTest.isAbnormal);

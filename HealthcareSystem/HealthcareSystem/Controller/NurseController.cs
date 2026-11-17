@@ -4,6 +4,9 @@ using HealthcareSystem.Model.DAL;
 
 namespace HealthcareSystem.Controller;
 
+/// <summary>
+///     The nurse controller class responsible for managing a nurse.
+/// </summary>
 public class NurseController
 {
     #region Fields

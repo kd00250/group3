@@ -1,5 +1,8 @@
 ﻿namespace HealthcareSystem.Model;
 
+/// <summary>
+///     The test class that contains properties of a test.
+/// </summary>
 public class Test
 {
     /// <summary>

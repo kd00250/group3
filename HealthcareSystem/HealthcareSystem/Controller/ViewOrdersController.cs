@@ -3,6 +3,9 @@ using HealthcareSystem.Model.DAL;
 
 namespace HealthcareSystem.Controller;
 
+/// <summary>
+///     The view orders controller class responsible for viewing order.
+/// </summary>
 public class ViewOrdersController
 {
     private readonly ViewOrdersDal viewOrdersDal;
