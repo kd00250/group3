@@ -11,52 +11,6 @@ public class OrderTestDal
     private const string MostPerformedTestsProcedure = "get_most_performed_tests_duringdates";
 
     /// <summary>
-    ///     Gets all tests.
-    /// </summary>
-    /// <returns></returns>
-    /// <exception cref="Exception">Database error occurred while retrieving tests.</exception>
-    public List<Test> GetAllTests()
-    {
-        var tests = new List<Test>();
-        using var connection = new MySqlConnection(Connection.ConnectionString());
-        connection.Open();
-        try
-        {
-            var command = new MySqlCommand("SELECT * FROM lab_test", connection);
-            var reader = command.ExecuteReader();
-
-            var testCodeOrdinal = reader.GetOrdinal("test_code");
-            var testNameOrdinal = reader.GetOrdinal("test_name");
-            var lowValueOrdinal = reader.GetOrdinal("low_value");
-            var highValueOrdinal = reader.GetOrdinal("high_value");
-            var unitNameOrdinal = reader.GetOrdinal("unit_name");
-            while (reader.Read())
-            {
-                var test = new Test
-                {
-                    TestCode = reader.GetString(testCodeOrdinal),
-                    TestName = reader.GetString(testNameOrdinal),
-                    UnitName = reader.IsDBNull(unitNameOrdinal) ? string.Empty : reader.GetString(unitNameOrdinal),
-                    LowValue = reader.IsDBNull(lowValueOrdinal)
-                        ? string.Empty
-                        : reader.GetDecimal(lowValueOrdinal).ToString(),
-                    HighValue = reader.IsDBNull(highValueOrdinal)
-                        ? string.Empty
-                        : reader.GetDecimal(highValueOrdinal).ToString()
-                };
-                tests.Add(test);
-            }
-        }
-        catch (MySqlException ex)
-        {
-            throw new Exception("Database error occurred while retrieving tests.", ex);
-        }
-
-        connection.Close();
-        return tests;
-    }
-
-    /// <summary>
     ///     Completes the lab order.
     /// </summary>
     /// <param name="tests">The tests.</param>

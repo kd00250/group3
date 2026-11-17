@@ -29,14 +29,6 @@ public class OrderTestController
 
     #region Methods
     /// <summary>
-    ///     Retrieves all tests.
-    /// </summary>
-    public IList<Test> GetAllTests()
-    {
-        return this.orderTestDal.GetAllTests();
-    }
-
-    /// <summary>
     ///     Confirms the lab order.
     /// </summary>
     /// <param name="tests">The tests for a lab order.</param>
