@@ -83,6 +83,9 @@ DELIMITER ;
 -- Author: Azizah Blair
 -- Searches for a patient by their first name, last name, and date of birth
 -- -------------------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS search_patients;
+
 DELIMITER $
 CREATE PROCEDURE search_patients(IN p_first_name VARCHAR(50), IN p_last_name VARCHAR(50), IN p_dob DATE)
 BEGIN 
@@ -94,6 +97,34 @@ WHERE (p_first_name IS NULL OR p_first_name = '' OR pe.first_name = p_first_name
 AND (p_last_name IS NULL OR p_last_name = '' OR pe.last_name = p_last_name)
 AND (p_dob IS NULL OR pe.date_of_birth = p_dob)
 ORDER BY pe.last_name, pe.first_name, pe.date_of_birth;
+END $
+DELIMITER ;
+
+-- ------------------------------------------------------------------------------------
+-- Author: Jareth Batty
+-- Searches for a patient by their first name, last name, and date of birth
+-- -------------------------------------------------------------------------------------
+
+DROP PROCEDURE IF EXISTS avaliable_appontments;
+
+DELIMITER $
+CREATE PROCEDURE available_appontments(IN p_patient_id int, IN p_now datetime)
+BEGIN 
+SELECT a.appointment_id, a.patient_id, a.doctor_id,
+       a.appointment_date, a.appointment_time, a.reason,
+       dp.first_name AS doctor_first_name,
+       dp.last_name AS doctor_last_name
+FROM appointment a
+JOIN doctor d ON a.doctor_id = d.doctor_id
+JOIN person dp ON d.person_id = dp.person_id
+WHERE a.patient_id = p_patient_id
+AND TIMESTAMP(a.appointment_date, a.appointment_time) >= p_now
+AND NOT EXISTS (
+    SELECT 1
+    FROM visit v
+    WHERE v.appointment_id = a.appointment_id
+)
+ORDER BY a.appointment_date ASC, a.appointment_time ASC;
 END $
 DELIMITER ;
 
