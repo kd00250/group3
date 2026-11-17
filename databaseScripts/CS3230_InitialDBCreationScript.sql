@@ -173,8 +173,8 @@ CREATE TABLE `visit` (
 CREATE TABLE `lab_test` (
     test_code varchar(20) primary key,
     test_name varchar(100) not null,
-    low_value decimal(10,2),
-    high_value decimal(10,2),
+    low_value decimal(9,2),
+    high_value decimal(9,2),
     unit_name varchar(30),
     constraint uq_lab_test_test_name
         unique (test_name)
@@ -195,7 +195,7 @@ CREATE TABLE `ordered_test` (
     lab_order_id int not null,
     test_code varchar(20) not null,
     datetime_performed datetime,
-    test_result decimal(10,2),
+    test_result varchar(255),
     is_abnormal boolean not null default false,
     primary key (lab_order_id, test_code),
 
