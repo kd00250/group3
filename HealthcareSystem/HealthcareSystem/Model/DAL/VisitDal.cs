@@ -9,6 +9,7 @@ namespace HealthcareSystem.Model.DAL;
 public class VisitDal
 {
     private const string CreateVisitProcedure = "create_visit";
+    private const string AvaliableAppointmentsProcedure = "avaliable_appontments";
 
     /// <summary>
     /// Gets all visits for a patient, newest first.
@@ -209,32 +210,17 @@ public class VisitDal
     {
         var appointments = new List<Appointment>();
 
-        const string query = """
-                         SELECT a.appointment_id, a.patient_id, a.doctor_id,
-                                a.appointment_date, a.appointment_time, a.reason,
-                                dp.first_name AS doctor_first_name,
-                                dp.last_name AS doctor_last_name
-                         FROM appointment a
-                         JOIN doctor d ON a.doctor_id = d.doctor_id
-                         JOIN person dp ON d.person_id = dp.person_id
-                         WHERE a.patient_id = @patientId
-                         AND TIMESTAMP(a.appointment_date, a.appointment_time) >= @now
-                         AND NOT EXISTS (
-                             SELECT 1
-                             FROM visit v
-                             WHERE v.appointment_id = a.appointment_id
-                         )
-                         ORDER BY a.appointment_date ASC, a.appointment_time ASC;
-                         """;
-
         using var connection = new MySqlConnection(Connection.ConnectionString());
         connection.Open();
 
-        using var command = new MySqlCommand(query, connection);
-        command.Parameters.Add("@patientId", MySqlDbType.Int32);
-        command.Parameters["@patientId"].Value = patientId;
-        command.Parameters.Add("@now", MySqlDbType.DateTime);
-        command.Parameters["@now"].Value = DateTime.Now;
+        using var command = new MySqlCommand(AvaliableAppointmentsProcedure, connection);
+        command.CommandType = CommandType.StoredProcedure;
+
+        command.Parameters.Add("p_patient_id", MySqlDbType.Int32);
+        command.Parameters["p_patient_id"].Value = patientId;
+
+        command.Parameters.Add("p_now", MySqlDbType.DateTime);
+        command.Parameters["p_now"].Value = DateTime.Now;
 
         using var reader = command.ExecuteReader();
 
