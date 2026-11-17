@@ -4,6 +4,9 @@ using HealthcareSystem.Model.DAL;
 
 namespace HealthcareSystem.Controller;
 
+/// <summary>
+///     The nurse controller class responsible for managing a nurse.
+/// </summary>
 public class NurseController
 {
     #region Fields
@@ -54,21 +57,6 @@ public class NurseController
 
         return this.nurseDal.GetAllNurses();
     }
-
-    ///// <summary>
-    /////     Retrieves a nurse by their nurse ID.
-    ///// </summary>
-    //public Nurse? GetNurseById(int nurseId)
-    //{
-    //    this.ensureAdministrator();
-
-    //    if (nurseId <= 0)
-    //    {
-    //        throw new ArgumentOutOfRangeException(nameof(nurseId));
-    //    }
-
-    //    return this.nurseDal.GetNurseById(nurseId);
-    //}
 
     /// <summary>
     /// Updates an existing nurse.

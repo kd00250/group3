@@ -1,5 +1,8 @@
 ﻿namespace HealthcareSystem.Model;
 
+/// <summary>
+///     The ordered test class that contains properties for an ordered test.
+/// </summary>
 public class OrderedTest
 {
     /// <summary>

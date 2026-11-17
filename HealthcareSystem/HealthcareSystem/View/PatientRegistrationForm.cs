@@ -1,8 +1,6 @@
 ﻿using HealthcareSystem.Controller;
 using HealthcareSystem.Model;
 using MySqlConnector;
-using Mysqlx;
-using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
 namespace HealthcareSystem.View

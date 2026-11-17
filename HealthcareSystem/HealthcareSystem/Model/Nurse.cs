@@ -1,5 +1,8 @@
 ﻿namespace HealthcareSystem.Model;
 
+/// <summary>
+///     The nurse class that contains properties of a nurse.
+/// </summary>
 public class Nurse
 {
     /// <summary>

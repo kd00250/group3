@@ -178,6 +178,12 @@ public class VisitDal
         return reader.IsDBNull(ordinal) ? null : reader.GetFieldValue<T>(ordinal);
     }
 
+    /// <summary>
+    ///     Finalizes the visit.
+    /// </summary>
+    /// <param name="visitId">The visit identifier.</param>
+    /// <param name="finalDiagnosis">The final diagnosis.</param>
+    /// <returns>true if the visit is finalized, false otherwise.</returns>
     public bool FinalizeVisit(int visitId, string finalDiagnosis)
     {
         const string query = """
@@ -200,7 +206,7 @@ public class VisitDal
 
         return command.ExecuteNonQuery() > 0;
     }
-  
+
     /// <summary>
     ///     Gets upcoming appointments for a patient that do not have visits.
     /// </summary>

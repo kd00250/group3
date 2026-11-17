@@ -2,8 +2,17 @@
 
 namespace HealthcareSystem.Model.DAL;
 
+/// <summary>
+///     The nurse data access layer class.
+/// </summary>
 public class NurseDal
 {
+    /// <summary>
+    ///     Adds the nurse.
+    /// </summary>
+    /// <param name="nurse">The nurse.</param>
+    /// <param name="credentials">The credentials.</param>
+    /// <returns>Adds a nurse to the system based on the credentials entered.</returns>
     public int AddNurse(Nurse nurse, NurseCredentials credentials)
     {
         using var connection = new MySqlConnection(Connection.ConnectionString());

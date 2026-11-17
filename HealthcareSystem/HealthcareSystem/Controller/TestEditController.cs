@@ -1,9 +1,11 @@
-﻿using System.Text.RegularExpressions;
-using HealthcareSystem.Model;
+﻿using HealthcareSystem.Model;
 using HealthcareSystem.Model.DAL;
 
 namespace HealthcareSystem.Controller;
 
+/// <summary>
+///     The test edit controller class responsible for managing editting tests.
+/// </summary>
 public class TestEditController
 {
     #region Fields
@@ -11,9 +13,13 @@ public class TestEditController
     private readonly TestEditDal testOrderDAL;
 
     #endregion
-    
+
     #region Constructors
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="TestEditController"/> class.
+    /// </summary>
+    /// <param name="testOrderDAL">The test order dal.</param>
     public TestEditController(TestEditDal testOrderDAL)
     {
         this.testOrderDAL = testOrderDAL;
@@ -30,10 +36,20 @@ public class TestEditController
         return this.testOrderDAL.GetAllOrderedTests(labOrderId);
     }
 
+    /// <summary>
+    ///     Gets the test by identifier.
+    /// </summary>
+    /// <param name="testCode">The test code.</param>
+    /// <returns>The test that belongs to the test code id</returns>
     public Test getTestById(string testCode)
     {
         return this.testOrderDAL.getTestById(testCode);
     }
+
+    /// <summary>
+    ///     Updates the ordered tests.
+    /// </summary>
+    /// <param name="selectedTest">The selected test.</param>
     public void UpdateOrderedTests(OrderedTest selectedTest)
     {
         this.testOrderDAL.updateOrderedTest(selectedTest.labOrderId, selectedTest.testCode, selectedTest.dateTimePreformed, selectedTest.testResult, selectedTest.isAbnormal);

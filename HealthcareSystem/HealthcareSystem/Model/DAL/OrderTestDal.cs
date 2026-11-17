@@ -3,10 +3,18 @@ using MySqlConnector;
 
 namespace HealthcareSystem.Model.DAL;
 
+/// <summary>
+///     The orderTest data access layer.
+/// </summary>
 public class OrderTestDal
 {
     private const string MostPerformedTestsProcedure = "get_most_performed_tests_duringdates";
 
+    /// <summary>
+    ///     Gets all tests.
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="Exception">Database error occurred while retrieving tests.</exception>
     public List<Test> GetAllTests()
     {
         var tests = new List<Test>();
@@ -48,6 +56,12 @@ public class OrderTestDal
         return tests;
     }
 
+    /// <summary>
+    ///     Completes the lab order.
+    /// </summary>
+    /// <param name="tests">The tests.</param>
+    /// <param name="visit_id">The visit identifier.</param>
+    /// <exception cref="Exception">Database error occurred while ordering the test.</exception>
     public void CompleteLabOrder(IList<Test> tests, int visit_id)
     {
         using var connection = new MySqlConnection(Connection.ConnectionString());
@@ -85,29 +99,6 @@ public class OrderTestDal
         }
 
         connection.Close();
-    }
-
-    public int LabOrder(DateTime order_datetime, int visit_id)
-    {
-        int labOrderId = -1;
-        using var connection = new MySqlConnection(Connection.ConnectionString());
-        connection.Open();
-        try
-        {
-            var command = new MySqlCommand("INSERT INTO lab_order (order_datetime, visit_id) " +
-                                           "VALUES (@order_datetime, @visit_id)", connection);
-            command.Parameters.AddWithValue("@order_datetime", order_datetime);
-            command.Parameters.AddWithValue("@visit_id", visit_id);
-            command.ExecuteNonQuery();
-            labOrderId = (int)command.LastInsertedId;
-        }
-        catch (MySqlException ex)
-        {
-            throw new Exception("Database error occurred while creating the lab order.", ex);
-        }
-
-        connection.Close();
-        return labOrderId;
     }
 
     /// <summary>

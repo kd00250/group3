@@ -12,6 +12,11 @@ namespace HealthcareSystem.View
         private readonly Patient patient;
         private readonly AppointmentController appointmentController;
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="PatientAppointmentsForm"/> class.
+        /// </summary>
+        /// <param name="patient">The patient.</param>
+        /// <param name="appointmentController">The appointment controller.</param>
         public PatientAppointmentsForm(Patient patient, AppointmentController appointmentController)
         {
             this.InitializeComponent();

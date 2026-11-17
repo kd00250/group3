@@ -1,11 +1,14 @@
 ﻿using System.ComponentModel;
-using System.Text.RegularExpressions;
 using HealthcareSystem.Controller;
 using HealthcareSystem.Model;
 using MySqlConnector;
 
 namespace HealthcareSystem.View;
 
+/// <summary>
+///     The form for the order test page.
+/// </summary>
+/// <seealso cref="System.Windows.Forms.Form" />
 public partial class OrderTestForm : Form
 {
     #region Fields
@@ -19,6 +22,12 @@ public partial class OrderTestForm : Form
 
     #region Constructors
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="OrderTestForm"/> class.
+    /// </summary>
+    /// <param name="orderTestController">The order test controller.</param>
+    /// <param name="visit">The visit.</param>
+    /// <param name="patient">The patient.</param>
     public OrderTestForm(OrderTestController orderTestController, Visit visit, Patient patient)
     {
         this.InitializeComponent();

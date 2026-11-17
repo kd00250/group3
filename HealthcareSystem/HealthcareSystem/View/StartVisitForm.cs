@@ -4,11 +4,20 @@ using MySqlConnector;
 
 namespace HealthcareSystem.View
 {
+    /// <summary>
+    ///     The form for the start visit page.
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class StartVisitForm : Form
     {
         private readonly Patient selectedPatient;
         private readonly VisitController visitController;
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="StartVisitForm"/> class.
+        /// </summary>
+        /// <param name="selectedPatient">The selected patient.</param>
+        /// <param name="visitController">The visit controller.</param>
         public StartVisitForm(Patient selectedPatient, VisitController visitController)
         {
             this.InitializeComponent();

@@ -10,6 +10,10 @@ public class TestStatisticsController
 {
     private readonly OrderTestDal orderTestDal;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="TestStatisticsController"/> class.
+    /// </summary>
+    /// <param name="orderTestDal">The order test dal.</param>
     public TestStatisticsController(OrderTestDal orderTestDal)
     {
         this.orderTestDal = orderTestDal;

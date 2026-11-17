@@ -1,5 +1,8 @@
 ﻿namespace HealthcareSystem.Model;
 
+/// <summary>
+///     The lab order class that contains properties of a lab order.
+/// </summary>
 public class LabOrder
 {
     /// <summary>

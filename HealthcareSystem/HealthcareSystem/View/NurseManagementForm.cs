@@ -5,6 +5,10 @@ using MySqlConnector;
 
 namespace HealthcareSystem.View;
 
+/// <summary>
+///     The form for the nurse management page.
+/// </summary>
+/// <seealso cref="System.Windows.Forms.Form" />
 public partial class NurseManagementForm : Form
 {
     #region Fields
@@ -24,6 +28,10 @@ public partial class NurseManagementForm : Form
 
     #region Constructors
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="NurseManagementForm"/> class.
+    /// </summary>
+    /// <param name="nurseController">The nurse controller.</param>
     public NurseManagementForm(NurseController nurseController)
     {
         this.InitializeComponent();

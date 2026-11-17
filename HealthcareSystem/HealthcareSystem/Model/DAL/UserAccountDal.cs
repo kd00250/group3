@@ -2,8 +2,17 @@
 
 namespace HealthcareSystem.Model.DAL;
 
+/// <summary>
+///     The user account data access layer.
+/// </summary>
 public class UserAccountDal
 {
+    /// <summary>
+    ///     Authenticates the specified username.
+    /// </summary>
+    /// <param name="username">The username.</param>
+    /// <param name="password">The password.</param>
+    /// <returns>the user account credentials for the current user.</returns>
     public UserAccount? Authenticate(string username, string password)
     {
         using var connection = new MySqlConnection(Connection.ConnectionString());

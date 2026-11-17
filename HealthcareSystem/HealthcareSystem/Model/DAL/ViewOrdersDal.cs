@@ -2,8 +2,16 @@
 
 namespace HealthcareSystem.Model.DAL;
 
+/// <summary>
+///     The view orders data access layer.
+/// </summary>
 public class ViewOrdersDal
 {
+    /// <summary>
+    ///     Gets the orders by visit identifier.
+    /// </summary>
+    /// <param name="visitId">The visit identifier.</param>
+    /// <returns>a list of lab orders that correspond to the visit Id.</returns>
     public List<LabOrder> GetOrdersByVisitId(int visitId)
     {
         var orders = new List<LabOrder>();

@@ -101,6 +101,20 @@ public class VisitController
         }
     }
 
+    /// <summary>
+    ///     Finalizes the visit.
+    /// </summary>
+    /// <param name="visit">The visit.</param>
+    /// <param name="finalDiagnosis">The final diagnosis.</param>
+    /// <exception cref="ArgumentException">
+    /// This visit has already been finalized.
+    /// or
+    /// Final diagnosis is required.
+    /// or
+    /// Only a nurse can finalize a visit.
+    /// or
+    /// The visit could not be finalized. It may already be finalized.
+    /// </exception>
     public void FinalizeVisit(Visit visit, string finalDiagnosis)
     {
         if (visit.IsFinalized)
