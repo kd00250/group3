@@ -21,7 +21,7 @@ public class OrderTestDal
         using var connection = new MySqlConnection(Connection.ConnectionString());
         connection.Open();
         try
-        {   
+        {
             var command = new MySqlCommand("SELECT * FROM lab_test", connection);
             var reader = command.ExecuteReader();
 
@@ -37,8 +37,12 @@ public class OrderTestDal
                     TestCode = reader.GetString(testCodeOrdinal),
                     TestName = reader.GetString(testNameOrdinal),
                     UnitName = reader.IsDBNull(unitNameOrdinal) ? string.Empty : reader.GetString(unitNameOrdinal),
-                    LowValue = reader.IsDBNull(lowValueOrdinal) ? string.Empty : reader.GetDecimal(lowValueOrdinal).ToString(),
-                    HighValue = reader.IsDBNull(highValueOrdinal) ? string.Empty : reader.GetDecimal(highValueOrdinal).ToString()
+                    LowValue = reader.IsDBNull(lowValueOrdinal)
+                        ? string.Empty
+                        : reader.GetDecimal(lowValueOrdinal).ToString(),
+                    HighValue = reader.IsDBNull(highValueOrdinal)
+                        ? string.Empty
+                        : reader.GetDecimal(highValueOrdinal).ToString()
                 };
                 tests.Add(test);
             }
@@ -47,6 +51,7 @@ public class OrderTestDal
         {
             throw new Exception("Database error occurred while retrieving tests.", ex);
         }
+
         connection.Close();
         return tests;
     }
@@ -64,8 +69,10 @@ public class OrderTestDal
         using var transaction = connection.BeginTransaction();
         try
         {
-            const string insertLabOrderQuery = "INSERT INTO lab_order (order_datetime, visit_id) VALUES (@order_datetime, @visit_id)";
-            const string insertOrderTestQuery = "INSERT INTO ordered_test (lab_order_id, test_code, datetime_performed, test_result, is_abnormal) VALUES (@lab_order_id, @test_code, @datetime_performed, @test_result, @is_abnormal)";
+            const string insertLabOrderQuery =
+                "INSERT INTO lab_order (order_datetime, visit_id) VALUES (@order_datetime, @visit_id)";
+            const string insertOrderTestQuery =
+                "INSERT INTO ordered_test (lab_order_id, test_code, datetime_performed, test_result, is_abnormal) VALUES (@lab_order_id, @test_code, @datetime_performed, @test_result, @is_abnormal)";
             var labCommand = new MySqlCommand(insertLabOrderQuery, connection, transaction);
             labCommand.Parameters.AddWithValue("@order_datetime", DateTime.Now);
             labCommand.Parameters.AddWithValue("@visit_id", visit_id);
@@ -82,6 +89,7 @@ public class OrderTestDal
                 orderedTestCommand.Parameters.AddWithValue("@is_abnormal", false);
                 orderedTestCommand.ExecuteNonQuery();
             }
+
             transaction.Commit();
         }
         catch (MySqlException ex)
@@ -89,6 +97,7 @@ public class OrderTestDal
             transaction.Rollback();
             throw new Exception("Database error occurred while ordering the test.", ex);
         }
+
         connection.Close();
     }
 
@@ -138,5 +147,89 @@ public class OrderTestDal
             NormalResults = (int)reader.GetInt64(reader.GetOrdinal("normal_results")),
             AbnormalResults = (int)reader.GetInt64(reader.GetOrdinal("abnormal_results"))
         };
+    }
+
+    /// <summary>
+    /// Gets the codes of the tests ordered for a specific visit across all of its lab orders.
+    /// </summary>
+    /// <param name="visitId">The visit identifier.</param>
+    /// <returns>The list of test codes already ordered for the visit.</returns>
+    public List<string> GetOrderedTestCodesForVisit(int visitId)
+    {
+        var testCodes = new List<string>();
+
+        const string query = """
+                             SELECT ot.test_code
+                             FROM ordered_test ot
+                             JOIN lab_order lo ON ot.lab_order_id = lo.lab_order_id
+                             WHERE lo.visit_id = @visitId
+                             """;
+
+        using var connection = new MySqlConnection(Connection.ConnectionString());
+        connection.Open();
+
+        using var command = new MySqlCommand(query, connection);
+        command.Parameters.Add("@visitId", MySqlDbType.Int32);
+        command.Parameters["@visitId"].Value = visitId;
+
+        using var reader = command.ExecuteReader();
+        while (reader.Read())
+        {
+            testCodes.Add(reader.GetString(reader.GetOrdinal("test_code")));
+        }
+
+        return testCodes;
+    }
+
+    /// <summary>
+    /// Gets the available tests for visit that have not been ordered yet.
+    /// </summary>
+    /// <param name="visitId">The visit identifier.</param>
+    /// <returns>The list of available tests for the visit.</returns>
+    public List<Test> GetAvailableTestsForVisit(int visitId)
+    {
+        var availableTests = new List<Test>();
+
+        const string query = """
+                             SELECT lt.test_code, lt.test_name, lt.low_value, lt.high_value, lt.unit_name
+                             FROM lab_test lt
+                             WHERE NOT EXISTS (
+                                 SELECT 1
+                                 FROM ordered_test ot
+                                 JOIN lab_order lo ON ot.lab_order_id = lo.lab_order_id
+                                 WHERE lo.visit_id = @visitId
+                                 AND ot.test_code = lt.test_code
+                             )
+                             ORDER BY lt.test_name
+                             """;
+
+        using var connection = new MySqlConnection(Connection.ConnectionString());
+        connection.Open();
+
+        using var command = new MySqlCommand(query, connection);
+        command.Parameters.Add("@visitId", MySqlDbType.Int32);
+        command.Parameters["@visitId"].Value = visitId;
+
+        using var reader = command.ExecuteReader();
+        while (reader.Read())
+        {
+            var test = new Test
+            {
+                TestCode = reader.GetString(reader.GetOrdinal("test_code")),
+                TestName = reader.GetString(reader.GetOrdinal("test_name")),
+                LowValue = reader.IsDBNull(reader.GetOrdinal("low_value"))
+                    ? string.Empty
+                    : reader.GetDecimal(reader.GetOrdinal("low_value")).ToString(),
+                HighValue = reader.IsDBNull(reader.GetOrdinal("high_value"))
+                    ? string.Empty
+                    : reader.GetDecimal(reader.GetOrdinal("high_value")).ToString(),
+                UnitName = reader.IsDBNull(reader.GetOrdinal("unit_name"))
+                    ? string.Empty
+                    : reader.GetString(reader.GetOrdinal("unit_name"))
+            };
+            availableTests.Add(test);
+        }
+
+        return availableTests;
     }
 }
