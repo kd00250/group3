@@ -450,7 +450,7 @@ VALUES ('BLD123', 'Complete Blood Count', 4000, 11000, 'µL'),
 ('BLD839', 'Platelet Count', 150000, 450000, 'µL'),
 ('BLD921', 'Hemoglobin', 12.0, 18.0, 'g/dL'),
 ('GLU450', 'Glucose', 70, 100, 'mg/dL'),
-('FLU219', 'Flu test', 'Negative', 'Positive', 'N/a'),
+('FLU219', 'Flu test', NULL, NULL, 'N/a'),
 ('LDL100', 'Low Density Lipoproteins', '100', '160', 'mg/dL'),
 ('WBC220', 'White Blood Cell', 4000, 11000, 'µL'),
 ('HEPA22', 'Hepatitis A (HAV)', '0.80', '1.20', 'S/CO Index'),
@@ -478,7 +478,7 @@ VALUES (@orderId, 'BLD123', @oldVisitDatetime + interval 1 day, 6500, false),
 	(@orderId, 'BLD921', @oldVisitDatetime + interval 1 day, 10.5, true),
     (@orderId, 'BLD839', @oldVisitDatetime + interval 1 day, 200000, false),
     (@orderId, 'GLU450', @oldVisitDatetime + interval 1 day, 85, false),
-    (@orderId, 'FLU219', @oldVisitDatetime + interval 1 day, 'Negative', false);
+    (@orderId, 'FLU219', @oldVisitDatetime + interval 1 day, NULL, false);
 
 
 SELECT v.visit_id, v.visit_datetime
@@ -529,3 +529,49 @@ FROM visit WHERE visit_id = @markVisitId
 UNION ALL
 SELECT @orderId, 'BLD921', NULL, NULL, false
 FROM visit WHERE visit_id = @markVisitId;
+
+-- ----------------------------------
+-- John Daniels: Skin irritation with Dr. Reed
+-- ----------------------------------
+
+SELECT v.visit_id, v.visit_datetime
+INTO @johnVisitId, @johnVisitDatetime
+FROM visit v
+JOIN appointment a ON v.appointment_id = a.appointment_id
+JOIN patient pa ON a.patient_id = pa.patient_id
+JOIN person pe ON pa.person_id = pe.person_id
+WHERE pe.first_name = 'John' AND pe.last_name = 'Daniels'
+    AND a.appointment_date = date_sub(curdate(), interval 12 day);
+
+INSERT INTO lab_order (order_datetime, visit_id)
+VALUES (@johnVisitDatetime, @johnVisitId);
+SET @orderId = last_insert_id();
+
+INSERT INTO ordered_test (lab_order_id, test_code, datetime_performed, test_result, is_abnormal)
+VALUES (@orderId, 'BLD123', @johnVisitDatetime + interval 1 day, '7500', false),
+       (@orderId, 'BLD921', @johnVisitDatetime + interval 1 day, '15.0', false),
+       (@orderId, 'GLU450', @johnVisitDatetime + interval 1 day, '110', true);
+
+
+-- ----------------------------------
+-- Mark Gray: Fatigue and dizziness with Dr. Owen
+-- ----------------------------------
+
+SELECT v.visit_id, v.visit_datetime
+INTO @markOldVisitId, @markOldVisitDatetime
+FROM visit v
+JOIN appointment a ON v.appointment_id = a.appointment_id
+JOIN patient pa ON a.patient_id = pa.patient_id
+JOIN person pe ON pa.person_id = pe.person_id
+WHERE pe.first_name = 'Mark' AND pe.last_name = 'Gray'
+    AND a.appointment_date = date_sub(curdate(), interval 22 day);
+
+INSERT INTO lab_order (order_datetime, visit_id)
+VALUES (@markOldVisitDatetime, @markOldVisitId);
+SET @orderId = last_insert_id();
+
+INSERT INTO ordered_test (lab_order_id, test_code, datetime_performed, test_result, is_abnormal)
+VALUES (@orderId, 'BLD123', @markOldVisitDatetime + interval 1 day, '6800', false),
+       (@orderId, 'BLD921', @markOldVisitDatetime + interval 1 day, '10.2', true),
+       (@orderId, 'BLD839', @markOldVisitDatetime + interval 1 day, '210000', false),
+       (@orderId, 'GLU450', NULL, NULL, false);
