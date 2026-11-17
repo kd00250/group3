@@ -70,7 +70,13 @@ public partial class OrderTestForm : Form
     {
         try
         {
-            var tests = this.orderTestController.GetAllTests();
+            var tests = this.orderTestController.GetAvailableTests(this.visit.VisitId);
+
+            if (tests.Count == 0)
+            {
+                this.showMessage("All tests have already been ordered for this visit.", "No Available Tests", MessageBoxIcon.Information);
+            }
+
             this.testSelectGrid.DataSource = tests;
             this.selectedTestGrid.DataSource = selectedTests;
             this.configureSelectColumns();
@@ -252,6 +258,10 @@ public partial class OrderTestForm : Form
             this.showMessage("Lab order confirmed successfully.", "Success", MessageBoxIcon.Information);
             this.selectedTestGrid.DataSource = null;
             Close();
+        }
+        catch (ArgumentException ex)
+        {
+            this.showMessage(ex.Message, "Test Already Ordered", MessageBoxIcon.Warning);
         }
         catch (MySqlException)
         {
