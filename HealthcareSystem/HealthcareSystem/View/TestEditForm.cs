@@ -1,12 +1,13 @@
-﻿using System.ComponentModel;
-using System.Text.RegularExpressions;
-using HealthcareSystem.Controller;
+﻿using HealthcareSystem.Controller;
 using HealthcareSystem.Model;
 using MySqlConnector;
+using System.ComponentModel;
+using System.Text.RegularExpressions;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace HealthcareSystem.View;
 
-public partial class TestEditForm: Form
+public partial class TestEditForm : Form
 {
     #region Fields
 
@@ -32,9 +33,10 @@ public partial class TestEditForm: Form
         this.highBox.ReadOnly = true;
         this.lowBox.ReadOnly = true;
         this.configureSelectGrid();
-        this.loggedInUserControl2.RefreshUser();
+        this.loggedInUserControl1.RefreshUser();
         this.loadOrderedTests();
         this.checkFinalization();
+        this.testSelectGrid.ClearSelection();
     }
 
     #endregion
@@ -128,8 +130,19 @@ public partial class TestEditForm: Form
         this.lowBox.Text = test.LowValue.ToString();
         this.unitBox.Text = test.UnitName;
         var selectedTest = this.testSelectGrid.SelectedRows[0].DataBoundItem as OrderedTest;
+        if (double.TryParse(test.HighValue.ToString(), out double highValue) && double.TryParse(test.LowValue.ToString(), out double lowValue))
+        {
+            this.abnormalCheckbox.Enabled = false;
+            this.resultBox.Text = selectedTest.testResult;
+        }
+        else
+        {
+            this.abnormalCheckbox.Enabled = true;
+        }
+        this.resultBox.Text = selectedTest.testResult;
+        this.abnormalCheckbox.Checked = selectedTest.isAbnormal;
         this.datePreformedPicker.Value = selectedTest.dateTimePreformed ?? DateTime.Now;
-        this.resultBox.Text = selectedTest.testResult.ToString();
+        this.checkFinalization();
     }
 
     private void testSelectGrid_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -153,8 +166,12 @@ public partial class TestEditForm: Form
 
     private void saveButton_Click(object sender, EventArgs e)
     {
-        var selectedTest = this.testSelectGrid.SelectedRows[0].DataBoundItem as OrderedTest;
-        if (selectedTest == null)
+        var selectedTest = new OrderedTest();
+        try
+        {
+            selectedTest = this.testSelectGrid.SelectedRows[0].DataBoundItem as OrderedTest;
+        }
+        catch (ArgumentOutOfRangeException)
         {
             this.showMessage("Please select a test to save.", "No Test Selected", MessageBoxIcon.Warning);
             return;
@@ -165,7 +182,7 @@ public partial class TestEditForm: Form
         }
         try
         {
-            selectedTest.testResult = (double?)double.Parse(this.resultBox.Text);
+            selectedTest.testResult = this.resultBox.Text;
             selectedTest.dateTimePreformed = this.datePreformedPicker.Value;
             selectedTest.isAbnormal = this.checkAbnormality;
             this.testEditController.UpdateOrderedTests(selectedTest);
@@ -173,6 +190,7 @@ public partial class TestEditForm: Form
             this.testSelectGrid.DataSource = this.testEditController.GetAllOrderedTests(this.labOrder.LabOrderId);
             this.showMessage("Ordered test saved successfully.", "Success", MessageBoxIcon.Information);
             this.resultErrorLabel.Text = string.Empty;
+            this.testSelectGrid.ClearSelection();
         }
         catch (MySqlException)
         {
@@ -201,29 +219,28 @@ public partial class TestEditForm: Form
 
     private bool validateResultBox()
     {
-        if (string.IsNullOrWhiteSpace(this.resultBox.Text))
+        if (double.TryParse(this.highBox.Text, out double highValue) && double.TryParse(this.lowBox.Text, out double lowValue))
         {
-            this.resultErrorLabel.Text = "Result field cannot be empty.";
-            return false;
-        }
-        if (double.TryParse(this.resultBox.Text, out double result))
-        {
-            if (result < 0)
+            if (double.TryParse(this.resultBox.Text, out double result))
             {
-                this.resultErrorLabel.Text = "Result cannot be negative.";
+                if (result < 0)
+                {
+                    this.resultErrorLabel.Text = "Result cannot be negative.";
+                    return false;
+                }
+                if (result > 99999999)
+                {
+                    this.resultErrorLabel.Text = "Result is too large.";
+                    return false;
+                }
+            }
+            else
+            {
+                this.resultErrorLabel.Text = "Result must be a valid number.";
                 return false;
             }
-            if (result > 99999999)
-            {
-                this.resultErrorLabel.Text = "Result is too large.";
-                return false;
-            }
         }
-        else
-        {
-            this.resultErrorLabel.Text = "Result must be a valid number.";
-            return false;
-        }
+        this.resultErrorLabel.Text = string.Empty;
         return true;
     }
 
@@ -234,7 +251,13 @@ public partial class TestEditForm: Form
             this.resultBox.ReadOnly = true;
             this.datePreformedPicker.Enabled = false;
             this.saveButton.Enabled = false;
+            this.abnormalCheckbox.Enabled = false;
         }
+    }
+
+    private void TestEditForm_Shown(object sender, EventArgs e)
+    {
+        this.testSelectGrid.ClearSelection();
     }
 
     private bool checkAbnormality
@@ -248,7 +271,7 @@ public partial class TestEditForm: Form
                     return result > high || result < low;
                 }
             }
-            return false;
+            return this.abnormalCheckbox.Checked;
         }
     }
 

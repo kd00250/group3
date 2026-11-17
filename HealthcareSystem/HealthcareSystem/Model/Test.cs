@@ -29,13 +29,13 @@ public class Test
     /// <value>
     /// The high value.
     /// </value>
-    public double HighValue { get; set; }
+    public string HighValue { get; set; } = string.Empty;
     /// <summary>
     /// Gets or sets the low value.
     /// </summary>
     /// <value>
     /// The low value.
     /// </value>
-    public double LowValue { get; set; }
+    public string LowValue { get; set; } = string.Empty;
 
 }

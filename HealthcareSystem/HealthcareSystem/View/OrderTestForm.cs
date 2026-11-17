@@ -205,6 +205,7 @@ public partial class OrderTestForm : Form
             {
                 this.selectedTests.Add(selectedTest);
                 this.selectedTestGrid.Refresh();
+                this.testSelectGrid.ClearSelection();
                 this.selectedTestGrid.ClearSelection();
             }
             else
@@ -268,5 +269,12 @@ public partial class OrderTestForm : Form
         MessageBox.Show(message, title, MessageBoxButtons.OK, icon);
     }
 
+    private void onOrderTest_Shown(object sender, EventArgs e)
+    {
+        this.testSelectGrid.ClearSelection();
+        this.selectedTestGrid.ClearSelection();
+    }
     #endregion
+
+
 }

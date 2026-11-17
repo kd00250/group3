@@ -218,7 +218,8 @@ INSERT INTO lab_test
 VALUES ('BLD123', 'Complete Blood Count', 4000, 11000, 'µL'),
 ('BLD839', 'Platelet Count', 150000, 450000, 'µL'),
 ('BLD921', 'Hemoglobin', 12.0, 18.0, 'g/dL'),
-('GLU450', 'Glucose', 70, 100, 'mg/dL');
+('GLU450', 'Glucose', 70, 100, 'mg/dL'),
+('FLU219', 'Flu test', 'Negative', 'Positive', 'N/a');
 
 -- ----------------------------------
 -- Old visits with ordered tests
@@ -241,7 +242,8 @@ INSERT INTO ordered_test (lab_order_id, test_code, datetime_performed, test_resu
 VALUES (@orderId, 'BLD123', @oldVisitDatetime + interval 1 day, 6500, false),
 	(@orderId, 'BLD921', @oldVisitDatetime + interval 1 day, 10.5, true),
     (@orderId, 'BLD839', @oldVisitDatetime + interval 1 day, 200000, false),
-    (@orderId, 'GLU450', @oldVisitDatetime + interval 1 day, 85, false);
+    (@orderId, 'GLU450', @oldVisitDatetime + interval 1 day, 85, false),
+    (@orderId, 'FLU219', @oldVisitDatetime + interval 1 day, 'Negative', false);
 
 
 SELECT v.visit_id, v.visit_datetime

@@ -4,6 +4,7 @@ namespace HealthcareSystem.Model.DAL;
 
 public class TestEditDal
 {
+    private const string GetTestProcedure = "get_test_by_code";
     public List<OrderedTest> GetAllOrderedTests(int labOrderId)
     {
         var tests = new List<OrderedTest>();
@@ -19,14 +20,14 @@ public class TestEditDal
                 int dateTimeOrderedOrdinal = reader.GetOrdinal("datetime_performed");
                 int testResultOrdinal = reader.GetOrdinal("test_result");
                 DateTime? dateTimePreformed = null;
-                double? testResult = null;
+                string? testResult = null;
                 if (!reader.IsDBNull(dateTimeOrderedOrdinal))
                 {
                     dateTimePreformed = reader.GetDateTime(dateTimeOrderedOrdinal);
                 }
                 if (!reader.IsDBNull(testResultOrdinal))
                 {
-                    testResult = reader.GetDouble(testResultOrdinal);
+                    testResult = reader.GetString(testResultOrdinal);
                 }
                 var test = new OrderedTest
                 {
@@ -56,24 +57,43 @@ public class TestEditDal
         connection.Open();
         try
         {
-            var command = new MySqlCommand("SELECT * FROM lab_test WHERE test_code = @testCode", connection);
-            command.Parameters.AddWithValue("@testCode", testCode);
-            var reader = command.ExecuteReader();
-            if (reader.Read())
+            MySqlCommand command = new MySqlCommand(TestEditDal.GetTestProcedure, connection);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add("t_test_code", MySqlDbType.VarChar).Value = testCode;
+            MySqlParameter testCodeParam = new MySqlParameter("test_code", MySqlDbType.VarChar)
             {
-                return new Test
-                {
-                    TestCode = reader.GetString("test_code"),
-                    TestName = reader.GetString("test_name"),
-                    LowValue = reader.GetDouble("low_value"),
-                    HighValue = reader.GetDouble("high_value"),
-                    UnitName = reader.GetString("unit_name")
-                };
-            }
-            else
+                Direction = System.Data.ParameterDirection.Output,
+            };
+            MySqlParameter testNameParam = new MySqlParameter("test_name", MySqlDbType.VarChar)
             {
-                throw new Exception($"Test with code {testCode} not found.");
-            }
+                Direction = System.Data.ParameterDirection.Output,
+            };
+            MySqlParameter lowValueParam = new MySqlParameter("low_value", MySqlDbType.Double)
+            {
+                Direction = System.Data.ParameterDirection.Output,
+            };
+            MySqlParameter highValueParam = new MySqlParameter("high_value", MySqlDbType.Double)
+            {
+                Direction = System.Data.ParameterDirection.Output,
+            };
+            MySqlParameter unitsParam = new MySqlParameter("unit_name", MySqlDbType.VarChar)
+            {
+                Direction = System.Data.ParameterDirection.Output,
+            };
+            command.Parameters.Add(testCodeParam);
+            command.Parameters.Add(testNameParam);
+            command.Parameters.Add(lowValueParam);
+            command.Parameters.Add(highValueParam);
+            command.Parameters.Add(unitsParam);
+            command.ExecuteNonQuery();
+            return new Test
+            {
+                TestCode = testCodeParam.Value.ToString(),
+                TestName = testNameParam.Value.ToString(),
+                LowValue = lowValueParam.Value.ToString(),
+                HighValue = highValueParam.Value.ToString(),
+                UnitName = unitsParam.Value.ToString()
+            };
         }
         catch (MySqlException ex)
         {
@@ -85,7 +105,7 @@ public class TestEditDal
         }
     }
 
-    public void updateOrderedTest(int labOrderId, string testCode, DateTime? datetimePerformed, double? testResult, bool isAbnormal)
+    public void updateOrderedTest(int labOrderId, string testCode, DateTime? datetimePerformed, string? testResult, bool isAbnormal)
     {
         using var connection = new MySqlConnection(Connection.ConnectionString());
         connection.Open();

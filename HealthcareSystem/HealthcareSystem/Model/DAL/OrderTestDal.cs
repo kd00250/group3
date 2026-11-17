@@ -23,8 +23,8 @@ public class OrderTestDal
                     TestCode = reader.GetString("test_code"),
                     TestName = reader.GetString("test_name"),
                     UnitName = reader.GetString("unit_name"),
-                    LowValue = reader.GetDouble("low_value"),
-                    HighValue = reader.GetDouble("high_value")
+                    LowValue = reader.GetString("low_value"),
+                    HighValue = reader.GetString("high_value")
                 };
                 tests.Add(test);
             }
