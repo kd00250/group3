@@ -3,7 +3,7 @@
 namespace HealthcareSystem.Model.DAL
 {
     /// <summary>
-    ///  Helper class define an Extension method that checks if a column is null before retturn its value
+    ///     Helper class define an Extension method that checks if a column is null before retturn its value
     /// </summary>
     public static class DataHelper
     {

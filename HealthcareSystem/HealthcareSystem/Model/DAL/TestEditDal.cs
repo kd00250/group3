@@ -2,8 +2,17 @@
 
 namespace HealthcareSystem.Model.DAL;
 
+/// <summary>
+///     The test edit data access layer.
+/// </summary>
 public class TestEditDal
 {
+    /// <summary>
+    ///     Gets all ordered tests.
+    /// </summary>
+    /// <param name="labOrderId">The lab order identifier.</param>
+    /// <returns>A list of ordered tests from a given lab order id.</returns>
+    /// <exception cref="Exception">Database error occurred while retrieving tests.</exception>
     public List<OrderedTest> GetAllOrderedTests(int labOrderId)
     {
         var tests = new List<OrderedTest>();
@@ -50,6 +59,16 @@ public class TestEditDal
         return tests;
     }
 
+    /// <summary>
+    ///     Gets the test by identifier.
+    /// </summary>
+    /// <param name="testCode">The test code.</param>
+    /// <returns>Test the test that corresponds to the testCode.</returns>
+    /// <exception cref="Exception">
+    /// Test with code {testCode} not found.
+    /// or
+    /// Database error occurred while retrieving the test.
+    /// </exception>
     public Test getTestById(string testCode)
     {
         using var connection = new MySqlConnection(Connection.ConnectionString());
@@ -89,6 +108,15 @@ public class TestEditDal
         }
     }
 
+    /// <summary>
+    ///     Updates the ordered test.
+    /// </summary>
+    /// <param name="labOrderId">The lab order identifier.</param>
+    /// <param name="testCode">The test code.</param>
+    /// <param name="datetimePerformed">The datetime performed.</param>
+    /// <param name="testResult">The test result.</param>
+    /// <param name="isAbnormal">if set to <c>true</c> [is abnormal].</param>
+    /// <exception cref="Exception">Database error occurred while updating the ordered test.</exception>
     public void updateOrderedTest(int labOrderId, string testCode, DateTime? datetimePerformed, string? testResult, bool isAbnormal)
     {
         using var connection = new MySqlConnection(Connection.ConnectionString());

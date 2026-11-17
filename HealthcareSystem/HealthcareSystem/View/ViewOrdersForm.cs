@@ -6,6 +6,10 @@ using MySqlConnector;
 
 namespace HealthcareSystem.View;
 
+/// <summary>
+///     The view orders form.
+/// </summary>
+/// <seealso cref="System.Windows.Forms.Form" />
 public partial class ViewOrdersForm : Form
 {
     #region Fields
@@ -19,6 +23,12 @@ public partial class ViewOrdersForm : Form
 
     #region Constructors
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="ViewOrdersForm"/> class.
+    /// </summary>
+    /// <param name="viewOrdersController">The view orders controller.</param>
+    /// <param name="visit">The visit.</param>
+    /// <param name="patient">The patient.</param>
     public ViewOrdersForm(ViewOrdersController viewOrdersController, Visit visit, Patient patient)
     {
         this.InitializeComponent();

@@ -1,5 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using HealthcareSystem.Model;
+﻿using HealthcareSystem.Model;
 using HealthcareSystem.Model.DAL;
 
 namespace HealthcareSystem.Controller;
@@ -11,9 +10,13 @@ public class TestEditController
     private readonly TestEditDal testOrderDAL;
 
     #endregion
-    
+
     #region Constructors
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="TestEditController"/> class.
+    /// </summary>
+    /// <param name="testOrderDAL">The test order dal.</param>
     public TestEditController(TestEditDal testOrderDAL)
     {
         this.testOrderDAL = testOrderDAL;
@@ -30,6 +33,11 @@ public class TestEditController
         return this.testOrderDAL.GetAllOrderedTests(labOrderId);
     }
 
+    /// <summary>
+    ///     Gets the test by identifier.
+    /// </summary>
+    /// <param name="testCode">The test code.</param>
+    /// <returns>The test that belongs to the test code id</returns>
     public Test getTestById(string testCode)
     {
         return this.testOrderDAL.getTestById(testCode);

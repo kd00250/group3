@@ -3,6 +3,10 @@ using MySqlConnector;
 
 namespace HealthcareSystem.View
 {
+    /// <summary>
+    ///     The login form class.
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class LoginForm : Form
     {
         private readonly LoginController loginController;

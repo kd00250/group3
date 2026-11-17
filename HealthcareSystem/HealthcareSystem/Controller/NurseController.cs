@@ -55,21 +55,6 @@ public class NurseController
         return this.nurseDal.GetAllNurses();
     }
 
-    ///// <summary>
-    /////     Retrieves a nurse by their nurse ID.
-    ///// </summary>
-    //public Nurse? GetNurseById(int nurseId)
-    //{
-    //    this.ensureAdministrator();
-
-    //    if (nurseId <= 0)
-    //    {
-    //        throw new ArgumentOutOfRangeException(nameof(nurseId));
-    //    }
-
-    //    return this.nurseDal.GetNurseById(nurseId);
-    //}
-
     /// <summary>
     /// Updates an existing nurse.
     /// </summary>

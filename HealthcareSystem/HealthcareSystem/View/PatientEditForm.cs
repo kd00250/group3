@@ -1,19 +1,13 @@
-﻿using Google.Protobuf.WellKnownTypes;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using HealthcareSystem.Controller;
 using HealthcareSystem.Model;
-using Org.BouncyCastle.Asn1.Cms;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
 
 namespace HealthcareSystem
 {
+    /// <summary>
+    ///     The patient edit form.
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class PatientEditForm : Form
     {
         /// <summary>
@@ -21,6 +15,10 @@ namespace HealthcareSystem
         /// </summary>
         public Patient SelectedPatient { get; private set; }
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="PatientEditForm"/> class.
+        /// </summary>
+        /// <param name="SelectedPatient">The selected patient.</param>
         public PatientEditForm(Patient SelectedPatient)
         {
             InitializeComponent();
