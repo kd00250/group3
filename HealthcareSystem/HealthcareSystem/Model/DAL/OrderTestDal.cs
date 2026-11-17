@@ -16,15 +16,21 @@ public class OrderTestDal
         {   
             var command = new MySqlCommand("SELECT * FROM lab_test", connection);
             var reader = command.ExecuteReader();
+
+            var testCodeOrdinal = reader.GetOrdinal("test_code");
+            var testNameOrdinal = reader.GetOrdinal("test_name");
+            var lowValueOrdinal = reader.GetOrdinal("low_value");
+            var highValueOrdinal = reader.GetOrdinal("high_value");
+            var unitNameOrdinal = reader.GetOrdinal("unit_name");
             while (reader.Read())
             {
                 var test = new Test
                 {
-                    TestCode = reader.GetString("test_code"),
-                    TestName = reader.GetString("test_name"),
-                    UnitName = reader.GetString("unit_name"),
-                    LowValue = reader.GetString("low_value"),
-                    HighValue = reader.GetString("high_value")
+                    TestCode = reader.GetString(testCodeOrdinal),
+                    TestName = reader.GetString(testNameOrdinal),
+                    UnitName = reader.IsDBNull(unitNameOrdinal) ? string.Empty : reader.GetString(unitNameOrdinal),
+                    LowValue = reader.IsDBNull(lowValueOrdinal) ? string.Empty : reader.GetDecimal(lowValueOrdinal).ToString(),
+                    HighValue = reader.IsDBNull(highValueOrdinal) ? string.Empty : reader.GetDecimal(highValueOrdinal).ToString()
                 };
                 tests.Add(test);
             }

@@ -61,13 +61,16 @@ public class TestEditDal
             var reader = command.ExecuteReader();
             if (reader.Read())
             {
+                var lowValueOrdinal = reader.GetOrdinal("low_value");
+                var highValueOrdinal = reader.GetOrdinal("high_value");
+                var unitNameOrdinal = reader.GetOrdinal("unit_name");
                 return new Test
                 {
                     TestCode = reader.GetString("test_code"),
                     TestName = reader.GetString("test_name"),
-                    LowValue = reader.GetString("low_value"),
-                    HighValue = reader.GetString("high_value"),
-                    UnitName = reader.GetString("unit_name")
+                    LowValue = reader.IsDBNull(lowValueOrdinal) ? string.Empty : reader.GetDecimal(lowValueOrdinal).ToString(),
+                    HighValue = reader.IsDBNull(highValueOrdinal) ? string.Empty : reader.GetDecimal(highValueOrdinal).ToString(),
+                    UnitName = reader.IsDBNull(unitNameOrdinal) ? string.Empty : reader.GetString(unitNameOrdinal)
                 };
             }
             else
