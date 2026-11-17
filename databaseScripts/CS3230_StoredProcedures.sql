@@ -80,5 +80,24 @@ CREATE PROCEDURE create_visit(
 DELIMITER ;
 
 
+-- ------------------------------------------------------------------------------------
+-- Author: Azizah Blair
+-- Searches for a patient by their first name, last name, and date of birth
+-- -------------------------------------------------------------------------------------
+DELIMITER $
+CREATE PROCEDURE search_patients(IN p_first_name VARCHAR(50), IN p_last_name VARCHAR(50), IN p_dob DATE)
+BEGIN 
+SELECT pa.patient_id, pa.person_id, pa.is_active, 
+	pe.first_name, pe.last_name, pe.gender, pe.date_of_birth, pe.street_address, pe.city, pe.state, pe.zip_code, pe.phone_number
+FROM patient pa
+JOIN person pe ON pa.person_id = pe.person_id
+WHERE (p_first_name IS NULL OR p_first_name = '' OR pe.first_name = p_first_name)
+AND (p_last_name IS NULL OR p_last_name = '' OR pe.last_name = p_last_name)
+AND (p_dob IS NULL OR pe.date_of_birth = p_dob)
+ORDER BY pe.last_name, pe.first_name, pe.date_of_birth;
+END $
+DELIMITER ;
+
+
 
 

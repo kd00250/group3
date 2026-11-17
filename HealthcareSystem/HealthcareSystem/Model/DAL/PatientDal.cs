@@ -1,4 +1,5 @@
-﻿using MySqlConnector;
+﻿using System.Data;
+using MySqlConnector;
 
 namespace HealthcareSystem.Model.DAL;
 
@@ -7,8 +8,9 @@ namespace HealthcareSystem.Model.DAL;
 /// </summary>
 public class PatientDal
 {
+    private const string SearchPatientsProcedure = "search_patients";
     /// <summary>
-    /// Finds patients by first and last name, date of birth, or both.
+    /// Finds patients by first and last name, date of birth, or both by calling the stored procedure "search_patients".
     /// A null or blank value for any of the parameters will be ignored in the search.
     /// Filtering happens in the database, not in memory.
     /// </summary>
@@ -20,30 +22,20 @@ public class PatientDal
     {
         var patients = new List<Patient>();
 
-        const string query = """
-                             SELECT pa.patient_id, pa.person_id, pa.is_active, pe.first_name, pe.last_name,
-                                pe.gender, pe.date_of_birth, pe.street_address, pe.city, pe.state, pe.zip_code, pe.phone_number
-                             FROM patient pa
-                             JOIN person pe ON pa.person_id = pe.person_id
-                             WHERE (@firstName IS NULL OR pe.first_name = @firstName)
-                                AND (@lastName IS NULL OR pe.last_name = @lastName)
-                                AND (@dateOfBirth IS NULL OR pe.date_of_birth = @dateOfBirth)
-                             ORDER BY pe.last_name, pe.first_name, pe.date_of_birth;
-                             """;
-
         using var connection = new MySqlConnection(Connection.ConnectionString());
         connection.Open();
 
-        using var command = new MySqlCommand(query, connection);
+        using var command = new MySqlCommand(SearchPatientsProcedure, connection);
+        command.CommandType = CommandType.StoredProcedure;
 
-        command.Parameters.Add("@firstName", MySqlDbType.VarChar);
-        command.Parameters["@firstName"].Value = string.IsNullOrWhiteSpace(firstName) ? DBNull.Value : firstName.Trim();
+        command.Parameters.Add("p_first_name", MySqlDbType.VarChar);
+        command.Parameters["p_first_name"].Value = string.IsNullOrWhiteSpace(firstName) ? DBNull.Value : firstName.Trim();
 
-        command.Parameters.Add("@lastName", MySqlDbType.VarChar);
-        command.Parameters["@lastName"].Value = string.IsNullOrWhiteSpace(lastName) ? DBNull.Value : lastName.Trim();
+        command.Parameters.Add("p_last_name", MySqlDbType.VarChar);
+        command.Parameters["p_last_name"].Value = string.IsNullOrWhiteSpace(lastName) ? DBNull.Value : lastName.Trim();
 
-        command.Parameters.Add("@dateOfBirth", MySqlDbType.DateTime);
-        command.Parameters["@dateOfBirth"].Value = dateOfBirth.HasValue ? dateOfBirth.Value.Date : DBNull.Value;
+        command.Parameters.Add("p_dob", MySqlDbType.Date);
+        command.Parameters["p_dob"].Value = dateOfBirth.HasValue ? dateOfBirth.Value.Date : DBNull.Value;
 
         using var reader = command.ExecuteReader();
         
