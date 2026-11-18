@@ -24,6 +24,7 @@ namespace HealthcareSystem.View
 
             this.SelectedPatient = selectedPatient;
             this.loggedInUserControl1.RefreshUser();
+            this.patientLabel.Text = $"Patient: {selectedPatient.FullName} born {selectedPatient.DateOfBirth:MM/dd/yyyy}";
         }
 
         private void editPatientButton_Click(object sender, EventArgs e)
