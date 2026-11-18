@@ -1,4 +1,5 @@
 -- ---------------------------------------------
+-- Author: Addison Hanner
 -- get_most_performed_tests_duringdates
 -- Gets the statistics that show the most performed tests during a specified period of time.
 -- Only includes tests performed at least twice.
@@ -105,7 +106,7 @@ DELIMITER ;
 -- Searches for a patient by their first name, last name, and date of birth
 -- -------------------------------------------------------------------------------------
 
-DROP PROCEDURE IF EXISTS avaliable_appontments;
+DROP PROCEDURE IF EXISTS available_appointments;
 
 DELIMITER $
 CREATE PROCEDURE available_appointments(IN p_patient_id int, IN p_now datetime)
