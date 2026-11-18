@@ -36,6 +36,7 @@
             backButton = new Button();
             startNewVisitButton = new Button();
             errorLabel = new Label();
+            patientLabel = new Label();
             SuspendLayout();
             // 
             // loggedInUserControl1
@@ -118,13 +119,23 @@
             errorLabel.TabIndex = 7;
             errorLabel.TextAlign = ContentAlignment.MiddleCenter;
             errorLabel.Visible = false;
+            // patientLabel
+            // 
+            patientLabel.AutoSize = true;
+            patientLabel.Font = new Font("Segoe UI", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            patientLabel.Location = new Point(586, 9);
+            patientLabel.Name = "patientLabel";
+            patientLabel.Size = new Size(0, 17);
+            patientLabel.TabIndex = 7;
             // 
             // PatientActionsForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = backButton;
-            ClientSize = new Size(800, 450);
+
+            ClientSize = new Size(914, 600);
+            Controls.Add(patientLabel);
             Controls.Add(errorLabel);
             Controls.Add(startNewVisitButton);
             Controls.Add(backButton);
@@ -150,5 +161,6 @@
         private Button backButton;
         private Button startNewVisitButton;
         private Label errorLabel;
+        private Label patientLabel;
     }
 }
