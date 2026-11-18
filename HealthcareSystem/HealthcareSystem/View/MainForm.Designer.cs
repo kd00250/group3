@@ -128,7 +128,7 @@
             Margin = new Padding(3, 2, 3, 2);
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "MainForm";
+            Text = "Healthcare System - Main Menu";
             ResumeLayout(false);
             PerformLayout();
         }

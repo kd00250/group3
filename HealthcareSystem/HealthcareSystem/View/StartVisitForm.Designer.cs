@@ -41,19 +41,20 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(1, 172);
+            dataGridView1.Location = new Point(1, 129);
+            dataGridView1.Margin = new Padding(3, 2, 3, 2);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(867, 226);
+            dataGridView1.Size = new Size(759, 170);
             dataGridView1.TabIndex = 0;
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(1, 149);
+            label1.Location = new Point(1, 112);
             label1.Name = "label1";
-            label1.Size = new Size(213, 20);
+            label1.Size = new Size(169, 15);
             label1.TabIndex = 1;
             label1.Text = "Please select an appointment";
             // 
@@ -61,17 +62,18 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(369, 9);
+            label2.Location = new Point(323, 7);
             label2.Name = "label2";
-            label2.Size = new Size(120, 31);
+            label2.Size = new Size(99, 25);
             label2.TabIndex = 2;
             label2.Text = "Start Visit";
             // 
             // startVisitButton
             // 
-            startVisitButton.Location = new Point(774, 462);
+            startVisitButton.Location = new Point(677, 346);
+            startVisitButton.Margin = new Padding(3, 2, 3, 2);
             startVisitButton.Name = "startVisitButton";
-            startVisitButton.Size = new Size(94, 29);
+            startVisitButton.Size = new Size(82, 22);
             startVisitButton.TabIndex = 3;
             startVisitButton.Text = "Start Visit";
             startVisitButton.UseVisualStyleBackColor = true;
@@ -79,9 +81,10 @@
             // 
             // backButton
             // 
-            backButton.Location = new Point(1, 462);
+            backButton.Location = new Point(1, 346);
+            backButton.Margin = new Padding(3, 2, 3, 2);
             backButton.Name = "backButton";
-            backButton.Size = new Size(94, 29);
+            backButton.Size = new Size(82, 22);
             backButton.TabIndex = 4;
             backButton.Text = "Back";
             backButton.UseVisualStyleBackColor = true;
@@ -90,24 +93,25 @@
             // loggedInUserControl1
             // 
             loggedInUserControl1.Location = new Point(1, -1);
+            loggedInUserControl1.Margin = new Padding(3, 2, 3, 2);
             loggedInUserControl1.Name = "loggedInUserControl1";
-            loggedInUserControl1.Size = new Size(271, 135);
+            loggedInUserControl1.Size = new Size(237, 101);
             loggedInUserControl1.TabIndex = 5;
             // 
             // patientLabel
             // 
             patientLabel.AutoSize = true;
             patientLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            patientLabel.Location = new Point(255, 56);
+            patientLabel.Location = new Point(223, 42);
             patientLabel.Name = "patientLabel";
-            patientLabel.Size = new Size(0, 20);
+            patientLabel.Size = new Size(0, 15);
             patientLabel.TabIndex = 6;
             // 
             // StartVisitForm
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(869, 503);
+            ClientSize = new Size(760, 377);
             Controls.Add(patientLabel);
             Controls.Add(loggedInUserControl1);
             Controls.Add(backButton);
@@ -115,9 +119,10 @@
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(dataGridView1);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "StartVisitForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "StartVisitForm";
+            Text = "Healthcare System - Start Visit";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();

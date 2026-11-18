@@ -24,12 +24,14 @@ namespace HealthcareSystem.View
 
             this.SelectedPatient = selectedPatient;
             this.loggedInUserControl1.RefreshUser();
+            this.updateForActiveStatus();
         }
 
         private void editPatientButton_Click(object sender, EventArgs e)
         {
             using var patientEditForm = new PatientEditForm(this.SelectedPatient);
             patientEditForm.ShowDialog();
+            this.updateForActiveStatus();
         }
 
         private void viewAppointmentsButton_Click(object sender, EventArgs e)
@@ -64,6 +66,19 @@ namespace HealthcareSystem.View
 
             using var startVisitForm = new StartVisitForm(this.SelectedPatient, visitController);
             startVisitForm.ShowDialog();
+        }
+
+        private void updateForActiveStatus()
+        {
+            var isActive = this.SelectedPatient.IsActive;
+
+            this.viewEditAppointmentsButton.Enabled = isActive;
+            this.makeAppointmentButton.Enabled = isActive;
+            this.viewVisitsButton.Enabled = isActive;
+            this.startNewVisitButton.Enabled = isActive;
+
+            this.errorLabel.Text = "This patient is inactive. Please make the patient active to enable all features.";
+            this.errorLabel.Visible = !isActive;
         }
     }
 }
