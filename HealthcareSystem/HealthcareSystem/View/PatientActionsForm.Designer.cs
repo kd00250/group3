@@ -49,7 +49,7 @@
             // 
             // editPatientButton
             // 
-            editPatientButton.Location = new Point(321, 34);
+            editPatientButton.Location = new Point(385, 104);
             editPatientButton.Name = "editPatientButton";
             editPatientButton.Size = new Size(156, 59);
             editPatientButton.TabIndex = 1;
@@ -59,7 +59,7 @@
             // 
             // viewEditAppointmentsButton
             // 
-            viewEditAppointmentsButton.Location = new Point(321, 112);
+            viewEditAppointmentsButton.Location = new Point(385, 195);
             viewEditAppointmentsButton.Margin = new Padding(3, 2, 3, 2);
             viewEditAppointmentsButton.Name = "viewEditAppointmentsButton";
             viewEditAppointmentsButton.Size = new Size(156, 59);
@@ -70,7 +70,7 @@
             // 
             // makeAppointmentButton
             // 
-            makeAppointmentButton.Location = new Point(321, 196);
+            makeAppointmentButton.Location = new Point(385, 287);
             makeAppointmentButton.Name = "makeAppointmentButton";
             makeAppointmentButton.Size = new Size(156, 59);
             makeAppointmentButton.TabIndex = 3;
@@ -80,7 +80,7 @@
             // 
             // viewVisitsButton
             // 
-            viewVisitsButton.Location = new Point(321, 279);
+            viewVisitsButton.Location = new Point(385, 382);
             viewVisitsButton.Name = "viewVisitsButton";
             viewVisitsButton.Size = new Size(156, 59);
             viewVisitsButton.TabIndex = 4;
@@ -90,7 +90,7 @@
             // 
             // backButton
             // 
-            backButton.Location = new Point(0, 424);
+            backButton.Location = new Point(0, 574);
             backButton.Name = "backButton";
             backButton.Size = new Size(104, 27);
             backButton.TabIndex = 5;
@@ -100,10 +100,10 @@
             // 
             // startNewVisitButton
             // 
-            startNewVisitButton.Location = new Point(318, 356);
+            startNewVisitButton.Location = new Point(385, 476);
             startNewVisitButton.Margin = new Padding(3, 2, 3, 2);
             startNewVisitButton.Name = "startNewVisitButton";
-            startNewVisitButton.Size = new Size(159, 59);
+            startNewVisitButton.Size = new Size(156, 59);
             startNewVisitButton.TabIndex = 6;
             startNewVisitButton.Text = "Start New Visit";
             startNewVisitButton.UseVisualStyleBackColor = true;
@@ -113,19 +113,20 @@
             // 
             errorLabel.AutoSize = true;
             errorLabel.ForeColor = Color.Red;
-            errorLabel.Location = new Point(211, 426);
+            errorLabel.Location = new Point(255, 546);
             errorLabel.Name = "errorLabel";
             errorLabel.Size = new Size(0, 15);
             errorLabel.TabIndex = 7;
             errorLabel.TextAlign = ContentAlignment.MiddleCenter;
             errorLabel.Visible = false;
+            // 
             // patientLabel
             // 
             patientLabel.AutoSize = true;
             patientLabel.Font = new Font("Segoe UI", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             patientLabel.Location = new Point(586, 9);
             patientLabel.Name = "patientLabel";
-            patientLabel.Size = new Size(0, 17);
+            patientLabel.Size = new Size(0, 13);
             patientLabel.TabIndex = 7;
             // 
             // PatientActionsForm
@@ -133,7 +134,6 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = backButton;
-
             ClientSize = new Size(914, 600);
             Controls.Add(patientLabel);
             Controls.Add(errorLabel);
