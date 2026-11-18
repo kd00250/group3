@@ -454,7 +454,9 @@ VALUES ('BLD123', 'Complete Blood Count', 4000, 11000, 'µL'),
 ('LDL100', 'Low Density Lipoproteins', '100', '160', 'mg/dL'),
 ('WBC220', 'White Blood Cell', 4000, 11000, 'µL'),
 ('HEPA22', 'Hepatitis A (HAV)', '0.80', '1.20', 'S/CO Index'),
-('HEPB23', 'Hepatitis B (HBV)', '5', '10', 'mIU/mL');
+('HEPB23', 'Hepatitis B (HBV)', '5', '10', 'mIU/mL'),
+('HDL300', 'High Density Lipoproteins', 40, NULL, 'mg/dL'),
+('A1C400', 'Hemoglobin A1c', NULL, 5.6, '%');
 
 -- ----------------------------------
 -- Old visits with ordered tests

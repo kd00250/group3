@@ -58,10 +58,10 @@
             // 
             testSelectGrid.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             testSelectGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            testSelectGrid.Location = new Point(12, 175);
+            testSelectGrid.Location = new Point(11, 175);
             testSelectGrid.Name = "testSelectGrid";
             testSelectGrid.RowHeadersWidth = 51;
-            testSelectGrid.Size = new Size(798, 314);
+            testSelectGrid.Size = new Size(798, 315);
             testSelectGrid.TabIndex = 0;
             testSelectGrid.CellClick += testSelectGrid_CellClick;
             // 
@@ -69,7 +69,7 @@
             // 
             testsLabel.AutoSize = true;
             testsLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            testsLabel.Location = new Point(12, 144);
+            testsLabel.Location = new Point(11, 144);
             testsLabel.Name = "testsLabel";
             testsLabel.Size = new Size(250, 28);
             testsLabel.TabIndex = 1;
@@ -78,7 +78,7 @@
             // testLabel
             // 
             testLabel.AutoSize = true;
-            testLabel.Location = new Point(30, 542);
+            testLabel.Location = new Point(30, 541);
             testLabel.Name = "testLabel";
             testLabel.Size = new Size(79, 20);
             testLabel.TabIndex = 2;
@@ -88,7 +88,7 @@
             // 
             highLabel.Anchor = AnchorStyles.Top;
             highLabel.AutoSize = true;
-            highLabel.Location = new Point(273, 542);
+            highLabel.Location = new Point(273, 541);
             highLabel.Name = "highLabel";
             highLabel.Size = new Size(81, 20);
             highLabel.TabIndex = 3;
@@ -97,7 +97,7 @@
             // saveButton
             // 
             saveButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            saveButton.Location = new Point(685, 658);
+            saveButton.Location = new Point(685, 659);
             saveButton.Name = "saveButton";
             saveButton.Size = new Size(125, 40);
             saveButton.TabIndex = 14;
@@ -125,7 +125,7 @@
             // 
             informationLabel.AutoSize = true;
             informationLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            informationLabel.Location = new Point(12, 499);
+            informationLabel.Location = new Point(11, 499);
             informationLabel.Name = "informationLabel";
             informationLabel.Size = new Size(169, 28);
             informationLabel.TabIndex = 25;
@@ -134,7 +134,7 @@
             // backButton
             // 
             backButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            backButton.Location = new Point(12, 659);
+            backButton.Location = new Point(11, 659);
             backButton.Name = "backButton";
             backButton.Size = new Size(125, 40);
             backButton.TabIndex = 36;
@@ -154,7 +154,7 @@
             // 
             lowLabel.Anchor = AnchorStyles.Top;
             lowLabel.AutoSize = true;
-            lowLabel.Location = new Point(469, 542);
+            lowLabel.Location = new Point(469, 541);
             lowLabel.Name = "lowLabel";
             lowLabel.Size = new Size(76, 20);
             lowLabel.TabIndex = 46;
@@ -164,7 +164,7 @@
             // 
             unitLabel.Anchor = AnchorStyles.Top;
             unitLabel.AutoSize = true;
-            unitLabel.Location = new Point(665, 542);
+            unitLabel.Location = new Point(665, 541);
             unitLabel.Name = "unitLabel";
             unitLabel.Size = new Size(36, 20);
             unitLabel.TabIndex = 47;
@@ -190,7 +190,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.Location = new Point(12, 577);
+            label3.Location = new Point(11, 577);
             label3.Name = "label3";
             label3.Size = new Size(169, 28);
             label3.TabIndex = 57;
@@ -199,10 +199,11 @@
             // resultBox
             // 
             resultBox.Anchor = AnchorStyles.Top;
-            resultBox.Location = new Point(360, 617);
+            resultBox.Location = new Point(360, 616);
             resultBox.Name = "resultBox";
-            resultBox.Size = new Size(103, 27);
+            resultBox.Size = new Size(294, 27);
             resultBox.TabIndex = 56;
+            resultBox.TextChanged += resultBox_TextChanged;
             // 
             // resultLabel
             // 
@@ -217,7 +218,7 @@
             // datePerformedLabel
             // 
             datePerformedLabel.AutoSize = true;
-            datePerformedLabel.Location = new Point(12, 620);
+            datePerformedLabel.Location = new Point(11, 620);
             datePerformedLabel.Name = "datePerformedLabel";
             datePerformedLabel.Size = new Size(114, 20);
             datePerformedLabel.TabIndex = 53;
@@ -240,7 +241,7 @@
             // 
             resultErrorLabel.AutoSize = true;
             resultErrorLabel.ForeColor = Color.Red;
-            resultErrorLabel.Location = new Point(305, 658);
+            resultErrorLabel.Location = new Point(305, 659);
             resultErrorLabel.Name = "resultErrorLabel";
             resultErrorLabel.Size = new Size(0, 20);
             resultErrorLabel.TabIndex = 65;
@@ -248,7 +249,7 @@
             // abnormalCheckbox
             // 
             abnormalCheckbox.AutoSize = true;
-            abnormalCheckbox.Location = new Point(596, 623);
+            abnormalCheckbox.Location = new Point(777, 624);
             abnormalCheckbox.Name = "abnormalCheckbox";
             abnormalCheckbox.Size = new Size(18, 17);
             abnormalCheckbox.TabIndex = 66;
@@ -258,7 +259,7 @@
             // 
             abnormalLabel.Anchor = AnchorStyles.Top;
             abnormalLabel.AutoSize = true;
-            abnormalLabel.Location = new Point(484, 620);
+            abnormalLabel.Location = new Point(675, 621);
             abnormalLabel.Name = "abnormalLabel";
             abnormalLabel.Size = new Size(96, 20);
             abnormalLabel.TabIndex = 67;
