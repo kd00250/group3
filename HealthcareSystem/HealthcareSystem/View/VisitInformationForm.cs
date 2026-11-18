@@ -101,7 +101,7 @@ namespace HealthcareSystem.View
                 this.showFieldError(this.diastolicErrorLabel, validateInteger(this.diastolicTextBox.Text)),
                 this.showFieldError(this.temperatureErrorLabel, validateDecimal(this.temperatureTextBox.Text)),
                 this.showFieldError(this.pulseErrorLabel, validateInteger(this.pulseTextBox.Text)),
-                this.showFieldError(this.symptomsErrorLabel, string.IsNullOrWhiteSpace(this.symptomsTextBox.Text) ? "Required." : null)
+                this.showFieldError(this.symptomsErrorLabel, string.IsNullOrWhiteSpace(this.symptomsTextBox.Text) ? "Required for Final Diagnosis." : null)
             };
 
             var isValid = errors.All(error => error == null);
@@ -122,7 +122,7 @@ namespace HealthcareSystem.View
         {
             if (string.IsNullOrWhiteSpace(text))
             {
-                return "Required.";
+                return "Required for Final Diagnosis.";
             }
 
             return decimal.TryParse(text.Trim(), NumberStyles.Number, CultureInfo.CurrentCulture, out _) ? null : "Enter a valid number.";
@@ -132,7 +132,7 @@ namespace HealthcareSystem.View
         {
             if (string.IsNullOrWhiteSpace(text))
             {
-                return "Required.";
+                return "Required for Final Diagnosis.";
             }
 
             return int.TryParse(text.Trim(), NumberStyles.Integer, CultureInfo.CurrentCulture, out _) ? null : "Enter a whole number.";
