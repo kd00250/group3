@@ -1,7 +1,6 @@
 ﻿using HealthcareSystem.Controller;
 using HealthcareSystem.Model;
 using MySqlConnector;
-using System.ComponentModel;
 
 namespace HealthcareSystem.View;
 
@@ -13,11 +12,11 @@ public partial class TestEditForm : Form
 {
     #region Fields
 
-    private BindingList<Test> selectedTests = new BindingList<Test>();
     private readonly TestEditController testEditController;
     private readonly Visit visit;
     private readonly Patient patient;
     private readonly LabOrder labOrder;
+    private Test? selectedTestDetails;
     #endregion
 
     #region Constructors
@@ -44,6 +43,7 @@ public partial class TestEditForm : Form
         this.configureSelectGrid();
         this.loggedInUserControl1.RefreshUser();
         this.loadOrderedTests();
+        this.abnormalCheckbox.Enabled = false;
         this.checkFinalization();
         this.testSelectGrid.ClearSelection();
     }
@@ -134,38 +134,40 @@ public partial class TestEditForm : Form
 
     private void displayTest(Test test)
     {
+        this.selectedTestDetails = test;
+        this.resultErrorLabel.Text = string.Empty;
         this.testNameBox.Text = test.TestName;
         this.highBox.Text = test.HighValue.ToString();
         this.lowBox.Text = test.LowValue.ToString();
         this.unitBox.Text = test.UnitName;
         var selectedTest = this.testSelectGrid.SelectedRows[0].DataBoundItem as OrderedTest;
-        if (double.TryParse(test.HighValue.ToString(), out double highValue) && double.TryParse(test.LowValue.ToString(), out double lowValue))
-        {
-            this.abnormalCheckbox.Enabled = false;
-            this.resultBox.Text = selectedTest.testResult;
-        }
-        else
-        {
-            this.abnormalCheckbox.Enabled = true;
-        }
         this.resultBox.Text = selectedTest.testResult;
         this.abnormalCheckbox.Checked = selectedTest.isAbnormal;
         this.datePreformedPicker.Value = selectedTest.dateTimePreformed ?? DateTime.Now;
+        this.updateAbnormalCheckbox();
         this.checkFinalization();
     }
 
     private void testSelectGrid_CellClick(object sender, DataGridViewCellEventArgs e)
     {
-        if (e.RowIndex >= 0 && e.RowIndex < this.testSelectGrid.Rows.Count)
+        if (e.RowIndex < 0 || this.testSelectGrid.SelectedRows.Count == 0 || this.testSelectGrid.SelectedRows[0].DataBoundItem is not OrderedTest selectedTest)
         {
-            if (this.testSelectGrid.SelectedRows.Count == 0) return;
-            var selectedTest = this.testSelectGrid.SelectedRows[0].DataBoundItem as OrderedTest;
-            var testId = selectedTest.testCode;
-            var test = this.testEditController.getTestById(testId);
-            this.displayTest(test);
+            return;
         }
 
-
+        try
+        {
+            var test = this.testEditController.getTestById(selectedTest.testCode);
+            this.displayTest(test);
+        }
+        catch (ArgumentException ex)
+        {
+            this.showMessage(ex.Message, "Test Not Found", MessageBoxIcon.Warning);
+        }
+        catch (MySqlException)
+        {
+            this.showMessage("Unable to retrieve test details from the database.", "Database Error", MessageBoxIcon.Error);
+        }
     }
 
     private void backButton_Click(object sender, EventArgs e)
@@ -185,21 +187,43 @@ public partial class TestEditForm : Form
             this.showMessage("Please select a test to save.", "No Test Selected", MessageBoxIcon.Warning);
             return;
         }
-        if (!this.validateFields())
+
+        if (selectedTest == null || this.selectedTestDetails == null || this.selectedTestDetails.TestCode != selectedTest.testCode)
         {
+            this.showMessage("Please select a test to save.", "No Test Selected", MessageBoxIcon.Warning);
             return;
         }
+
+        bool isAbnormal;
         try
         {
-            selectedTest.testResult = this.resultBox.Text;
-            selectedTest.dateTimePreformed = this.datePreformedPicker.Value;
-            selectedTest.isAbnormal = this.checkAbnormality;
-            this.testEditController.UpdateOrderedTests(selectedTest);
+            isAbnormal = this.testEditController.DetermineAbnormal(this.selectedTestDetails, this.resultBox.Text, this.abnormalCheckbox.Checked);
+        }
+        catch (ArgumentException ex)
+        {
+            this.resultErrorLabel.Text = ex.Message;
+            return;
+        }
+
+        var toSave = new OrderedTest
+        {
+            labOrderId = selectedTest.labOrderId,
+            testCode = selectedTest.testCode,
+            testResult = this.resultBox.Text,
+            dateTimePreformed = this.datePreformedPicker.Value,
+            isAbnormal = isAbnormal
+        };
+
+        try
+        {
+            this.testEditController.UpdateOrderedTests(toSave);
             this.testSelectGrid.DataSource = null;
             this.testSelectGrid.DataSource = this.testEditController.GetAllOrderedTests(this.labOrder.LabOrderId);
-            this.showMessage("Ordered test saved successfully.", "Success", MessageBoxIcon.Information);
+            this.selectTest(toSave.testCode);
+
+            this.abnormalCheckbox.Checked = isAbnormal;
             this.resultErrorLabel.Text = string.Empty;
-            this.testSelectGrid.ClearSelection();
+            this.showMessage("Ordered test saved successfully.", "Success", MessageBoxIcon.Information);
         }
         catch (MySqlException)
         {
@@ -215,42 +239,6 @@ public partial class TestEditForm : Form
     private void showMessage(string message, string title, MessageBoxIcon icon)
     {
         MessageBox.Show(message, title, MessageBoxButtons.OK, icon);
-    }
-
-    private bool validateFields()
-    {
-        if (!this.validateResultBox())
-        {
-            return false;
-        }
-        return true;
-    }
-
-    private bool validateResultBox()
-    {
-        if (double.TryParse(this.highBox.Text, out double highValue) && double.TryParse(this.lowBox.Text, out double lowValue))
-        {
-            if (double.TryParse(this.resultBox.Text, out double result))
-            {
-                if (result < 0)
-                {
-                    this.resultErrorLabel.Text = "Result cannot be negative.";
-                    return false;
-                }
-                if (result > 99999999)
-                {
-                    this.resultErrorLabel.Text = "Result is too large.";
-                    return false;
-                }
-            }
-            else
-            {
-                this.resultErrorLabel.Text = "Result must be a valid number.";
-                return false;
-            }
-        }
-        this.resultErrorLabel.Text = string.Empty;
-        return true;
     }
 
     private void checkFinalization()
@@ -269,20 +257,41 @@ public partial class TestEditForm : Form
         this.testSelectGrid.ClearSelection();
     }
 
-    private bool checkAbnormality
+    private void selectTest(string testCode)
     {
-        get
+        foreach (DataGridViewRow row in this.testSelectGrid.Rows)
         {
-            if (double.TryParse(this.resultBox.Text, out double result))
+            if (row.DataBoundItem is OrderedTest orderedTest && orderedTest.testCode == testCode)
             {
-                if (double.TryParse(this.highBox.Text, out double high) && double.TryParse(this.lowBox.Text, out double low))
-                {
-                    return result > high || result < low;
-                }
+                row.Selected = true;
+                this.testSelectGrid.CurrentCell = row.Cells[0];
+                break;
             }
-            return this.abnormalCheckbox.Checked;
         }
     }
 
+    private void updateAbnormalCheckbox()
+    {
+        if (this.selectedTestDetails == null)
+        {
+            return;
+        }
+
+        var hasResult = !string.IsNullOrWhiteSpace(this.resultBox.Text);
+        var nurseDecides = !this.testEditController.HasNormalRange(this.selectedTestDetails);
+
+        this.abnormalCheckbox.Enabled = hasResult && nurseDecides;
+
+        if (!hasResult)
+        {
+            this.abnormalCheckbox.Checked = false;
+        }
+    }
+
+    private void resultBox_TextChanged(object sender, EventArgs e)
+    {
+        this.resultErrorLabel.Text = string.Empty;
+        this.updateAbnormalCheckbox();
+    }
     #endregion
 }
