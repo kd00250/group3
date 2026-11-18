@@ -62,9 +62,10 @@
             // 
             // submitButton
             // 
-            submitButton.Location = new Point(250, 429);
+            submitButton.Location = new Point(219, 322);
+            submitButton.Margin = new Padding(3, 2, 3, 2);
             submitButton.Name = "submitButton";
-            submitButton.Size = new Size(94, 29);
+            submitButton.Size = new Size(82, 22);
             submitButton.TabIndex = 2;
             submitButton.Text = "Submit";
             submitButton.UseVisualStyleBackColor = true;
@@ -72,9 +73,10 @@
             // 
             // backButton
             // 
-            backButton.Location = new Point(78, 429);
+            backButton.Location = new Point(68, 322);
+            backButton.Margin = new Padding(3, 2, 3, 2);
             backButton.Name = "backButton";
-            backButton.Size = new Size(94, 29);
+            backButton.Size = new Size(82, 22);
             backButton.TabIndex = 3;
             backButton.Text = "Back";
             backButton.UseVisualStyleBackColor = true;
@@ -83,135 +85,140 @@
             // firstNameLabel
             // 
             firstNameLabel.AutoSize = true;
-            firstNameLabel.Location = new Point(85, 92);
+            firstNameLabel.Location = new Point(74, 69);
             firstNameLabel.Name = "firstNameLabel";
-            firstNameLabel.Size = new Size(80, 20);
+            firstNameLabel.Size = new Size(65, 15);
             firstNameLabel.TabIndex = 4;
             firstNameLabel.Text = "First name:";
             // 
             // firstBox
             // 
-            firstBox.Location = new Point(197, 89);
+            firstBox.Location = new Point(172, 67);
+            firstBox.Margin = new Padding(3, 2, 3, 2);
             firstBox.Name = "firstBox";
-            firstBox.Size = new Size(125, 27);
+            firstBox.Size = new Size(110, 23);
             firstBox.TabIndex = 5;
             // 
             // lastBox
             // 
-            lastBox.Location = new Point(197, 122);
+            lastBox.Location = new Point(172, 92);
+            lastBox.Margin = new Padding(3, 2, 3, 2);
             lastBox.Name = "lastBox";
-            lastBox.Size = new Size(125, 27);
+            lastBox.Size = new Size(110, 23);
             lastBox.TabIndex = 7;
             // 
             // lastNameLabel
             // 
             lastNameLabel.AutoSize = true;
-            lastNameLabel.Location = new Point(85, 125);
+            lastNameLabel.Location = new Point(74, 94);
             lastNameLabel.Name = "lastNameLabel";
-            lastNameLabel.Size = new Size(79, 20);
+            lastNameLabel.Size = new Size(64, 15);
             lastNameLabel.TabIndex = 6;
             lastNameLabel.Text = "Last name:";
             // 
             // genderLabel
             // 
             genderLabel.AutoSize = true;
-            genderLabel.Location = new Point(85, 158);
+            genderLabel.Location = new Point(74, 118);
             genderLabel.Name = "genderLabel";
-            genderLabel.Size = new Size(60, 20);
+            genderLabel.Size = new Size(48, 15);
             genderLabel.TabIndex = 8;
             genderLabel.Text = "Gender:";
             // 
             // dateOfBirthLabel
             // 
             dateOfBirthLabel.AutoSize = true;
-            dateOfBirthLabel.Location = new Point(85, 191);
+            dateOfBirthLabel.Location = new Point(74, 143);
             dateOfBirthLabel.Name = "dateOfBirthLabel";
-            dateOfBirthLabel.Size = new Size(97, 20);
+            dateOfBirthLabel.Size = new Size(76, 15);
             dateOfBirthLabel.TabIndex = 10;
             dateOfBirthLabel.Text = "Date of Birth:";
             // 
             // streetBox
             // 
-            streetBox.Location = new Point(197, 221);
+            streetBox.Location = new Point(172, 166);
+            streetBox.Margin = new Padding(3, 2, 3, 2);
             streetBox.Name = "streetBox";
-            streetBox.Size = new Size(125, 27);
+            streetBox.Size = new Size(110, 23);
             streetBox.TabIndex = 13;
             // 
             // streetAddressLabel
             // 
             streetAddressLabel.AutoSize = true;
-            streetAddressLabel.Location = new Point(85, 224);
+            streetAddressLabel.Location = new Point(74, 168);
             streetAddressLabel.Name = "streetAddressLabel";
-            streetAddressLabel.Size = new Size(106, 20);
+            streetAddressLabel.Size = new Size(83, 15);
             streetAddressLabel.TabIndex = 12;
             streetAddressLabel.Text = "Street address:";
             // 
             // cityBox
             // 
-            cityBox.Location = new Point(197, 254);
+            cityBox.Location = new Point(172, 190);
+            cityBox.Margin = new Padding(3, 2, 3, 2);
             cityBox.Name = "cityBox";
-            cityBox.Size = new Size(125, 27);
+            cityBox.Size = new Size(110, 23);
             cityBox.TabIndex = 15;
             // 
             // cityLabel
             // 
             cityLabel.AutoSize = true;
-            cityLabel.Location = new Point(85, 257);
+            cityLabel.Location = new Point(74, 193);
             cityLabel.Name = "cityLabel";
-            cityLabel.Size = new Size(37, 20);
+            cityLabel.Size = new Size(31, 15);
             cityLabel.TabIndex = 14;
             cityLabel.Text = "City:";
             // 
             // stateLabel
             // 
             stateLabel.AutoSize = true;
-            stateLabel.Location = new Point(85, 290);
+            stateLabel.Location = new Point(74, 218);
             stateLabel.Name = "stateLabel";
-            stateLabel.Size = new Size(46, 20);
+            stateLabel.Size = new Size(36, 15);
             stateLabel.TabIndex = 16;
             stateLabel.Text = "State:";
             // 
             // zipBox
             // 
-            zipBox.Location = new Point(197, 320);
+            zipBox.Location = new Point(172, 240);
+            zipBox.Margin = new Padding(3, 2, 3, 2);
             zipBox.Name = "zipBox";
-            zipBox.Size = new Size(125, 27);
+            zipBox.Size = new Size(110, 23);
             zipBox.TabIndex = 19;
             // 
             // zipCodeLabel
             // 
             zipCodeLabel.AutoSize = true;
-            zipCodeLabel.Location = new Point(85, 323);
+            zipCodeLabel.Location = new Point(74, 242);
             zipCodeLabel.Name = "zipCodeLabel";
-            zipCodeLabel.Size = new Size(71, 20);
+            zipCodeLabel.Size = new Size(56, 15);
             zipCodeLabel.TabIndex = 18;
             zipCodeLabel.Text = "Zip code:";
             // 
             // phoneBox
             // 
-            phoneBox.Location = new Point(197, 353);
+            phoneBox.Location = new Point(172, 265);
+            phoneBox.Margin = new Padding(3, 2, 3, 2);
             phoneBox.Name = "phoneBox";
-            phoneBox.Size = new Size(125, 27);
+            phoneBox.Size = new Size(110, 23);
             phoneBox.TabIndex = 21;
             // 
             // phoneNumberLabel
             // 
             phoneNumberLabel.AutoSize = true;
-            phoneNumberLabel.Location = new Point(85, 356);
+            phoneNumberLabel.Location = new Point(74, 267);
             phoneNumberLabel.Name = "phoneNumberLabel";
-            phoneNumberLabel.Size = new Size(108, 20);
+            phoneNumberLabel.Size = new Size(89, 15);
             phoneNumberLabel.TabIndex = 20;
             phoneNumberLabel.Text = "Phone number:";
             // 
             // dateOfBirthPicker
             // 
             dateOfBirthPicker.Format = DateTimePickerFormat.Short;
-            dateOfBirthPicker.Location = new Point(197, 191);
-            dateOfBirthPicker.Margin = new Padding(3, 4, 3, 4);
+            dateOfBirthPicker.Location = new Point(172, 143);
             dateOfBirthPicker.MaxDate = new DateTime(2026, 10, 11, 0, 0, 0, 0);
             dateOfBirthPicker.Name = "dateOfBirthPicker";
             dateOfBirthPicker.ShowCheckBox = true;
-            dateOfBirthPicker.Size = new Size(125, 27);
+            dateOfBirthPicker.Size = new Size(110, 23);
             dateOfBirthPicker.TabIndex = 23;
             dateOfBirthPicker.Value = new DateTime(2026, 10, 11, 0, 0, 0, 0);
             // 
@@ -220,9 +227,10 @@
             genderCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             genderCombo.FormattingEnabled = true;
             genderCombo.Items.AddRange(new object[] { "Male", "Female", "Other" });
-            genderCombo.Location = new Point(197, 155);
+            genderCombo.Location = new Point(172, 116);
+            genderCombo.Margin = new Padding(3, 2, 3, 2);
             genderCombo.Name = "genderCombo";
-            genderCombo.Size = new Size(125, 28);
+            genderCombo.Size = new Size(110, 23);
             genderCombo.TabIndex = 24;
             // 
             // stateCombo
@@ -230,17 +238,18 @@
             stateCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             stateCombo.FormattingEnabled = true;
             stateCombo.Items.AddRange(new object[] { "None selected", "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY" });
-            stateCombo.Location = new Point(197, 287);
+            stateCombo.Location = new Point(172, 215);
+            stateCombo.Margin = new Padding(3, 2, 3, 2);
             stateCombo.Name = "stateCombo";
-            stateCombo.Size = new Size(125, 28);
+            stateCombo.Size = new Size(110, 23);
             stateCombo.TabIndex = 25;
             // 
             // activeLabel
             // 
             activeLabel.AutoSize = true;
-            activeLabel.Location = new Point(85, 386);
+            activeLabel.Location = new Point(74, 290);
             activeLabel.Name = "activeLabel";
-            activeLabel.Size = new Size(116, 20);
+            activeLabel.Size = new Size(92, 15);
             activeLabel.TabIndex = 28;
             activeLabel.Text = "Is patient active:";
             // 
@@ -248,86 +257,88 @@
             // 
             firstNameErrorLabel.AutoSize = true;
             firstNameErrorLabel.ForeColor = Color.Red;
-            firstNameErrorLabel.Location = new Point(333, 92);
+            firstNameErrorLabel.Location = new Point(291, 69);
             firstNameErrorLabel.Name = "firstNameErrorLabel";
-            firstNameErrorLabel.Size = new Size(0, 20);
+            firstNameErrorLabel.Size = new Size(0, 15);
             firstNameErrorLabel.TabIndex = 29;
             // 
             // lastNameErrorLabel
             // 
             lastNameErrorLabel.AutoSize = true;
             lastNameErrorLabel.ForeColor = Color.Red;
-            lastNameErrorLabel.Location = new Point(333, 127);
+            lastNameErrorLabel.Location = new Point(291, 95);
             lastNameErrorLabel.Name = "lastNameErrorLabel";
-            lastNameErrorLabel.Size = new Size(0, 20);
+            lastNameErrorLabel.Size = new Size(0, 15);
             lastNameErrorLabel.TabIndex = 30;
             // 
             // genderErrorLabel
             // 
             genderErrorLabel.AutoSize = true;
             genderErrorLabel.ForeColor = Color.Red;
-            genderErrorLabel.Location = new Point(333, 158);
+            genderErrorLabel.Location = new Point(291, 118);
             genderErrorLabel.Name = "genderErrorLabel";
-            genderErrorLabel.Size = new Size(0, 20);
+            genderErrorLabel.Size = new Size(0, 15);
             genderErrorLabel.TabIndex = 31;
             // 
             // cityErrorLabel
             // 
             cityErrorLabel.AutoSize = true;
             cityErrorLabel.ForeColor = Color.Red;
-            cityErrorLabel.Location = new Point(331, 259);
+            cityErrorLabel.Location = new Point(290, 194);
             cityErrorLabel.Name = "cityErrorLabel";
-            cityErrorLabel.Size = new Size(0, 20);
+            cityErrorLabel.Size = new Size(0, 15);
             cityErrorLabel.TabIndex = 32;
             // 
             // zipCodeErrorLabel
             // 
             zipCodeErrorLabel.AutoSize = true;
             zipCodeErrorLabel.ForeColor = Color.Red;
-            zipCodeErrorLabel.Location = new Point(331, 327);
+            zipCodeErrorLabel.Location = new Point(290, 245);
             zipCodeErrorLabel.Name = "zipCodeErrorLabel";
-            zipCodeErrorLabel.Size = new Size(0, 20);
+            zipCodeErrorLabel.Size = new Size(0, 15);
             zipCodeErrorLabel.TabIndex = 33;
             // 
             // phoneNumberErrorLabel
             // 
             phoneNumberErrorLabel.AutoSize = true;
             phoneNumberErrorLabel.ForeColor = Color.Red;
-            phoneNumberErrorLabel.Location = new Point(331, 360);
+            phoneNumberErrorLabel.Location = new Point(290, 270);
             phoneNumberErrorLabel.Name = "phoneNumberErrorLabel";
-            phoneNumberErrorLabel.Size = new Size(0, 20);
+            phoneNumberErrorLabel.Size = new Size(0, 15);
             phoneNumberErrorLabel.TabIndex = 34;
             // 
             // streetAddressErrorLabel
             // 
             streetAddressErrorLabel.AutoSize = true;
             streetAddressErrorLabel.ForeColor = Color.Red;
-            streetAddressErrorLabel.Location = new Point(331, 224);
+            streetAddressErrorLabel.Location = new Point(290, 168);
             streetAddressErrorLabel.Name = "streetAddressErrorLabel";
-            streetAddressErrorLabel.Size = new Size(0, 20);
+            streetAddressErrorLabel.Size = new Size(0, 15);
             streetAddressErrorLabel.TabIndex = 35;
             // 
             // activeCheck
             // 
             activeCheck.AutoSize = true;
-            activeCheck.Location = new Point(250, 389);
+            activeCheck.Location = new Point(219, 292);
+            activeCheck.Margin = new Padding(3, 2, 3, 2);
             activeCheck.Name = "activeCheck";
-            activeCheck.Size = new Size(18, 17);
+            activeCheck.Size = new Size(15, 14);
             activeCheck.TabIndex = 27;
             activeCheck.UseVisualStyleBackColor = true;
             // 
             // loggedInUserControl1
             // 
             loggedInUserControl1.Location = new Point(0, 0);
+            loggedInUserControl1.Margin = new Padding(3, 2, 3, 2);
             loggedInUserControl1.Name = "loggedInUserControl1";
-            loggedInUserControl1.Size = new Size(350, 83);
+            loggedInUserControl1.Size = new Size(306, 62);
             loggedInUserControl1.TabIndex = 36;
             // 
             // PatientEditForm
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(826, 470);
+            ClientSize = new Size(723, 352);
             Controls.Add(loggedInUserControl1);
             Controls.Add(streetAddressErrorLabel);
             Controls.Add(phoneNumberErrorLabel);
@@ -358,9 +369,10 @@
             Controls.Add(firstNameLabel);
             Controls.Add(backButton);
             Controls.Add(submitButton);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "PatientEditForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "PatientEditForm";
+            Text = "Healthcare System - Edit Patient";
             ResumeLayout(false);
             PerformLayout();
         }
