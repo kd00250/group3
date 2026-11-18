@@ -9,7 +9,7 @@ namespace HealthcareSystem.Model.DAL;
 public class VisitDal
 {
     private const string CreateVisitProcedure = "create_visit";
-    private const string AvaliableAppointmentsProcedure = "avaliable_appontments";
+    private const string AvaliableAppointmentsProcedure = "avaliable_appointments";
 
     /// <summary>
     /// Gets all visits for a patient, newest first.
