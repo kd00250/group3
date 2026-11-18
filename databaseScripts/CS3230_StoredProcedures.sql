@@ -106,7 +106,7 @@ DELIMITER ;
 -- Searches for a patient by their first name, last name, and date of birth
 -- -------------------------------------------------------------------------------------
 
-DROP PROCEDURE IF EXISTS avaliable_appointments;
+DROP PROCEDURE IF EXISTS available_appointments;
 
 DELIMITER $
 CREATE PROCEDURE available_appointments(IN p_patient_id int, IN p_now datetime)
