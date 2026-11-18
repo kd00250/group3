@@ -35,6 +35,7 @@
             viewVisitsButton = new Button();
             backButton = new Button();
             startNewVisitButton = new Button();
+            patientLabel = new Label();
             SuspendLayout();
             // 
             // loggedInUserControl1
@@ -108,12 +109,22 @@
             startNewVisitButton.UseVisualStyleBackColor = true;
             startNewVisitButton.Click += startNewVisitButton_Click;
             // 
+            // patientLabel
+            // 
+            patientLabel.AutoSize = true;
+            patientLabel.Font = new Font("Segoe UI", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            patientLabel.Location = new Point(586, 9);
+            patientLabel.Name = "patientLabel";
+            patientLabel.Size = new Size(0, 17);
+            patientLabel.TabIndex = 7;
+            // 
             // PatientActionsForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = backButton;
             ClientSize = new Size(914, 600);
+            Controls.Add(patientLabel);
             Controls.Add(startNewVisitButton);
             Controls.Add(backButton);
             Controls.Add(viewVisitsButton);
@@ -126,6 +137,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "HealthCare System - Patient Actions";
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -137,5 +149,6 @@
         private Button viewVisitsButton;
         private Button backButton;
         private Button startNewVisitButton;
+        private Label patientLabel;
     }
 }

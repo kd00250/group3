@@ -72,7 +72,7 @@ SET @personId = last_insert_id();
 INSERT INTO administrator (person_id)
 VALUES (@personId);
 INSERT INTO user_account (username, password, account_role, person_id)
-VALUES ('jsnow', '600000:iWLAYohBUwjRNQ7rZKoWbw==:0O9xso8HAkj0TXUd/mhUiQ6NsW3G2gmER9XCIy1pD4w', 'administrator', @personId);
+VALUES ('jsnow', '600000:iWLAYohBUwjRNQ7rZKoWbw==:0O9xso8HAkj0TXUd/mhUiQ6NsW3G2gmER9XCIy1pD4w=', 'administrator', @personId);
 
 -- Admin Sansa Stark (username: sstark, password: admin789)
 INSERT INTO person (first_name, last_name, date_of_birth, gender, street_address, city, state, zip_code, phone_number)
